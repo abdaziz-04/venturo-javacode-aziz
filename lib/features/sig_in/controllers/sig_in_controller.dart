@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
-import 'package:venturo_core/features/list/constants/list_api_constant.dart';
 
 import '../../../configs/routes/route.dart';
 import '../../../constants/cores/api/api_constant.dart';

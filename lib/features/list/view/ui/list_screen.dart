@@ -127,14 +127,22 @@ class ListScreen extends StatelessWidget {
                             ),
                             child: MenuCard(
                               menu: item,
-                              isSelected:
-                                  ListController.to.selectedItem.contains(item),
+                              isSelected: ListController.to.selectedItem.any(
+                                  (selected) =>
+                                      selected['id_menu'] == item['id_menu']),
                               onTap: () {
-                                if (ListController.to.selectedItem
-                                    .contains(item)) {
-                                  ListController.to.selectedItem.remove(item);
+                                if (ListController.to.selectedItem.any(
+                                    (selected) =>
+                                        selected['id_menu'] ==
+                                        item['id_menu'])) {
+                                  ListController.to.selectedItem.removeWhere(
+                                      (selected) =>
+                                          selected['id_menu'] ==
+                                          item['id_menu']);
+                                  ListController.to.onRefresh();
                                 } else {
                                   ListController.to.selectedItem.add(item);
+                                  ListController.to.onRefresh();
                                 }
                               },
                             ),
