@@ -22,7 +22,6 @@ class ListController extends GetxController {
       RefreshController(initialRefresh: false);
   final RxBool canLoadMore = true.obs;
 
-  // Computed property untuk filtered list (misal, nanti bisa ditambahkan filter berdasarkan pencarian)
   List<Map<String, dynamic>> get filteredListApi => items;
 
   @override
@@ -43,6 +42,7 @@ class ListController extends GetxController {
   Future<void> fetchDetail(int id) async {
     final data = await _repository.getDataByDetail(id);
     selectedMenuApi.value = data;
+    print('👌Detail data: $data');
   }
 
   /// Mengambil seluruh data menu

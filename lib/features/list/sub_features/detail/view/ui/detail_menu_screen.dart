@@ -21,6 +21,8 @@ class DetailMenuScreen extends StatelessWidget {
         final detailData = ListController.to.selectedMenuApi.value;
 
         final menu = detailData?['menu'];
+        final List<dynamic> topping = detailData?['topping'];
+        final List<dynamic> level = detailData?['level'];
         return Scaffold(
           body: Column(
             children: [
@@ -92,6 +94,7 @@ class DetailMenuScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
+
                               // Counter jumlah item
                               Row(
                                 children: [
@@ -117,6 +120,7 @@ class DetailMenuScreen extends StatelessWidget {
                               ),
                             ],
                           ),
+                          const SizedBox(height: 80),
                           InfoRow(
                             icon: Icons.money_sharp,
                             label: 'Harga',
@@ -125,8 +129,28 @@ class DetailMenuScreen extends StatelessWidget {
                           InfoRow(
                             icon: Icons.star,
                             label: 'Level',
-                            value: menu['level'].toString(),
+                            value: level[0]['keterangan'].toString(),
                           ),
+                          InfoRow(
+                            icon: Icons.fastfood,
+                            label: 'Toping',
+                            value: topping[0]['keterangan'].toString(),
+                          ),
+                          InfoRow(
+                            icon: Icons.notes,
+                            label: 'Catatan',
+                            value: 'Tidak ada catatan',
+                          ),
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  textStyle: const TextStyle(
+                                      fontSize: 20, color: Colors.white),
+                                  backgroundColor: ColorStyle.primary,
+                                  foregroundColor: Colors.white,
+                                  minimumSize: Size(double.infinity, 50.h)),
+                              onPressed: () {},
+                              child: Text('Tambahkan Ke Pesanan')),
                         ]),
                   ),
                 ),
