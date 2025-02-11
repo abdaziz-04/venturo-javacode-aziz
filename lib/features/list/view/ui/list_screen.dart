@@ -3,16 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:venturo_core/features/list/constants/list_api_constant.dart';
+
 import 'package:venturo_core/features/list/view/components/menu_chip.dart';
 import 'package:venturo_core/features/list/view/components/promo_card.dart';
-import 'package:venturo_core/features/sig_in/controllers/sig_in_controller.dart';
-import 'package:venturo_core/shared/styles/color_style.dart';
 
-import '../../../../configs/routes/route.dart';
 import '../../../../constants/cores/assets/image_constants.dart';
 
-import '../../../profile/controllers/profile_controller.dart';
 import '../../controllers/list_controller.dart';
 import '../components/menu_card.dart';
 import '../components/search_app_bar.dart';
