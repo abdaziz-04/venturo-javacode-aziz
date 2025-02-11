@@ -9,10 +9,10 @@ import 'package:venturo_core/features/sig_in/view/ui/sig_in_screen.dart';
 import 'package:venturo_core/features/splash/bindings/splash_binding.dart';
 import 'package:venturo_core/features/splash/view/ui/splash_screen.dart';
 
-import '../../features/detail_menu/view/ui/detail_menu_screen.dart';
 import '../../features/forgot_password/bindings/forgot_password_binding.dart';
 import '../../features/initial/view/ui/get_location_screen.dart';
 import '../../features/list/bindings/list_binding.dart';
+import '../../features/list/sub_features/detail/view/ui/detail_menu_screen.dart';
 import '../../features/list/view/ui/list_screen.dart';
 import '../../features/profile/bindings/profile_binding.dart';
 import '../../features/profile/view/components/privacy_policy_view.dart';
@@ -57,7 +57,7 @@ abstract class Pages {
     ),
     GetPage(
       name: Routes.detailMenuRoute,
-      page: () => (DetailMenuScreen()),
+      page: () => DetailMenuScreen(),
     ),
   ];
 }

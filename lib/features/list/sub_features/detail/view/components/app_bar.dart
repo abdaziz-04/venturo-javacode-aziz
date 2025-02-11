@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../../configs/routes/route.dart';
-
 class AppBarD extends StatelessWidget implements PreferredSizeWidget {
   const AppBarD({
     super.key,
@@ -11,7 +9,6 @@ class AppBarD extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Placeholder();
     return Container(
       width: double.infinity,
       height: 68.h,
@@ -38,15 +35,16 @@ class AppBarD extends StatelessWidget implements PreferredSizeWidget {
         children: [
           IconButton(
             icon: Icon(Icons.arrow_back_ios),
-            onPressed: () => Get.toNamed(Routes.listRoute),
+            onPressed: () => Get.back(),
           ),
           Text(
             'Detail Menu',
             style: Get.textTheme.headline1?.copyWith(
-              fontSize: 18.sp,
+              fontSize: 25.sp,
               fontWeight: FontWeight.w600,
             ),
           ),
+          const SizedBox(width: 40),
         ],
       ),
     );

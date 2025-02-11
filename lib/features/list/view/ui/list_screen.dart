@@ -7,8 +7,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:venturo_core/features/list/view/components/menu_chip.dart';
 import 'package:venturo_core/features/list/view/components/promo_card.dart';
 
+import '../../../../configs/routes/route.dart';
 import '../../../../constants/cores/assets/image_constants.dart';
-
 import '../../controllers/list_controller.dart';
 import '../components/menu_card.dart';
 import '../components/search_app_bar.dart';
@@ -22,12 +22,11 @@ class ListScreen extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          // Search App Bar
-          SearchAppBar(
+          // Search App Bar (jika diperlukan)
+          const SearchAppBar(
               // searchController: ListController.to.searchController,
               // onChange: ListController.to.onSearch,
               ),
-
           TitleSection(
             title: 'Promo yang tersedia',
             image: ImageConstants.promo,
@@ -54,7 +53,6 @@ class ListScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 25.h),
-
           // Kategori
           SizedBox(
             height: 45.h,
@@ -63,100 +61,84 @@ class ListScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 25.w),
               itemCount: ListController.to.categories.length,
               itemBuilder: (context, index) {
+                final category = ListController.to.categories[index];
                 return Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.5.w),
-                  child: Obx(() => MenuChip(
-                        text: ListController.to.categories[index],
-                        isSelected: ListController.to.selectedCategory.value ==
-                            ListController.to.categories[index].toLowerCase(),
-                        onTap: () {
-                          final newCategory =
-                              ListController.to.categories[index].toLowerCase();
-                          ListController.to.selectedCategory.value =
-                              newCategory;
-                          ListController.to.getDataByCategory(newCategory);
-                          if (newCategory == 'all') {
-                            ListController.to.getAllData();
-                          } else {
-                            ListController.to.getDataByCategory(newCategory);
-                          }
-                        },
-                      )),
+                  child: Obx(
+                    () => MenuChip(
+                      text: category,
+                      isSelected:
+                          ListController.to.selectedCategory.value == category,
+                      onTap: () {
+                        ListController.to.selectCategory(category);
+                      },
+                    ),
+                  ),
                 );
               },
             ),
           ),
-
           TitleSection(
             title: 'Semua Menu',
             image: ImageConstants.iconAllMenu,
           ),
-          ElevatedButton(
-              onPressed: () => ListController.to.getDatabyDetail(3),
-              child: Text('Get Data')),
           // List view dengan pull-to-refresh
           Expanded(
-            child: Obx(() => SmartRefresher(
-                  controller: ListController.to.refreshController,
-                  enablePullDown: true,
-                  onRefresh: ListController.to.onRefresh,
-                  enablePullUp: ListController.to.canLoadMore.isTrue,
-                  onLoading: () => ListController.to.getDataByCategory(
-                      ListController.to.selectedCategory.value.toLowerCase()),
-                  child: ListView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 25.w),
-                    itemBuilder: (context, index) {
-                      final item = ListController.to.filteredListApi[index];
-                      return Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8.5.h),
-                        child: Material(
-                          borderRadius: BorderRadius.circular(10.r),
-                          elevation: 2,
-                          child: Slidable(
-                            endActionPane: ActionPane(
-                              motion: const ScrollMotion(),
-                              children: [
-                                SlidableAction(
-                                  onPressed: (context) {
-                                    ListController.to.deleteItemApi(item);
-                                    print("delete{$item}");
-                                  },
-                                  borderRadius: BorderRadius.circular(10.r),
-                                  backgroundColor: Colors.red,
-                                  foregroundColor: Colors.white,
-                                  icon: Icons.delete,
-                                ),
-                              ],
-                            ),
-                            child: MenuCard(
-                              menu: item,
-                              isSelected: ListController.to.selectedItem.any(
-                                  (selected) =>
-                                      selected['id_menu'] == item['id_menu']),
-                              onTap: () {
-                                if (ListController.to.selectedItem.any(
-                                    (selected) =>
-                                        selected['id_menu'] ==
-                                        item['id_menu'])) {
-                                  ListController.to.selectedItem.removeWhere(
-                                      (selected) =>
-                                          selected['id_menu'] ==
-                                          item['id_menu']);
-                                  ListController.to.onRefresh();
-                                } else {
-                                  ListController.to.selectedItem.add(item);
-                                  ListController.to.onRefresh();
-                                }
-                              },
-                            ),
+            child: Obx(
+              () => SmartRefresher(
+                controller: ListController.to.refreshController,
+                enablePullDown: true,
+                onRefresh: ListController.to.onRefresh,
+                enablePullUp: ListController.to.canLoadMore.value,
+                onLoading: () async {
+                  // Contoh: refresh ulang data berdasarkan kategori saat pull up
+                  await ListController.to.refreshDataByCategory(
+                      ListController.to.selectedCategory.value);
+                  ListController.to.refreshController.loadComplete();
+                },
+                child: ListView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 25.w),
+                  itemCount: ListController.to.filteredListApi.length,
+                  itemExtent: 112.h,
+                  itemBuilder: (context, index) {
+                    final item = ListController.to.filteredListApi[index];
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.5.h),
+                      child: Material(
+                        borderRadius: BorderRadius.circular(10.r),
+                        elevation: 2,
+                        child: Slidable(
+                          endActionPane: ActionPane(
+                            motion: const ScrollMotion(),
+                            children: [
+                              SlidableAction(
+                                onPressed: (context) {
+                                  ListController.to.deleteItemApi(item);
+                                  print("delete {$item}");
+                                },
+                                borderRadius: BorderRadius.circular(10.r),
+                                backgroundColor: Colors.red,
+                                foregroundColor: Colors.white,
+                                icon: Icons.delete,
+                              ),
+                            ],
+                          ),
+                          child: MenuCard(
+                            menu: item,
+                            // Hapus logika selectedItem jika tidak dipakai
+                            isSelected: false,
+                            onTap: () {
+                              Get.toNamed(Routes.detailMenuRoute,
+                                  arguments: item);
+                            },
                           ),
                         ),
-                      );
-                    },
-                    itemCount: ListController.to.filteredListApi.length,
-                    itemExtent: 112.h,
-                  ),
-                )),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
           ),
         ],
       ),
