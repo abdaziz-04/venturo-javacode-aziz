@@ -129,12 +129,18 @@ class DetailMenuScreen extends StatelessWidget {
                           InfoRow(
                             icon: Icons.star,
                             label: 'Level',
-                            value: level[0]['keterangan'].toString(),
+                            value: (level.isNotEmpty &&
+                                    level[0]['keterangan'] != null)
+                                ? level[0]['keterangan'].toString()
+                                : 'Tidak ada level',
                           ),
                           InfoRow(
                             icon: Icons.fastfood,
                             label: 'Toping',
-                            value: topping[0]['keterangan'].toString(),
+                            value: (topping.isNotEmpty &&
+                                    topping[0]['keterangan'] != null)
+                                ? topping[0]['keterangan'].toString()
+                                : 'Tidak ada toping',
                           ),
                           InfoRow(
                             icon: Icons.notes,

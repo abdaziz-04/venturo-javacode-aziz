@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:venturo_core/features/list/sub_features/detail/repositories/detail_repository.dart';
 import '../repositories/list_repository.dart';
 
 class ListController extends GetxController {
@@ -36,6 +37,7 @@ class ListController extends GetxController {
     }
 
     await fetchAllData();
+    await DetailRepository;
   }
 
   /// Mengambil detail data menu berdasarkan id (dipakai di halaman detail)
