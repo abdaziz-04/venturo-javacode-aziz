@@ -91,6 +91,9 @@ class ListScreen extends StatelessWidget {
             title: 'Semua Menu',
             image: ImageConstants.iconAllMenu,
           ),
+          ElevatedButton(
+              onPressed: () => ListController.to.getDatabyDetail(3),
+              child: Text('Get Data')),
           // List view dengan pull-to-refresh
           Expanded(
             child: Obx(() => SmartRefresher(

@@ -24,6 +24,7 @@ class ListController extends GetxController {
   final Dio _dio = Dio();
 
   final String apiMenu = ListApiConstant().apiMenu;
+  final String apiDetailbyId = ListApiConstant().apiMenuDetail;
 
   // List kategori
   final List<String> categories = [
@@ -149,7 +150,6 @@ class ListController extends GetxController {
     }
   }
 
-  /// Filter data sesuai keyword dan kategori
   List<Map<String, dynamic>> get filteredListApi => items.where((element) {
         final name = element['nama']?.toString().toLowerCase() ?? '';
         final category = element['kategori']?.toString().toLowerCase() ?? '';
@@ -199,6 +199,50 @@ class ListController extends GetxController {
     } catch (exception, stacktrace) {
       print("🚨 Error saat delete item: $exception");
       await Sentry.captureException(exception, stackTrace: stacktrace);
+    }
+  }
+
+  Future<void> getDatabyDetail(int id) async {
+    try {
+      final box = await Hive.openBox('venturo');
+      final token = box.get('token', defaultValue: '');
+
+      if (token.isEmpty) {
+        print("⚠️ Token kosong! Coba login ulang.");
+        return;
+      }
+
+      final String url = "$apiDetailbyId$id";
+      print("📢 Mengambil detail data untuk ID: $id");
+      print("📢 URL: $url");
+
+      dio.Response response = await _dio.get(
+        url,
+        options: Options(headers: {
+          'token': token,
+          'Content-Type': 'application/json',
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print("✅ Detail data berhasil diambil:");
+        print(response.data);
+        final result = response.data;
+        if (result is Map && result.containsKey('data')) {
+          selectedMenuApi.value = Map<String, dynamic>.from(result['data']);
+          print("✅ Detail item: ${selectedMenuApi.value}");
+        } else {
+          print("⚠️ Format data tidak sesuai!");
+          selectedMenuApi.value = null;
+        }
+      } else if (response.statusCode == 204) {
+        print("✅ Detail data kosong");
+        selectedMenuApi.value = null;
+      } else {
+        print("❌ Gagal mengambil detail data: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("🚨 Error saat fetch detail data: $e");
     }
   }
 }
