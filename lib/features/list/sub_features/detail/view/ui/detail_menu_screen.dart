@@ -13,23 +13,29 @@ class DetailMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final item = Get.arguments;
-
+    ListController.to.selectedMenuApi.value = null;
     ListController.to.fetchDetail(item['id_menu']);
 
     return SafeArea(
       child: Obx(() {
         final detailData = ListController.to.selectedMenuApi.value;
+        if (detailData == null) {
+          return const Scaffold(
+              body: Center(
+                  child: CircularProgressIndicator(color: ColorStyle.primary)));
+        }
 
-        final menu = detailData?['menu'];
-        final List<dynamic> topping = detailData?['topping'];
-        final List<dynamic> level = detailData?['level'];
+        final menu = detailData['menu'];
+        final List<dynamic> topping = detailData['topping'];
+        final List<dynamic> level = detailData['level'];
         return Scaffold(
           body: Column(
             children: [
               AppBarD(),
               const SizedBox(height: 20),
               Image.network(
-                menu?['foto'] ?? '',
+                menu?['foto'] ??
+                    'https://upload.wikimedia.org/wikipedia/commons/7/75/No_image_available.png',
                 height: 150,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {

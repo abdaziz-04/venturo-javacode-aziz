@@ -6,6 +6,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:venturo_core/features/list/view/components/menu_chip.dart';
 import 'package:venturo_core/features/list/view/components/promo_card.dart';
+import 'package:venturo_core/shared/styles/color_style.dart';
 
 import '../../../../configs/routes/route.dart';
 import '../../../../constants/cores/assets/image_constants.dart';
@@ -22,7 +23,7 @@ class ListScreen extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          // Search App Bar (jika diperlukan)
+          // Search App Bar
           const SearchAppBar(
               // searchController: ListController.to.searchController,
               // onChange: ListController.to.onSearch,
@@ -79,65 +80,67 @@ class ListScreen extends StatelessWidget {
             ),
           ),
           TitleSection(
-            title: 'Semua Menu',
+            title: 'Menu',
             image: ImageConstants.iconAllMenu,
           ),
-          // List view dengan pull-to-refresh
+
           Expanded(
             child: Obx(
-              () => SmartRefresher(
-                controller: ListController.to.refreshController,
-                enablePullDown: true,
-                onRefresh: ListController.to.onRefresh,
-                enablePullUp: ListController.to.canLoadMore.value,
-                onLoading: () async {
-                  // Contoh: refresh ulang data berdasarkan kategori saat pull up
-                  await ListController.to.refreshDataByCategory(
-                      ListController.to.selectedCategory.value);
-                  ListController.to.refreshController.loadComplete();
-                },
-                child: ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 25.w),
-                  itemCount: ListController.to.filteredListApi.length,
-                  itemExtent: 112.h,
-                  itemBuilder: (context, index) {
-                    final item = ListController.to.filteredListApi[index];
-                    return Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.5.h),
-                      child: Material(
-                        borderRadius: BorderRadius.circular(10.r),
-                        elevation: 2,
-                        child: Slidable(
-                          endActionPane: ActionPane(
-                            motion: const ScrollMotion(),
-                            children: [
-                              SlidableAction(
-                                onPressed: (context) {
-                                  ListController.to.deleteItemApi(item);
-                                  print("delete {$item}");
-                                },
-                                borderRadius: BorderRadius.circular(10.r),
-                                backgroundColor: Colors.red,
-                                foregroundColor: Colors.white,
-                                icon: Icons.delete,
+              () => ListController.to.isLoading.value
+                  ? Center(
+                      child:
+                          CircularProgressIndicator(color: ColorStyle.primary))
+                  : SmartRefresher(
+                      controller: ListController.to.refreshController,
+                      enablePullDown: true,
+                      onRefresh: ListController.to.onRefresh,
+                      enablePullUp: ListController.to.canLoadMore.value,
+                      onLoading: () async {
+                        await ListController.to.refreshDataByCategory(
+                            ListController.to.selectedCategory.value);
+                        ListController.to.refreshController.loadComplete();
+                      },
+                      child: ListView.builder(
+                        padding: EdgeInsets.symmetric(horizontal: 25.w),
+                        itemCount: ListController.to.filteredListApi.length,
+                        itemExtent: 112.h,
+                        itemBuilder: (context, index) {
+                          final item = ListController.to.filteredListApi[index];
+                          return Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8.5.h),
+                            child: Material(
+                              borderRadius: BorderRadius.circular(10.r),
+                              elevation: 2,
+                              child: Slidable(
+                                endActionPane: ActionPane(
+                                  motion: const ScrollMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (context) {
+                                        ListController.to.deleteItemApi(item);
+                                        print("delete {$item}");
+                                      },
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      backgroundColor: Colors.red,
+                                      foregroundColor: Colors.white,
+                                      icon: Icons.delete,
+                                    ),
+                                  ],
+                                ),
+                                child: MenuCard(
+                                  menu: item,
+                                  isSelected: false,
+                                  onTap: () {
+                                    Get.toNamed(Routes.detailMenuRoute,
+                                        arguments: item);
+                                  },
+                                ),
                               ),
-                            ],
-                          ),
-                          child: MenuCard(
-                            menu: item,
-                            // Hapus logika selectedItem jika tidak dipakai
-                            isSelected: false,
-                            onTap: () {
-                              Get.toNamed(Routes.detailMenuRoute,
-                                  arguments: item);
-                            },
-                          ),
-                        ),
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
-              ),
+                    ),
             ),
           ),
         ],
