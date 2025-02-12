@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:venturo_core/shared/styles/color_style.dart';
 
-import 'option_chip.dart';
-
-class ModalBottomSheet extends StatelessWidget {
+class NotesModalBottomSheet extends StatelessWidget {
   final String title;
-  final List<dynamic> items;
+
   final Function(dynamic)? onTap;
 
-  const ModalBottomSheet({
+  const NotesModalBottomSheet({
     Key? key,
     required this.title,
-    required this.items,
     this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 180,
       width: double.infinity,
       child: Padding(
@@ -43,21 +41,13 @@ class ModalBottomSheet extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Row(
-              children: items.map((item) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: OptionChip(
-                    text: item['keterangan'] ?? 'Tidak ada keterangan',
-                    isSelected: false,
-                    onTap: () {
-                      if (onTap != null) {
-                        onTap!(item);
-                      }
-                    },
-                  ),
-                );
-              }).toList(),
-            ),
+              children: [
+                TextField(),
+                IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.check_circle, color: ColorStyle.primary)),
+              ],
+            )
           ],
         ),
       ),

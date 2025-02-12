@@ -6,12 +6,14 @@ class InfoRow extends StatelessWidget {
   final IconData icon;
   final String label;
   final String value;
+  final Function()? onPressed;
 
   const InfoRow({
     Key? key,
     required this.icon,
     required this.label,
     required this.value,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -19,6 +21,7 @@ class InfoRow extends StatelessWidget {
     return Column(
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Icon(
               icon,
@@ -34,17 +37,23 @@ class InfoRow extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 18.w,
-                fontWeight: FontWeight.bold,
-                color: ColorStyle.black,
-              ),
+            Row(
+              children: [
+                Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: 18.w,
+                    color: ColorStyle.black,
+                  ),
+                ),
+                IconButton(
+                  onPressed: onPressed,
+                  icon: Icon(Icons.arrow_forward_ios),
+                ),
+              ],
             ),
           ],
         ),
-        const SizedBox(height: 10),
       ],
     );
   }

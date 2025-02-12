@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:venturo_core/features/list/sub_features/detail/view/components/option_chip.dart';
+import 'package:venturo_core/features/list/sub_features/detail/view/components/notes_bottom_sheet.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 
 import '../../../../controllers/list_controller.dart';
@@ -123,10 +123,31 @@ class DetailMenuScreen extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 50),
-                          InfoRow(
-                            icon: Icons.money_sharp,
-                            label: 'Harga',
-                            value: "Rp ${menu['harga']}",
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.money_sharp,
+                                color: ColorStyle.primary,
+                                size: 20.w,
+                              ),
+                              SizedBox(width: 10.w),
+                              Text(
+                                'Harga',
+                                style: TextStyle(
+                                  fontSize: 18.w,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const Spacer(),
+                              Text(
+                                "Rp ${menu['harga']}",
+                                style: TextStyle(
+                                  fontSize: 18.w,
+                                  fontWeight: FontWeight.bold,
+                                  color: ColorStyle.primary,
+                                ),
+                              ),
+                            ],
                           ),
                           const Divider(),
                           InfoRow(
@@ -136,6 +157,17 @@ class DetailMenuScreen extends StatelessWidget {
                                     level[0]['keterangan'] != null)
                                 ? level[0]['keterangan'].toString()
                                 : 'Tidak ada level',
+                            onPressed: () {
+                              showModalBottomSheet<void>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return ModalBottomSheet(
+                                    title: 'Pilih Level',
+                                    items: level,
+                                  );
+                                },
+                              );
+                            },
                           ),
                           const Divider(),
                           InfoRow(
@@ -145,12 +177,33 @@ class DetailMenuScreen extends StatelessWidget {
                                     topping[0]['keterangan'] != null)
                                 ? topping[0]['keterangan'].toString()
                                 : 'Tidak ada toping',
+                            onPressed: () {
+                              showModalBottomSheet<void>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return ModalBottomSheet(
+                                    title: 'Pilih Toping',
+                                    items: topping,
+                                  );
+                                },
+                              );
+                            },
                           ),
                           const Divider(),
                           InfoRow(
                             icon: Icons.notes,
                             label: 'Catatan',
                             value: 'Tidak ada catatan',
+                            onPressed: () {
+                              showModalBottomSheet<void>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return NotesModalBottomSheet(
+                                    title: 'Catatan',
+                                  );
+                                },
+                              );
+                            },
                           ),
                           const Divider(),
                           const SizedBox(height: 20),
@@ -161,69 +214,7 @@ class DetailMenuScreen extends StatelessWidget {
                                   backgroundColor: ColorStyle.primary,
                                   foregroundColor: Colors.white,
                                   minimumSize: Size(double.infinity, 50.h)),
-                              onPressed: () {
-                                showModalBottomSheet<void>(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return SizedBox(
-                                      height: 180,
-                                      width: double.infinity,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            const SizedBox(height: 15),
-                                            Center(
-                                              child: Container(
-                                                width: 104,
-                                                height: 5,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.grey[300],
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            const Text(
-                                              'Pilih Level',
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            Row(children: [
-                                              ...level.map((lvl) {
-                                                return Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: OptionChip(
-                                                    text: lvl['keterangan'] ??
-                                                        'Tidak ada keterangan',
-                                                    isSelected: false,
-                                                    onTap: () {
-                                                      // Handle onTap
-                                                    },
-                                                  ),
-                                                );
-                                              }).toList(),
-                                            ]),
-                                            // ...level
-                                            //     .map((lvl) => Text(
-                                            //         lvl['keterangan'] ??
-                                            //             'Tidak ada keterangan'))
-                                            //     .toList(),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
+                              onPressed: () {},
                               child: Text('Tambahkan Ke Pesanan')),
                         ]),
                   ),
