@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:venturo_core/features/list/sub_features/detail/view/components/option_chip.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 
 import '../../../../controllers/list_controller.dart';
@@ -121,12 +122,13 @@ class DetailMenuScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 80),
+                          const SizedBox(height: 50),
                           InfoRow(
                             icon: Icons.money_sharp,
                             label: 'Harga',
                             value: "Rp ${menu['harga']}",
                           ),
+                          const Divider(),
                           InfoRow(
                             icon: Icons.star,
                             label: 'Level',
@@ -135,6 +137,7 @@ class DetailMenuScreen extends StatelessWidget {
                                 ? level[0]['keterangan'].toString()
                                 : 'Tidak ada level',
                           ),
+                          const Divider(),
                           InfoRow(
                             icon: Icons.fastfood,
                             label: 'Toping',
@@ -143,11 +146,13 @@ class DetailMenuScreen extends StatelessWidget {
                                 ? topping[0]['keterangan'].toString()
                                 : 'Tidak ada toping',
                           ),
+                          const Divider(),
                           InfoRow(
                             icon: Icons.notes,
                             label: 'Catatan',
                             value: 'Tidak ada catatan',
                           ),
+                          const Divider(),
                           const SizedBox(height: 20),
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
@@ -161,7 +166,7 @@ class DetailMenuScreen extends StatelessWidget {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return SizedBox(
-                                      height: 200,
+                                      height: 180,
                                       width: double.infinity,
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
@@ -178,6 +183,23 @@ class DetailMenuScreen extends StatelessWidget {
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.bold),
                                             ),
+                                            const SizedBox(height: 10),
+                                            Row(children: [
+                                              ...level.map((lvl) {
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: OptionChip(
+                                                    text: lvl['keterangan'] ??
+                                                        'Tidak ada keterangan',
+                                                    isSelected: false,
+                                                    onTap: () {
+                                                      // Handle onTap
+                                                    },
+                                                  ),
+                                                );
+                                              }).toList(),
+                                            ]),
                                             // ...level
                                             //     .map((lvl) => Text(
                                             //         lvl['keterangan'] ??
