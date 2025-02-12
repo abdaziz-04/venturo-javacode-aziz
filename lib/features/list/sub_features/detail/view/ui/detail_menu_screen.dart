@@ -176,7 +176,19 @@ class DetailMenuScreen extends StatelessWidget {
                                               CrossAxisAlignment.start,
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            const SizedBox(height: 20),
+                                            const SizedBox(height: 15),
+                                            Center(
+                                              child: Container(
+                                                width: 104,
+                                                height: 5,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.grey[300],
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 10),
                                             const Text(
                                               'Pilih Level',
                                               style: TextStyle(

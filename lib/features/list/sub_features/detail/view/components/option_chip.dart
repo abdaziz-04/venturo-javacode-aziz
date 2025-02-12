@@ -22,14 +22,14 @@ class OptionChip extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(30.r),
       child: Ink(
-        height: 35,
+        height: 40.r,
         padding: EdgeInsets.symmetric(horizontal: 14.r),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30.r),
           color: isSelected ? ColorStyle.primary : ColorStyle.white,
           border: Border.all(
             color: ColorStyle.primary,
-            width: 2.0,
+            width: 2.r,
           ),
         ),
         child: Padding(
@@ -38,7 +38,7 @@ class OptionChip extends StatelessWidget {
             child: Text(
               text.tr,
               style: Get.textTheme.bodyLarge!.copyWith(
-                color: isSelected ? ColorStyle.white : ColorStyle.black,
+                color: isSelected ? ColorStyle.white : ColorStyle.primary,
               ),
             ),
           ),
