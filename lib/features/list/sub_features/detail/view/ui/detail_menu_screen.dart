@@ -6,6 +6,7 @@ import 'package:venturo_core/shared/styles/color_style.dart';
 import '../../../../controllers/list_controller.dart';
 import '../components/app_bar.dart';
 import '../components/info_row.dart';
+import '../components/modal_bottom_sheet.dart';
 
 class DetailMenuScreen extends StatelessWidget {
   DetailMenuScreen({Key? key}) : super(key: key);
@@ -13,29 +14,23 @@ class DetailMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final item = Get.arguments;
-    ListController.to.selectedMenuApi.value = null;
+
     ListController.to.fetchDetail(item['id_menu']);
 
     return SafeArea(
       child: Obx(() {
         final detailData = ListController.to.selectedMenuApi.value;
-        if (detailData == null) {
-          return const Scaffold(
-              body: Center(
-                  child: CircularProgressIndicator(color: ColorStyle.primary)));
-        }
 
-        final menu = detailData['menu'];
-        final List<dynamic> topping = detailData['topping'];
-        final List<dynamic> level = detailData['level'];
+        final menu = detailData?['menu'];
+        final List<dynamic> topping = detailData?['topping'];
+        final List<dynamic> level = detailData?['level'];
         return Scaffold(
           body: Column(
             children: [
               AppBarD(),
               const SizedBox(height: 20),
               Image.network(
-                menu?['foto'] ??
-                    'https://upload.wikimedia.org/wikipedia/commons/7/75/No_image_available.png',
+                menu?['foto'] ?? '',
                 height: 150,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
@@ -161,7 +156,40 @@ class DetailMenuScreen extends StatelessWidget {
                                   backgroundColor: ColorStyle.primary,
                                   foregroundColor: Colors.white,
                                   minimumSize: Size(double.infinity, 50.h)),
-                              onPressed: () {},
+                              onPressed: () {
+                                showModalBottomSheet<void>(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return SizedBox(
+                                      height: 200,
+                                      width: double.infinity,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            const SizedBox(height: 20),
+                                            const Text(
+                                              'Pilih Level',
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            // ...level
+                                            //     .map((lvl) => Text(
+                                            //         lvl['keterangan'] ??
+                                            //             'Tidak ada keterangan'))
+                                            //     .toList(),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
                               child: Text('Tambahkan Ke Pesanan')),
                         ]),
                   ),
