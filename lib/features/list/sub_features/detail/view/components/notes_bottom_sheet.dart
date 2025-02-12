@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 
 class NotesModalBottomSheet extends StatelessWidget {
@@ -42,7 +43,7 @@ class NotesModalBottomSheet extends StatelessWidget {
             const SizedBox(height: 10),
             Row(
               children: [
-                TextField(),
+                Expanded(child: TextField()),
                 IconButton(
                     onPressed: () {},
                     icon: Icon(Icons.check_circle, color: ColorStyle.primary)),

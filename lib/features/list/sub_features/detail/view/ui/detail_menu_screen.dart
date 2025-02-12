@@ -122,7 +122,7 @@ class DetailMenuScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 50),
+                          const SizedBox(height: 30),
                           Row(
                             children: [
                               Icon(
