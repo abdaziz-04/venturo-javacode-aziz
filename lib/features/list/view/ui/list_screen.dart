@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +8,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:venturo_core/features/list/view/components/menu_chip.dart';
 import 'package:venturo_core/features/list/view/components/promo_card.dart';
+import 'package:venturo_core/features/list/view/components/section_header.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 
 import '../../../../constants/cores/assets/image_constants.dart';
@@ -21,101 +23,129 @@ class ListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
-        children: [
-          // Search App Bar
-          const SearchAppBar(
-              // searchController: ListController.to.searchController,
-              // onChange: ListController.to.onSearch,
+      child: Scaffold(
+          appBar: SearchAppBar(),
+          body: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TitleSection(
+                title: 'Promo yang tersedia',
+                image: ImageConstants.promo,
               ),
-          TitleSection(
-            title: 'Promo yang tersedia',
-            image: ImageConstants.promo,
-          ),
-          // Promo
-          SizedBox(
-            height: 150.h,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(horizontal: 25.w),
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.5.w),
-                  child: PromoCard(
-                    promoName:
-                        'Dengan mengisi review kamu bisa mendapatkan promo',
-                    discountNominal: '50',
-                    thumbnailUrl:
-                        'https://img.freepik.com/free-photo/high-angle-uncompleted-voting-questionnaire_23-2148265549.jpg?semt=ais_hybrid',
-                  ),
-                );
-              },
-            ),
-          ),
-          SizedBox(height: 25.h),
-          // Kategori
-          SizedBox(
-            height: 45.h,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(horizontal: 25.w),
-              itemCount: ListController.to.categories.length,
-              itemBuilder: (context, index) {
-                final category = ListController.to.categories[index];
-                return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.5.w),
-                  child: Obx(
-                    () => MenuChip(
-                      text: category,
-                      isSelected:
-                          ListController.to.selectedCategory.value == category,
-                      onTap: () {
-                        // ListController.to.selectCategory(category);
-                      },
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-          TitleSection(
-            title: 'Menu',
-            image: ImageConstants.iconAllMenu,
-          ),
-          Expanded(
-            child: Obx(() => SmartRefresher(
-                  controller: ListController.to.refreshController,
-                  enablePullDown: true,
-                  onRefresh: ListController.to.onRefresh,
-                  enablePullUp:
-                      ListController.to.canLoadMore.value ? true : false,
-                  onLoading: () async {
-                    await ListController.to.getListOfData();
+              // Promo
+              SizedBox(
+                height: 150.h,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  padding: EdgeInsets.symmetric(horizontal: 25.w),
+                  itemCount: 5,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.5.w),
+                      child: PromoCard(
+                        promoName:
+                            'Dengan mengisi review kamu bisa mendapatkan promo',
+                        discountNominal: '50',
+                        thumbnailUrl:
+                            'https://img.freepik.com/free-photo/high-angle-uncompleted-voting-questionnaire_23-2148265549.jpg?semt=ais_hybrid',
+                      ),
+                    );
                   },
-                  child: ListView.builder(
-                      padding: EdgeInsets.symmetric(horizontal: 25.w),
-                      itemBuilder: (context, index) {
-                        final item = ListController.to.filteredList[index];
-                        return Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8.5.h),
-                          child: Material(
-                            borderRadius: BorderRadius.circular(10.r),
-                            elevation: 2,
-                            child: MenuCard(
-                              menu: item,
-                              isSelected: false,
-                              onTap: () {},
-                            ),
-                          ),
-                        );
+                ),
+              ),
+              SizedBox(height: 25.h),
+              // Kategori
+              SizedBox(
+                height: 45.h,
+                width: 1.sw,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  padding: EdgeInsets.symmetric(horizontal: 25.w),
+                  itemCount: ListController.to.categories.length,
+                  itemBuilder: (context, index) {
+                    final category = ListController.to.categories[index];
+                    return Obx(
+                      () => Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10.w),
+                        child: MenuChip(
+                          text: category,
+                          onTap: () {
+                            ListController.to
+                                .selectedCategory(category.toLowerCase());
+                          },
+                          isSelected:
+                              ListController.to.selectedCategory.value ==
+                                  category.toLowerCase(),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: 20.h),
+              Obx(() {
+                final currentCategory =
+                    ListController.to.selectedCategory.value;
+                return Container(
+                  width: 1.sw,
+                  height: 35.h,
+                  margin: EdgeInsets.only(bottom: 10.h),
+                  child: SectionHeader(
+                    title: currentCategory == 'all'
+                        ? 'Semua Menu'
+                        : currentCategory == 'food'
+                            ? 'Makanan'
+                            : 'Minuman',
+                    icon: currentCategory == 'all'
+                        ? Icons.restaurant_menu
+                        : currentCategory == 'food'
+                            ? Icons.fastfood
+                            : Icons.local_drink,
+                  ),
+                );
+              }),
+              Expanded(
+                child: Obx(() => SmartRefresher(
+                      controller: ListController.to.refreshController,
+                      enablePullDown: true,
+                      onRefresh: ListController.to.onRefresh,
+                      enablePullUp:
+                          ListController.to.canLoadMore.value ? true : false,
+                      onLoading: () async {
+                        await ListController.to.getListOfData();
                       },
-                      itemCount: ListController.to.filteredList.length,
-                      itemExtent: 122.h),
-                )),
-          )
-        ],
-      ),
+                      child: ListView.builder(
+                          padding: EdgeInsets.symmetric(horizontal: 25.w),
+                          itemBuilder: (context, index) {
+                            final item = ListController.to.filteredList[index];
+                            return Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8.5.h),
+                              child: Material(
+                                borderRadius: BorderRadius.circular(10.r),
+                                elevation: 2,
+                                child: MenuCard(
+                                  menu: item,
+                                  isSelected: ListController.to.selectedItems
+                                      .contains(item),
+                                  onTap: () {
+                                    if (ListController.to.selectedItems
+                                        .contains(item)) {
+                                      ListController.to.selectedItems
+                                          .remove(item);
+                                    } else {
+                                      ListController.to.selectedItems.add(item);
+                                    }
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                          itemCount: ListController.to.filteredList.length,
+                          itemExtent: 122.h),
+                    )),
+              )
+            ],
+          )),
     );
   }
 }
