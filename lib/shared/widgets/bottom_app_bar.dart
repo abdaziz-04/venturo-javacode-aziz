@@ -23,6 +23,9 @@ class CButtomAppBar extends StatelessWidget {
             topRight: Radius.circular(20),
           ),
           child: BottomNavigationBar(
+            backgroundColor: ColorStyle.dark,
+            selectedItemColor: ColorStyle.white,
+            unselectedItemColor: ColorStyle.unselect,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
