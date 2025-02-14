@@ -25,7 +25,11 @@ class ListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          appBar: SearchAppBar(),
+          appBar: SearchAppBar(
+            onChange: (value) {
+              ListController.to.keyword(value);
+            },
+          ),
           body: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
