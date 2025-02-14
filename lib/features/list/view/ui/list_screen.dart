@@ -11,6 +11,7 @@ import 'package:venturo_core/features/list/view/components/menu_chip.dart';
 import 'package:venturo_core/features/list/view/components/promo_card.dart';
 import 'package:venturo_core/features/list/view/components/section_header.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
+import 'package:venturo_core/shared/widgets/bottom_app_bar.dart';
 
 import '../../../../constants/cores/assets/image_constants.dart';
 import '../../controllers/list_controller.dart';
@@ -30,6 +31,7 @@ class ListScreen extends StatelessWidget {
               ListController.to.keyword(value);
             },
           ),
+          bottomNavigationBar: CButtomAppBar(),
           body: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
