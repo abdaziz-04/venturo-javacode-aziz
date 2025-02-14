@@ -94,7 +94,7 @@ class ListScreen extends StatelessWidget {
                       controller: ListController.to.refreshController,
                       enablePullDown: true,
                       onRefresh: ListController.to.onRefresh,
-                      enablePullUp: ListController.to.canLoadMore.value,
+                      // enablePullUp: ListController.to.canLoadMore.value,
                       onLoading: () async {
                         await ListController.to.refreshDataByCategory(
                             ListController.to.selectedCategory.value);

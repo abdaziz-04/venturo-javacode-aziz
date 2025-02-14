@@ -21,7 +21,6 @@ class ListController extends GetxController {
 
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
-  final RxBool canLoadMore = true.obs;
 
   List<Map<String, dynamic>> get filteredListApi => items;
 
