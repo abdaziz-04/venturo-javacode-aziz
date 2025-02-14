@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:venturo_core/features/list/sub_features/detail/controllers/list_detail_controller.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 
 class NotesModalBottomSheet extends StatelessWidget {
@@ -15,6 +17,7 @@ class NotesModalBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ListDetailController ldc = Get.put(ListDetailController());
     return SizedBox(
       height: 180,
       width: double.infinity,
@@ -43,9 +46,20 @@ class NotesModalBottomSheet extends StatelessWidget {
             const SizedBox(height: 10),
             Row(
               children: [
-                Expanded(child: TextField()),
+                Expanded(
+                    child: TextField(
+                  controller: TextEditingController(),
+                  decoration: InputDecoration(
+                    hintText: 'Tambahkan catatan',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                )),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      print('Notes: ');
+                    },
                     icon: Icon(Icons.check_circle, color: ColorStyle.primary)),
               ],
             )

@@ -9,37 +9,38 @@ environment:
   sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
-  change_app_package_name: ^1.1.0
-  loadmore: ^2.1.0
-  pull_to_refresh: ^2.0.0
-  cached_network_image: ^3.2.3
-  flutter_slidable: ^3.0.0
-  geolocator: ^9.0.2
-  geocoding: ^2.1.0
   app_settings: ^4.2.0
+  auth_buttons: ^1.0.1+4
+  cached_network_image: ^3.2.3
+  cached_network_svg_image: ^1.2.0
+  change_app_package_name: ^1.1.0
   cupertino_icons: ^1.0.2
   device_information: ^0.0.4
-  flutter_inappwebview: ^5.7.2+3
-  flutter_easyloading: ^3.0.5
-  panara_dialogs: ^0.1.4
+  dio: ^5.2.1+1
   fast_rsa: ^3.6.1
   firebase_analytics: ^11.3.0
-  dio: ^5.2.1+1
+  firebase_auth: ^5.2.0
   firebase_core: 3.4.0
-  hive_flutter: ^1.1.0
-  pinput: ^2.2.31
   flutter:
     sdk: flutter
-  flutter_screenutil: ^5.9.0
-  get: ^4.6.6
-  google_fonts: ^6.2.0
-  sentry_flutter: ^7.18.0
+  flutter_easyloading: ^3.0.5
+  flutter_inappwebview: ^5.7.2+3
   flutter_localizations:
     sdk: flutter
-  firebase_auth: ^5.2.0
+  flutter_screenutil: ^5.9.0
+  flutter_slidable: ^3.0.0
+  geocoding: ^2.1.0
+  geolocator: ^9.0.2
+  get: ^4.6.6
+  google_fonts: ^6.2.0
   google_sign_in: ^6.2.2
-  auth_buttons: ^1.0.1+4
-  cached_network_svg_image: ^1.2.0
+  hive_flutter: ^1.1.0
+  loadmore: ^2.1.0
+  panara_dialogs: ^0.1.4
+  pinput: ^2.2.31
+  pull_to_refresh: ^2.0.0
+  sentry_flutter: ^7.18.0
+  skeletonizer: ^1.4.3
 
 dev_dependencies:
   flutter_lints: ^3.0.1

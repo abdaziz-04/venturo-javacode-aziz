@@ -1,98 +1,109 @@
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import '../repositories/list_repository.dart';
 
 class ListController extends GetxController {
-  static ListController get to => Get.find();
+  static ListController get to => Get.find<ListController>();
 
-  final ListRepository _repository = ListRepository();
+  late final ListRepository repository;
 
-  // Untuk detail data (dipakai di halaman detail)
-  final Rx<Map<String, dynamic>?> selectedMenuApi =
-      Rx<Map<String, dynamic>?>(null);
-  final isLoading = false.obs;
+  final RxInt page = 0.obs;
 
-  // Daftar item menu
   final RxList<Map<String, dynamic>> items = <Map<String, dynamic>>[].obs;
 
-  // Properti tambahan untuk tampilan list
-  final List<String> categories = ['all', 'makanan', 'minuman'];
+  final RxList<Map<String, dynamic>> selectedItems =
+      <Map<String, dynamic>>[].obs;
+
+  final RxBool canLoadMore = true.obs;
+
   final RxString selectedCategory = 'all'.obs;
+
+  final RxString keyword = ''.obs;
+
+  final List<String> categories = [
+    'All',
+    'Food',
+    'Drink',
+  ];
 
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
-
-  List<Map<String, dynamic>> get filteredListApi => items;
 
   @override
   void onInit() async {
     super.onInit();
 
-    if (Get.arguments != null) {
-      if (Get.arguments is int) {
-        final int id = Get.arguments as int;
-        await fetchDetail(id);
+    repository = ListRepository();
+    await getListOfData();
+  }
+
+  void onRefresh() async {
+    page(0);
+    canLoadMore(true);
+
+    final result = await getListOfData();
+
+    if (result) {
+      refreshController.refreshCompleted();
+    } else {
+      refreshController.refreshFailed();
+    }
+  }
+
+  List<Map<String, dynamic>> get filteredList => items
+      .where((element) =>
+          element['name']
+              .toString()
+              .toLowerCase()
+              .contains(keyword.value.toLowerCase()) &&
+          (selectedCategory.value == 'all' ||
+              element['category'] == selectedCategory.value))
+      .toList();
+
+  Future<bool> getListOfData() async {
+    try {
+      final result = repository.getListOfData(
+        offset: page.value * 10,
+      );
+
+      if (result['previous'] == null) {
+        items.clear();
       }
+
+      if (result['next'] == null) {
+        canLoadMore(false);
+        refreshController.loadNoData();
+      }
+
+      items.addAll(result['data']);
+      page.value++;
+      refreshController.loadComplete();
+
+      return true;
+    } catch (exception, stacktrace) {
+      await Sentry.captureException(
+        exception,
+        stackTrace: stacktrace,
+      );
+
+      refreshController.loadFailed();
+      return false;
     }
-
-    await fetchAllData();
-    await ListRepository;
   }
 
-  /// Mengambil detail data menu berdasarkan id (dipakai di halaman detail)
-  Future<void> fetchDetail(int id) async {
-    isLoading.value = true;
-    final data = await _repository.getDataByDetail(id);
-    selectedMenuApi.value = data;
-    isLoading.value = false;
-    print('👌Detail data: $data');
-  }
+  Future<void> deleteItem(Map<String, dynamic> item) async {
+    try {
+      repository.deleteItem(item['id_menu']);
 
-  /// Mengambil seluruh data menu
-  Future<void> fetchAllData() async {
-    isLoading.value = true;
-    items.value = await _repository.getAllData();
-    isLoading.value = false;
-  }
+      items.remove(item);
 
-  /// Mengambil data berdasarkan kategori tertentu
-  Future<void> refreshDataByCategory(String category) async {
-    isLoading.value = true;
-    items.value = await _repository.getDataByCategory(category);
-    isLoading.value = false;
-  }
-
-  /// Fungsi untuk refresh (pull-to-refresh)
-  Future<void> onRefresh() async {
-    isLoading.value = true;
-    if (selectedCategory.value == 'all') {
-      await fetchAllData();
-    } else {
-      await refreshDataByCategory(selectedCategory.value);
+      selectedItems.remove(item);
+    } catch (exception, stacktrace) {
+      await Sentry.captureException(
+        exception,
+        stackTrace: stacktrace,
+      );
     }
-    refreshController.refreshCompleted();
-    isLoading.value = false;
-  }
-
-  /// Fungsi ketika kategori dipilih dari chip
-  void selectCategory(String category) async {
-    isLoading.value = true;
-    selectedCategory.value = category;
-    if (category == 'all') {
-      await fetchAllData();
-    } else {
-      await refreshDataByCategory(category);
-    }
-    isLoading.value = false;
-  }
-
-  /// Fungsi hapus item
-  Future<void> deleteItemApi(Map<String, dynamic> itemToDelete) async {
-    isLoading.value = true;
-    bool success = await _repository.deleteItem(itemToDelete);
-    if (success) {
-      items.removeWhere((item) => item['id_menu'] == itemToDelete['id_menu']);
-    }
-    isLoading.value = false;
   }
 }

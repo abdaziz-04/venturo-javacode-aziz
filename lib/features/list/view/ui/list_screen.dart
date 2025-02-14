@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -8,7 +9,6 @@ import 'package:venturo_core/features/list/view/components/menu_chip.dart';
 import 'package:venturo_core/features/list/view/components/promo_card.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 
-import '../../../../configs/routes/route.dart';
 import '../../../../constants/cores/assets/image_constants.dart';
 import '../../controllers/list_controller.dart';
 import '../components/menu_card.dart';
@@ -71,7 +71,7 @@ class ListScreen extends StatelessWidget {
                       isSelected:
                           ListController.to.selectedCategory.value == category,
                       onTap: () {
-                        ListController.to.selectCategory(category);
+                        // ListController.to.selectCategory(category);
                       },
                     ),
                   ),
@@ -83,66 +83,37 @@ class ListScreen extends StatelessWidget {
             title: 'Menu',
             image: ImageConstants.iconAllMenu,
           ),
-
           Expanded(
-            child: Obx(
-              () => ListController.to.isLoading.value
-                  ? Center(
-                      child:
-                          CircularProgressIndicator(color: ColorStyle.primary))
-                  : SmartRefresher(
-                      controller: ListController.to.refreshController,
-                      enablePullDown: true,
-                      onRefresh: ListController.to.onRefresh,
-                      // enablePullUp: ListController.to.canLoadMore.value,
-                      onLoading: () async {
-                        await ListController.to.refreshDataByCategory(
-                            ListController.to.selectedCategory.value);
-                        ListController.to.refreshController.loadComplete();
-                      },
-                      child: ListView.builder(
-                        padding: EdgeInsets.symmetric(horizontal: 25.w),
-                        itemCount: ListController.to.filteredListApi.length,
-                        itemExtent: 112.h,
-                        itemBuilder: (context, index) {
-                          final item = ListController.to.filteredListApi[index];
-                          return Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8.5.h),
-                            child: Material(
-                              borderRadius: BorderRadius.circular(10.r),
-                              elevation: 2,
-                              child: Slidable(
-                                endActionPane: ActionPane(
-                                  motion: const ScrollMotion(),
-                                  children: [
-                                    SlidableAction(
-                                      onPressed: (context) {
-                                        ListController.to.deleteItemApi(item);
-                                        print("delete {$item}");
-                                      },
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      backgroundColor: Colors.red,
-                                      foregroundColor: Colors.white,
-                                      icon: Icons.delete,
-                                    ),
-                                  ],
-                                ),
-                                child: MenuCard(
-                                  menu: item,
-                                  isSelected: false,
-                                  onTap: () {
-                                    Get.toNamed(Routes.detailMenuRoute,
-                                        arguments: item);
-                                  },
-                                ),
-                              ),
+            child: Obx(() => SmartRefresher(
+                  controller: ListController.to.refreshController,
+                  enablePullDown: true,
+                  onRefresh: ListController.to.onRefresh,
+                  enablePullUp:
+                      ListController.to.canLoadMore.value ? true : false,
+                  onLoading: () async {
+                    await ListController.to.getListOfData();
+                  },
+                  child: ListView.builder(
+                      padding: EdgeInsets.symmetric(horizontal: 25.w),
+                      itemBuilder: (context, index) {
+                        final item = ListController.to.filteredList[index];
+                        return Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8.5.h),
+                          child: Material(
+                            borderRadius: BorderRadius.circular(10.r),
+                            elevation: 2,
+                            child: MenuCard(
+                              menu: item,
+                              isSelected: false,
+                              onTap: () {},
                             ),
-                          );
-                        },
-                      ),
-                    ),
-            ),
-          ),
+                          ),
+                        );
+                      },
+                      itemCount: ListController.to.filteredList.length,
+                      itemExtent: 122.h),
+                )),
+          )
         ],
       ),
     );

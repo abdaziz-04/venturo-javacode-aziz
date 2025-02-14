@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:venturo_core/features/list/controllers/list_controller.dart';
 
+import '../../controllers/list_detail_controller.dart';
 import 'option_chip.dart';
 
-class ModalBottomSheet extends StatelessWidget {
+class ToppingModalBottomSheet extends StatelessWidget {
   final String title;
   final List<dynamic> items;
   final Function(dynamic)? onTap;
 
-  const ModalBottomSheet({
+  const ToppingModalBottomSheet({
     Key? key,
     required this.title,
     required this.items,
@@ -16,6 +19,7 @@ class ModalBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ListController controller = Get.find();
     return Container(
       height: 180,
       width: double.infinity,
@@ -50,7 +54,7 @@ class ModalBottomSheet extends StatelessWidget {
                     text: item['keterangan'] ?? 'Tidak ada keterangan',
                     isSelected: false,
                     onTap: () {
-                      // ListDetailController.to.s
+                      // controller.selectedToppings.value = item;
                     },
                   ),
                 );

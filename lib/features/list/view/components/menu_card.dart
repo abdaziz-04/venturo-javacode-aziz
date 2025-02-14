@@ -17,9 +17,6 @@ class MenuCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String imgUrl = menu['foto'] ??
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/240px-No_image_available.svg.png';
-
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(10.r),
@@ -48,11 +45,10 @@ class MenuCard extends StatelessWidget {
                 color: Colors.grey[100],
               ),
               child: CachedNetworkImage(
-                imageUrl: imgUrl,
-                placeholder: (context, url) => Center(
-                  child: CircularProgressIndicator(),
-                ),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+                imageUrl: menu['foto'] ??
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/240px-No_image_available.svg.png',
+                useOldImageOnUrlChange: true,
+                fit: BoxFit.contain,
               ),
             ),
             // menu info
@@ -62,7 +58,7 @@ class MenuCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    menu['nama'] ?? 'No Name',
+                    menu['name'],
                     style: Get.textTheme.titleMedium,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
@@ -73,7 +69,6 @@ class MenuCard extends StatelessWidget {
                         color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.bold),
                   ),
-                  // tes
                 ],
               ),
             ),
