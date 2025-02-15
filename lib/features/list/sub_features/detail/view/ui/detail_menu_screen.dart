@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import 'package:venturo_core/features/list/sub_features/detail/view/components/notes_bottom_sheet.dart';
-import 'package:venturo_core/features/list/sub_features/detail/view/components/topping_modal_bottom_sheet%20.dart';
+
 import 'package:venturo_core/shared/styles/color_style.dart';
 
 import '../../../../controllers/list_controller.dart';
@@ -13,7 +13,7 @@ import '../../../../controllers/list_controller.dart';
 import '../../controllers/list_detail_controller.dart';
 import '../components/c_app_bar.dart';
 import '../components/info_row.dart';
-import '../components/level_modal_bottom_sheet.dart';
+
 import '../components/modal_bottom_sheet.dart';
 
 class DetailMenuScreen extends GetView<ListDetailController> {
@@ -90,18 +90,24 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                         Row(
                           children: [
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                if (ListDetailController.to.qty.value > 1) {
+                                  ListDetailController.to.qty.value--;
+                                }
+                              },
                               icon: Icon(
                                 Icons.remove_circle_outline,
                                 color: ColorStyle.primary,
                               ),
                             ),
-                            Text(
-                              '1',
-                              style: TextStyle(fontSize: 18),
-                            ),
+                            Obx(() => Text(
+                                  ListDetailController.to.qty.toString(),
+                                  style: TextStyle(fontSize: 18),
+                                )),
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                ListDetailController.to.qty.value++;
+                              },
                               icon: Icon(
                                 Icons.add_circle_outline,
                                 color: ColorStyle.primary,

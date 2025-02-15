@@ -5,6 +5,7 @@ import '../../../controllers/list_controller.dart';
 class ListDetailController extends GetxController {
   static ListDetailController get to => Get.find();
   final ListController listController = ListController.to;
+  final RxInt qty = 1.obs;
 
   @override
   void onInit() {
