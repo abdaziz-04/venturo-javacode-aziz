@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:venturo_core/features/list/controllers/list_controller.dart';
 
-import '../../controllers/list_detail_controller.dart';
 import 'option_chip.dart';
 
 class LevelModalBottomSheet extends StatelessWidget {
@@ -19,7 +16,6 @@ class LevelModalBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ListController controller = Get.find();
     return Container(
       height: 180,
       width: double.infinity,

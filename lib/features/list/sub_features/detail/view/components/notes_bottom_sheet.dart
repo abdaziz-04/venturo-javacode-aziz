@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
-import 'package:venturo_core/features/list/sub_features/detail/controllers/list_detail_controller.dart';
+
 import 'package:venturo_core/shared/styles/color_style.dart';
 
+// ! PENTING - BUAT AGAR BOTTOM SHEET FLEKSIBEL (TIDAK TERTUTUP KEYBOARD)
 class NotesModalBottomSheet extends StatelessWidget {
   final String title;
 
@@ -17,7 +17,6 @@ class NotesModalBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ListDetailController ldc = Get.put(ListDetailController());
     return SizedBox(
       height: 180,
       width: double.infinity,
