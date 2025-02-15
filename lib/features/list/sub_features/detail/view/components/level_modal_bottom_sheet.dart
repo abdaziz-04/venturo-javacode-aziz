@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'option_chip.dart';
 
-//
 class LevelModalBottomSheet extends StatelessWidget {
   final String title;
   final List<dynamic> items;
