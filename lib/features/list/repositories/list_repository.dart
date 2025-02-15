@@ -19,6 +19,47 @@ class ListRepository {
     return token;
   }
 
+  Future<Map<String, dynamic>> fetchDetailMenu(int id) async {
+    final token = await _getToken();
+    if (token == null) return {'data': []};
+    final String url = "$apiDetailbyId$id";
+
+    try {
+      Response response = await Dio().get(
+        url,
+        options: Options(headers: {
+          'token': token,
+          'Content-Type': 'application/json',
+        }),
+      );
+      if (response.statusCode == 200) {
+        final result = response.data;
+        print("📦 Data berhasil diambil dari API {$result}");
+        if (result is Map && result.containsKey('data')) {
+          final menuData = result['data']['menu'];
+          final toppings =
+              List<Map<String, dynamic>>.from(result['data']['topping']);
+          final levels =
+              List<Map<String, dynamic>>.from(result['data']['level']);
+          return {
+            'menu': menuData,
+            'topping': toppings,
+            'level': levels,
+          };
+        }
+      } else if (response.statusCode == 204) {
+        return {'data': []};
+      }
+    } catch (e, stackTrace) {
+      await Sentry.captureException(
+        e,
+        stackTrace: stackTrace,
+      );
+      print("🚨 Error saat fetch detail data: $e");
+    }
+    return {'data': []};
+  }
+
   Future<Map<String, dynamic>> fetchData(int offset) async {
     final token = await _getToken();
     if (token == null) return {'data': []};

@@ -13,6 +13,7 @@ import 'package:venturo_core/features/list/view/components/section_header.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 import 'package:venturo_core/shared/widgets/bottom_app_bar.dart';
 
+import '../../../../configs/routes/route.dart';
 import '../../../../constants/cores/assets/image_constants.dart';
 import '../../controllers/list_controller.dart';
 import '../components/menu_card.dart';
@@ -159,6 +160,8 @@ class ListScreen extends StatelessWidget {
                                             .to.selectedItems
                                             .contains(item),
                                         onTap: () {
+                                          Get.toNamed(Routes.detailMenuRoute,
+                                              arguments: item['id_menu']);
                                           if (ListController.to.selectedItems
                                               .contains(item)) {
                                             ListController.to.selectedItems

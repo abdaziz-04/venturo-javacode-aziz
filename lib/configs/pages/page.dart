@@ -3,6 +3,7 @@ import 'package:venturo_core/configs/routes/route.dart';
 import 'package:venturo_core/features/forgot_password/bindings/otp_binding.dart';
 import 'package:venturo_core/features/forgot_password/view/ui/forgot_password_screen.dart';
 import 'package:venturo_core/features/forgot_password/view/ui/otp_screen.dart';
+import 'package:venturo_core/features/list/sub_features/detail/bindings/detail_binding.dart';
 
 import 'package:venturo_core/features/profile/view/ui/profile_screen.dart';
 import 'package:venturo_core/features/sig_in/view/ui/sig_in_screen.dart';
@@ -56,8 +57,8 @@ abstract class Pages {
       page: () => (GetLocationScreen()),
     ),
     GetPage(
-      name: Routes.detailMenuRoute,
-      page: () => DetailMenuScreen(),
-    ),
+        name: Routes.detailMenuRoute,
+        page: () => DetailMenuScreen(),
+        binding: DetailBinding()),
   ];
 }

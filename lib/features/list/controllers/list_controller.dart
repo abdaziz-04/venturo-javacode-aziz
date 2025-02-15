@@ -27,6 +27,8 @@ class ListController extends GetxController {
     'Minuman',
   ];
 
+  RxMap<String, dynamic> selectedMenuDetail = <String, dynamic>{}.obs;
+
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
 
@@ -89,6 +91,26 @@ class ListController extends GetxController {
       );
       refreshController.loadFailed();
       return false;
+    }
+  }
+
+  Future<void> getDetailMenu(int id) async {
+    selectedMenuDetail.value = {};
+    try {
+      final result = await repository.fetchDetailMenu(id);
+      if (result.isNotEmpty) {
+        selectedMenuDetail.value = result;
+        print(
+            "📦 Detail menu berhasil disimpan ke selectedMenuDetail: $selectedMenuDetail");
+      } else {
+        print("📦 Detail menu kosong");
+      }
+    } catch (exception, stacktrace) {
+      await Sentry.captureException(
+        exception,
+        stackTrace: stacktrace,
+      );
+      print("🚨 Error saat fetch detail menu: $exception");
     }
   }
 
