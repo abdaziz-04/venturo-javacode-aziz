@@ -31,6 +31,12 @@ class ListScreen extends StatelessWidget {
               ListController.to.keyword(value);
             },
           ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              print('data: ${ListController.to.items}');
+            },
+            child: Icon(Icons.add),
+          ),
           bottomNavigationBar: CButtomAppBar(),
           body: Column(
             mainAxisSize: MainAxisSize.min,
@@ -100,12 +106,12 @@ class ListScreen extends StatelessWidget {
                   child: SectionHeader(
                     title: currentCategory == 'all'
                         ? 'Semua Menu'
-                        : currentCategory == 'food'
+                        : currentCategory == 'makanan'
                             ? 'Makanan'
                             : 'Minuman',
                     icon: currentCategory == 'all'
                         ? Icons.restaurant_menu
-                        : currentCategory == 'food'
+                        : currentCategory == 'makanan'
                             ? Icons.fastfood
                             : Icons.local_drink,
                   ),

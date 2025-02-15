@@ -23,8 +23,8 @@ class ListController extends GetxController {
 
   final List<String> categories = [
     'All',
-    'Food',
-    'Drink',
+    'Makanan',
+    'Minuman',
   ];
 
   final RefreshController refreshController =
@@ -53,32 +53,33 @@ class ListController extends GetxController {
 
   List<Map<String, dynamic>> get filteredList => items
       .where((element) =>
-          element['name']
+          element['nama']
               .toString()
               .toLowerCase()
               .contains(keyword.value.toLowerCase()) &&
           (selectedCategory.value == 'all' ||
-              element['category'] == selectedCategory.value))
+              element['kategori'] == selectedCategory.value))
       .toList();
 
   Future<bool> getListOfData() async {
     try {
-      final result = repository.getListOfData(
-        offset: page.value * 10,
-      );
+      final result = await repository.fetchData(page.value * 10);
+      print('📦 Data berhasil diambil dari API {$result}');
 
-      if (result['previous'] == null) {
+      if (page.value == 0) {
         items.clear();
       }
 
-      if (result['next'] == null) {
+      if (result['data'].isEmpty) {
         canLoadMore(false);
         refreshController.loadNoData();
+        print('📦 Data kosong');
+      } else {
+        items.addAll(result['data']);
+        print('📦 Data berhasil diambil dari API {$items}');
+        page.value++;
+        refreshController.loadComplete();
       }
-
-      items.addAll(result['data']);
-      page.value++;
-      refreshController.loadComplete();
 
       return true;
     } catch (exception, stacktrace) {
@@ -86,7 +87,6 @@ class ListController extends GetxController {
         exception,
         stackTrace: stacktrace,
       );
-
       refreshController.loadFailed();
       return false;
     }
