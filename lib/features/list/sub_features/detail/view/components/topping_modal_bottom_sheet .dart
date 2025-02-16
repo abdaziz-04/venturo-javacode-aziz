@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../controllers/list_detail_controller.dart';
 import 'option_chip.dart';
 
 class ToppingModalBottomSheet extends StatelessWidget {
@@ -50,7 +51,9 @@ class ToppingModalBottomSheet extends StatelessWidget {
                     text: item['keterangan'] ?? 'Tidak ada keterangan',
                     isSelected: false,
                     onTap: () {
-                      // controller.selectedToppings.value = item;
+                      print('👌Selected topping: $item');
+                      ListDetailController.to.selectedTopping.value =
+                          item['keterangan'];
                     },
                   ),
                 );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:venturo_core/features/list/sub_features/detail/controllers/list_detail_controller.dart';
 
 import 'option_chip.dart';
 
@@ -52,11 +53,9 @@ class LevelModalBottomSheet extends StatelessWidget {
                   text: item['keterangan'] ?? 'Tidak ada keterangan',
                   // isSelected: controller.selectedLevel.value == item,
                   onTap: () {
-                    // print('👌Selected level: $item');
-                    // controller.selectedLevel.value = item;
-                    // if (onTap != null) {
-                    //   onTap!(item);
-                    // }
+                    print('👌Selected level: $item');
+                    ListDetailController.to.selectedLevel.value =
+                        item['keterangan'];
                   },
                 ),
               );

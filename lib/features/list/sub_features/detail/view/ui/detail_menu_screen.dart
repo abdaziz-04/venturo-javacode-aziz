@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:venturo_core/features/list/sub_features/detail/view/components/level_modal_bottom_sheet.dart';
 
 import 'package:venturo_core/features/list/sub_features/detail/view/components/notes_bottom_sheet.dart';
+import 'package:venturo_core/features/list/sub_features/detail/view/components/topping_modal_bottom_sheet%20.dart';
 
 import 'package:venturo_core/shared/styles/color_style.dart';
 
@@ -162,7 +164,7 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                         showModalBottomSheet<void>(
                           context: context,
                           builder: (BuildContext context) {
-                            return ModalBottomSheet(
+                            return LevelModalBottomSheet(
                               title: 'Pilih Level',
                               items: level,
                             );
@@ -182,7 +184,7 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                         showModalBottomSheet<void>(
                           context: context,
                           builder: (BuildContext context) {
-                            return ModalBottomSheet(
+                            return ToppingModalBottomSheet(
                               title: 'Pilih Toping',
                               items: topping,
                             );
@@ -218,7 +220,9 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                         foregroundColor: Colors.white,
                         minimumSize: Size(double.infinity, 50.h),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        controller.addToCart(menu?['id_menu']);
+                      },
                       child: Text('Tambahkan Ke Pesanan'),
                     ),
                   ],

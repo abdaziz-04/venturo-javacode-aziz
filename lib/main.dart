@@ -15,9 +15,11 @@ import 'utils/services/sentry_services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   // Localstorage
   await Hive.initFlutter();
   await Hive.openBox("venturo");
+  await Hive.openBox('cart');
 
   // Firebase
   await Firebase.initializeApp();
