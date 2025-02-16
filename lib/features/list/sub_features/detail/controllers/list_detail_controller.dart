@@ -1,21 +1,21 @@
 import 'package:get/get.dart';
 
+import '../../../controllers/list_controller.dart';
+
 class ListDetailController extends GetxController {
   static ListDetailController get to => Get.find();
+  final ListController listController = ListController.to;
+  final RxInt qty = 1.obs;
 
-  var selectedMenu = {}.obs;
-  var selectedToppings = <Map<String, dynamic>>[].obs;
-  var selectedLevel = {}.obs;
-  var totalPrice = 0.obs;
-
-  // Total harga
-  void calculateTotal() {
-    int menuPrice = selectedMenu['harga'] ?? 0;
-
-    int toppingPrice = 0;
-
-    int levelPrice = selectedLevel['harga'] ?? 0;
-
-    totalPrice.value = menuPrice + toppingPrice + levelPrice;
+  @override
+  void onInit() {
+    super.onInit();
+    final arguments = Get.arguments;
+    print('ListDetailController.onInit() - Arguments: $arguments');
+    if (arguments != null) {
+      listController.getDetailMenu(arguments);
+    } else {
+      print('Argument tidak valid atau tidak mengandung id_menu.');
+    }
   }
 }

@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-import 'package:venturo_core/shared/styles/color_style.dart';
+import 'option_chip.dart';
 
-// ! PENTING - BUAT AGAR BOTTOM SHEET FLEKSIBEL (TIDAK TERTUTUP KEYBOARD)
-class NotesModalBottomSheet extends StatelessWidget {
+class ToppingModalBottomSheet extends StatelessWidget {
   final String title;
-
+  final List<dynamic> items;
   final Function(dynamic)? onTap;
 
-  const NotesModalBottomSheet({
+  const ToppingModalBottomSheet({
     Key? key,
     required this.title,
+    required this.items,
     this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 180,
       width: double.infinity,
       child: Padding(
@@ -44,24 +43,19 @@ class NotesModalBottomSheet extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Row(
-              children: [
-                Expanded(
-                    child: TextField(
-                  controller: TextEditingController(),
-                  decoration: InputDecoration(
-                    hintText: 'Tambahkan catatan',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                )),
-                IconButton(
-                    onPressed: () {
-                      print('Notes: ');
+              children: items.map((item) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: OptionChip(
+                    text: item['keterangan'] ?? 'Tidak ada keterangan',
+                    isSelected: false,
+                    onTap: () {
+                      // controller.selectedToppings.value = item;
                     },
-                    icon: Icon(Icons.check_circle, color: ColorStyle.primary)),
-              ],
-            )
+                  ),
+                );
+              }).toList(),
+            ),
           ],
         ),
       ),

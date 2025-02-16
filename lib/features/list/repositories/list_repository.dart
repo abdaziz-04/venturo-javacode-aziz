@@ -4,13 +4,10 @@ import 'package:venturo_core/features/list/constants/list_api_constant.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 class ListRepository {
-  final Dio _dio;
-
+  final List<Map<String, dynamic>> data = [];
   final String apiMenu = ListApiConstant().apiMenu;
   final String apiDetailbyId = ListApiConstant().apiMenuDetail;
   final String apiMenuCategory = ListApiConstant().apiMenuCategory;
-
-  ListRepository({Dio? dioInstance}) : _dio = dioInstance ?? Dio();
 
   Future<String?> _getToken() async {
     final box = await Hive.openBox('venturo');
@@ -22,67 +19,13 @@ class ListRepository {
     return token;
   }
 
-  Future<List<Map<String, dynamic>>> getAllData() async {
+  Future<Map<String, dynamic>> fetchDetailMenu(int id) async {
     final token = await _getToken();
-    if (token == null) return [];
-    try {
-      Response response = await _dio.get(
-        apiMenu,
-        options: Options(headers: {
-          'token': token,
-          'Content-Type': 'application/json',
-        }),
-      );
-      if (response.statusCode == 200) {
-        final result = response.data;
-        if (result is Map &&
-            result.containsKey('data') &&
-            result['data'] is Iterable) {
-          return List<Map<String, dynamic>>.from(result['data']);
-        }
-      } else if (response.statusCode == 204) {
-        return [];
-      }
-    } catch (e) {
-      print("🚨 Error saat fetch all data: $e");
-    }
-    return [];
-  }
-
-  Future<List<Map<String, dynamic>>> getDataByCategory(String category) async {
-    final token = await _getToken();
-    if (token == null) return [];
-    final String url = apiMenuCategory + category;
-    try {
-      Response response = await _dio.get(
-        url,
-        options: Options(headers: {
-          'token': token,
-          'Content-Type': 'application/json',
-        }),
-      );
-      if (response.statusCode == 200) {
-        final result = response.data;
-        if (result is Map &&
-            result.containsKey('data') &&
-            result['data'] is Iterable) {
-          return List<Map<String, dynamic>>.from(result['data']);
-        }
-      } else if (response.statusCode == 204) {
-        return [];
-      }
-    } catch (e) {
-      print("🚨 Error saat fetch data kategori: $e");
-    }
-    return [];
-  }
-
-  Future<Map<String, dynamic>?> getDataByDetail(int id) async {
-    final token = await _getToken();
-    if (token == null) return null;
+    if (token == null) return {'data': []};
     final String url = "$apiDetailbyId$id";
+
     try {
-      Response response = await _dio.get(
+      Response response = await Dio().get(
         url,
         options: Options(headers: {
           'token': token,
@@ -91,36 +34,87 @@ class ListRepository {
       );
       if (response.statusCode == 200) {
         final result = response.data;
+        print("📦 Data berhasil diambil dari API {$result}");
         if (result is Map && result.containsKey('data')) {
-          return Map<String, dynamic>.from(result['data']);
+          final menuData = result['data']['menu'];
+          final toppings =
+              List<Map<String, dynamic>>.from(result['data']['topping']);
+          final levels =
+              List<Map<String, dynamic>>.from(result['data']['level']);
+          return {
+            'menu': menuData,
+            'topping': toppings,
+            'level': levels,
+          };
         }
       } else if (response.statusCode == 204) {
-        return null;
+        return {'data': []};
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      await Sentry.captureException(
+        e,
+        stackTrace: stackTrace,
+      );
       print("🚨 Error saat fetch detail data: $e");
     }
-    return null;
+    return {'data': []};
   }
 
-  Future<bool> deleteItem(Map<String, dynamic> itemToDelete) async {
+  Future<Map<String, dynamic>> fetchData(int offset) async {
     final token = await _getToken();
-    if (token == null) return false;
+    if (token == null) return {'data': []};
+
     try {
-      Response response = await _dio.delete(
-        "$apiMenu/${itemToDelete['id_menu']}",
-        options: Options(headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-        }),
-      );
+      Response response = await Dio().get(apiMenu,
+          queryParameters: {'offset': offset, 'limit': 10},
+          options: Options(headers: {
+            'token': token,
+            'Content-Type': 'application/json',
+          }));
       if (response.statusCode == 200) {
-        return true;
+        final List<Map<String, dynamic>> fetchedData =
+            List<Map<String, dynamic>>.from(
+          response.data['data'].map((item) => {
+                "id_menu": item['id_menu'] ?? 0,
+                "nama": item['nama'] ?? "Tidak ada data",
+                "kategori": item['kategori'] ?? "Tidak ada data",
+                "harga": item['harga'] ?? 0,
+                "deskripsi": item['deskripsi'] ?? "Tidak ada data",
+                "foto": item['foto'] ??
+                    "https://upload.wikimedia.org/wikipedia/commons/8/8c/NO_IMAGE_YET_square.png",
+                "status": item['status'] ?? 1,
+              }),
+        );
+        print("📦 Data berhasil diambil dari API {$fetchedData}");
+        return {
+          'data': fetchedData,
+          'next': fetchedData.isNotEmpty ? true : null,
+          'previous': offset > 0 ? true : null,
+        };
       }
-    } catch (exception, stacktrace) {
-      print("🚨 Error saat delete item: $exception");
-      await Sentry.captureException(exception, stackTrace: stacktrace);
+    } catch (e, stackTrace) {
+      await Sentry.captureException(
+        e,
+        stackTrace: stackTrace,
+      );
     }
-    return false;
+    return {'data': []};
+  }
+
+  // Get list of data
+  Map<String, dynamic> getListOfData({int offset = 0}) {
+    int limit = 5 + offset;
+    if (limit > data.length) limit = data.length;
+
+    return {
+      'data': data.getRange(offset, limit).toList(),
+      'next': limit < data.length ? true : null,
+      'previous': offset > 0 ? true : null,
+    };
+  }
+
+  // Delete item
+  void deleteItem(int id) {
+    data.removeWhere((element) => element['id_menu'] == id);
   }
 }

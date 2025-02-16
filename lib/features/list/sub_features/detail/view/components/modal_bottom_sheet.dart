@@ -50,9 +50,7 @@ class ModalBottomSheet extends StatelessWidget {
                     text: item['keterangan'] ?? 'Tidak ada keterangan',
                     isSelected: false,
                     onTap: () {
-                      if (onTap != null) {
-                        onTap!(item);
-                      }
+                      // ListDetailController.to.s
                     },
                   ),
                 );
