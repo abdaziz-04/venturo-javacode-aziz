@@ -8,6 +8,7 @@ import 'package:venturo_core/configs/routes/route.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:venturo_core/shared/bindings/global_binding.dart';
 import 'configs/pages/page.dart';
 import 'configs/themes/theme.dart';
 import 'shared/controllers/global_controller.dart';
@@ -62,14 +63,13 @@ class MyApp extends StatelessWidget {
           ],
           title: 'Venturo Core',
           debugShowCheckedModeBanner: false,
-
           locale: const Locale('id'),
           fallbackLocale: const Locale('id'),
           supportedLocales: const [
             Locale('en', 'US'),
             Locale('id'),
           ],
-          // initialBinding: , Jika memiliki global bindding
+          initialBinding: GlobalBinding(),
           initialRoute: Routes.splashRoute,
           theme: themeLight,
           defaultTransition: Transition.native,

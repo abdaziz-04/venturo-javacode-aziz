@@ -2,12 +2,13 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../constants/cores/api/api_constant.dart';
 
 class GlobalController extends GetxController {
   static GlobalController get to => Get.find();
-  var isConnect = true.obs;
+  var isConnect = false.obs;
   var baseUrl = ApiConstant.production;
   var isStaging = false.obs;
   static const String boxName = 'auth';
@@ -46,14 +47,17 @@ class GlobalController extends GetxController {
 
   Future<void> checkConnection() async {
     try {
-      final result = await InternetAddress.lookup('example.com');
+      final result = await InternetAddress.lookup('space.venturo.id');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         print('connected');
         isConnect.value = true;
       }
-    } on SocketException catch (_) {
-      print('not connected');
+    } on SocketException catch (exception, stackTrace) {
       isConnect.value = false;
+      await Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
     }
   }
 }
