@@ -11,5 +11,5 @@ abstract class Routes {
   static const String getLocationScreenRoute = '/get_location_screen';
   static const String listRoute = '/list';
   static const String listDetailMenuRoute = '/list_detail_menu';
-static const String listDetailRoute = '/list_detail';
+  static const String listDetailRoute = '/list_detail';
 }

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:venturo_core/shared/controllers/bottom_app_controller.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 
-class CButtomAppBar extends StatelessWidget {
-  const CButtomAppBar({super.key});
+import '../../features/home/controllers/home_controller.dart';
+
+class CBottomAppBar extends StatelessWidget {
+  const CBottomAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    BottomAppController controller = Get.put(BottomAppController());
+    final HomeController controller = HomeController.to;
 
     return Container(
       decoration: BoxDecoration(
@@ -31,8 +32,8 @@ class CButtomAppBar extends StatelessWidget {
             backgroundColor: ColorStyle.dark,
             selectedItemColor: ColorStyle.white,
             unselectedItemColor: ColorStyle.unselect,
-            currentIndex: controller.selectedIndex.value,
-            onTap: controller.changeIndex,
+            currentIndex: controller.tabIndex.value,
+            onTap: controller.changeTabIndex,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),

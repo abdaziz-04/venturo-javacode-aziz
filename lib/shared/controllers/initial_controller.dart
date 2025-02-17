@@ -50,7 +50,7 @@ class InitialController extends GetxController {
 
         await Future.delayed(const Duration(seconds: 1));
         // Get.until(ModalRoute.withName(Routes.profileRoute));
-        Get.offAllNamed(Routes.listRoute);
+        Get.offAllNamed(Routes.homeRoute);
 
         print("Current Route: ${Get.currentRoute}");
       } else {
