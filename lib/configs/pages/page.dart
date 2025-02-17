@@ -69,9 +69,8 @@ abstract class Pages {
         page: () => (NoConnectionScreen()),
         binding: GlobalBinding()),
     GetPage(
-      name: Routes.detailMenuRoute,
-      page: () => DetailMenuScreen(),
-      // binding: DetailBinding()
-    ),
+        name: Routes.detailMenuRoute,
+        page: () => DetailMenuScreen(),
+        binding: DetailBinding()),
   ];
 }

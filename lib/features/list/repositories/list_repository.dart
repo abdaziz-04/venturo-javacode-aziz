@@ -21,6 +21,7 @@ class ListRepository {
 
   Future<Map<String, dynamic>> fetchDetailMenu(int id) async {
     final token = await _getToken();
+    // final token = await _getToken();
     if (token == null) return {'data': []};
     final String url = "$apiDetailbyId$id";
 
