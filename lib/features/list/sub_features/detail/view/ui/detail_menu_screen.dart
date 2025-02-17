@@ -17,22 +17,12 @@ import '../components/info_row.dart';
 
 class DetailMenuScreen extends GetView<ListDetailController> {
   DetailMenuScreen({Key? key}) : super(key: key);
-  final item = Get.arguments;
-
-  final ListController listController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: CAppBar(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            print(' Data ${ListController.to.getDetailMenu(item)}');
-          },
-          child: const Icon(Icons.shopping_cart),
-          backgroundColor: ColorStyle.primary,
-        ),
         body: Column(
           children: [
             Obx(() {
