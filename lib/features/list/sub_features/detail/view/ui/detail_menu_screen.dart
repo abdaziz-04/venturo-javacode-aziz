@@ -16,17 +16,11 @@ import '../../controllers/list_detail_controller.dart';
 import '../components/c_app_bar.dart';
 import '../components/info_row.dart';
 
-import '../components/modal_bottom_sheet.dart';
-
 class DetailMenuScreen extends GetView<ListDetailController> {
   DetailMenuScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final item = Get.arguments;
-
-    final ListController listController = Get.find();
-
     return SafeArea(
       child: Scaffold(
         appBar: CAppBar(),
