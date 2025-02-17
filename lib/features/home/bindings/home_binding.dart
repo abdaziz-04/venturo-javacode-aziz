@@ -10,7 +10,7 @@ class HomeBinding extends Bindings {
   void dependencies() {
     Get.put(HomeController());
     Get.put(ListDetailController());
-    Get.put(ListController());
-    Get.put(ProfileController());
+    // Get.put(ListController());
+    // Get.put(ProfileController());
   }
 }

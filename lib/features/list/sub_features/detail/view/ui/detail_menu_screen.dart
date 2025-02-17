@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:venturo_core/features/list/controllers/list_controller.dart';
 import 'package:venturo_core/features/list/sub_features/detail/view/components/level_modal_bottom_sheet.dart';
 
 import 'package:venturo_core/features/list/sub_features/detail/view/components/notes_bottom_sheet.dart';
@@ -22,6 +23,13 @@ class DetailMenuScreen extends GetView<ListDetailController> {
     return SafeArea(
       child: Scaffold(
         appBar: CAppBar(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            print(' Data ${ListController.to.getDetailMenu(1)}');
+          },
+          child: const Icon(Icons.shopping_cart),
+          backgroundColor: ColorStyle.primary,
+        ),
         body: Column(
           children: [
             Obx(() {
