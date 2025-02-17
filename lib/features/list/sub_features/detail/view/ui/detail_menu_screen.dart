@@ -10,8 +10,6 @@ import 'package:venturo_core/features/list/sub_features/detail/view/components/t
 
 import 'package:venturo_core/shared/styles/color_style.dart';
 
-import '../../../../controllers/list_controller.dart';
-
 import '../../controllers/list_detail_controller.dart';
 import '../components/c_app_bar.dart';
 import '../components/info_row.dart';
