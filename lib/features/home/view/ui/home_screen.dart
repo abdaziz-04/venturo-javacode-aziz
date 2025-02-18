@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:venturo_core/features/list/view/ui/list_screen.dart';
+import 'package:venturo_core/features/order/view/ui/order_screen.dart';
 import 'package:venturo_core/features/profile/view/ui/profile_screen.dart';
 
 import '../../../../shared/widgets/c_bottom_app_bar.dart';
@@ -18,7 +19,7 @@ class HomeScreen extends StatelessWidget {
         child: Scaffold(
       body: Obx(() => IndexedStack(
             index: HomeController.to.tabIndex.value,
-            children: [ListScreen(), Text('Pesanan'), ProfileScreen()],
+            children: [ListScreen(), OrderScreen(), ProfileScreen()],
           )),
       bottomNavigationBar: CBottomAppBar(),
     ));

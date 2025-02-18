@@ -17,10 +17,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   device_information: ^0.0.4
   dio: ^5.2.1+1
+  dropdown_button2: ^2.1.4
   fast_rsa: ^3.6.1
   firebase_analytics: ^11.3.0
   firebase_auth: ^5.2.0
   firebase_core: 3.4.0
+  flutter_conditional_rendering: ^2.0.0
   flutter:
     sdk: flutter
   flutter_easyloading: ^3.0.5
@@ -35,6 +37,7 @@ dependencies:
   google_fonts: ^6.2.0
   google_sign_in: ^6.2.2
   hive_flutter: ^1.1.0
+  intl: ^0.18.1
   loadmore: ^2.1.0
   panara_dialogs: ^0.1.4
   pinput: ^2.2.31
