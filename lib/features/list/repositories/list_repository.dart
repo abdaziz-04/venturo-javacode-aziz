@@ -8,6 +8,7 @@ class ListRepository {
   final String apiMenu = ListApiConstant().apiMenu;
   final String apiDetailbyId = ListApiConstant().apiMenuDetail;
   final String apiMenuCategory = ListApiConstant().apiMenuCategory;
+  final String apiAllPromo = ListApiConstant().apiPromoAll;
 
   Future<String?> _getToken() async {
     final box = await Hive.openBox('venturo');
@@ -17,6 +18,49 @@ class ListRepository {
       return null;
     }
     return token;
+  }
+
+  Future<Map<String, dynamic>> fetchAllPromo() async {
+    final token = await _getToken();
+    if (token == null) return {'data': []};
+
+    try {
+      Response response = await Dio().get(
+        apiAllPromo,
+        options: Options(headers: {
+          'token': 'ce7eaad890aa429494b00bf3019dfb4f2050958c',
+          'Content-Type': 'application/json',
+        }),
+      );
+      if (response.statusCode == 200) {
+        final List<Map<String, dynamic>> fetchedData =
+            List<Map<String, dynamic>>.from(
+                response.data['data'].map((item) => {
+                      "id_promo": item['id_promo'] ?? 0,
+                      "nama": item['nama'] ?? "Tidak ada data",
+                      "type": item['type'] ?? "Tidak ada data",
+                      "diskon": item['diskon'],
+                      "nominal": item['nominal'] ?? 0,
+                      "kadaluarsa": item['kadaluarsa'],
+                      "syarat_ketentuan":
+                          item['syarat_ketentuan'] ?? "Tidak ada data",
+                      "foto": item['foto'] ??
+                          "https://upload.wikimedia.org/wikipedia/commons/8/8c/NO_IMAGE_YET_square.png",
+                      "created_at": item['created_at'] ?? 0,
+                      "created_by": item['created_by'] ?? 0,
+                      "is_deleted": item['is_deleted'] ?? 0,
+                    }));
+        print("📦 Data berhasil diambil dari API {$fetchedData}");
+        return {'data': fetchedData};
+      }
+    } catch (e, stackTrace) {
+      await Sentry.captureException(
+        e,
+        stackTrace: stackTrace,
+      );
+      print("🚨 Error saat fetch data promo: $e");
+    }
+    return {'data': []};
   }
 
   Future<Map<String, dynamic>> fetchDetailMenu(int id) async {

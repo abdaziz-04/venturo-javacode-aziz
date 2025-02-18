@@ -32,7 +32,8 @@ class ListScreen extends StatelessWidget {
             },
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () => Get.offAllNamed(Routes.noConnectionRoute),
+            // onPressed: () => Get.offAllNamed(Routes.noConnectionRoute),
+            onPressed: () => print('💿 Data Promo ${ListController.to.promo}'),
             child: Icon(
               Icons.shopping_cart,
               color: ColorStyle.light,
@@ -52,15 +53,15 @@ class ListScreen extends StatelessWidget {
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   padding: EdgeInsets.symmetric(horizontal: 25.w),
-                  itemCount: 5,
+                  itemCount: ListController.to.promo.length,
                   itemBuilder: (context, index) {
+                    final promo = ListController.to.promo[index];
                     return Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.5.w),
                       child: PromoCard(
-                        promoName:
-                            'Dengan mengisi review kamu bisa mendapatkan promo',
-                        discountNominal: '50',
-                        thumbnailUrl:
+                        promoName: promo['nama'] ?? 'Promo yang tersedia',
+                        discountNominal: promo['diskon']?.toString() ?? '0',
+                        thumbnailUrl: promo['foto'] ??
                             'https://img.freepik.com/free-photo/high-angle-uncompleted-voting-questionnaire_23-2148265549.jpg?semt=ais_hybrid',
                       ),
                     );

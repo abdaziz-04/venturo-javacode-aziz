@@ -11,6 +11,7 @@ class ListController extends GetxController {
   final RxInt page = 0.obs;
 
   final RxList<Map<String, dynamic>> items = <Map<String, dynamic>>[].obs;
+  final RxList<Map<String, dynamic>> promo = <Map<String, dynamic>>[].obs;
 
   final RxList<Map<String, dynamic>> selectedItems =
       <Map<String, dynamic>>[].obs;
@@ -37,6 +38,7 @@ class ListController extends GetxController {
     super.onInit();
 
     repository = ListRepository();
+    await getAllPromo();
     await getListOfData();
   }
 
@@ -62,6 +64,29 @@ class ListController extends GetxController {
           (selectedCategory.value == 'all' ||
               element['kategori'] == selectedCategory.value))
       .toList();
+
+  Future<bool> getAllPromo() async {
+    try {
+      final result = await repository.fetchAllPromo();
+      print('📦 Data promo berhasil diambil dari API {$result}');
+
+      if (result['data'].isNotEmpty) {
+        promo.clear();
+        promo.addAll(result['data']);
+        print('📦 Data promo berhasil disimpan ke promo: $promo');
+      } else {
+        print('📦 Data promo kosong');
+      }
+
+      return true;
+    } catch (exception, stacktrace) {
+      await Sentry.captureException(
+        exception,
+        stackTrace: stacktrace,
+      );
+      return false;
+    }
+  }
 
   Future<bool> getListOfData() async {
     try {
