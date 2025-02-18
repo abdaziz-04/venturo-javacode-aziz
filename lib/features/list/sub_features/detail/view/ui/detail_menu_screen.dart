@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:venturo_core/features/list/controllers/list_controller.dart';
+
 import 'package:venturo_core/features/list/sub_features/detail/view/components/level_modal_bottom_sheet.dart';
 
 import 'package:venturo_core/features/list/sub_features/detail/view/components/notes_bottom_sheet.dart';
@@ -27,6 +27,7 @@ class DetailMenuScreen extends GetView<ListDetailController> {
           children: [
             Obx(() {
               final menu =
+                  // ignore: invalid_use_of_protected_member
                   controller.listController.selectedMenuDetail.value['menu'];
               return CachedNetworkImage(
                 imageUrl: menu?['foto'] ?? '',
@@ -64,10 +65,11 @@ class DetailMenuScreen extends GetView<ListDetailController> {
               ),
               child: Obx(() {
                 final detailData =
+                    // ignore: invalid_use_of_protected_member
                     controller.listController.selectedMenuDetail.value;
-                final menu = detailData?['menu'];
-                final List<dynamic> topping = detailData?['topping'] ?? [];
-                final List<dynamic> level = detailData?['level'] ?? [];
+                final menu = detailData['menu'];
+                final List<dynamic> topping = detailData['topping'] ?? [];
+                final List<dynamic> level = detailData['level'] ?? [];
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

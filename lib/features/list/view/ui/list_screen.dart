@@ -31,6 +31,14 @@ class ListScreen extends StatelessWidget {
               ListController.to.keyword(value);
             },
           ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () => Get.offAllNamed(Routes.noConnectionRoute),
+            child: Icon(
+              Icons.shopping_cart,
+              color: ColorStyle.light,
+            ),
+            backgroundColor: ColorStyle.primary,
+          ),
           body: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
