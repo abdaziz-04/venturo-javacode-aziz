@@ -14,4 +14,12 @@ class ImageConstants {
   static const String imgProfile = 'assets/images/img_profile.png';
   static const String icKTP = 'assets/icons/ic_verification.png';
   static const String icRating = 'assets/icons/ic_ratings.png';
+  static const String icTutupMkn = 'assets/icons/ic_tutupMakan.png';
+  static const String icNotes = 'assets/icons/ic_notes.png';
+  static const String icDecrease = 'assets/icons/ic_decrease.png';
+  static const String icIncrease = 'assets/icons/ic_increase.png';
+  static const String icDiscount = 'assets/icons/ic_discount.png';
+  static const String icVoucher = 'assets/icons/ic_voucher.png';
+  static const String icPayment = 'assets/icons/ic_payment.png';
+  static const String icCart = 'assets/icons/ic_cart.png';
 }

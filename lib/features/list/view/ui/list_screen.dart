@@ -17,7 +17,7 @@ import '../../../../constants/cores/assets/image_constants.dart';
 import '../../controllers/list_controller.dart';
 import '../components/menu_card.dart';
 import '../components/search_app_bar.dart';
-import '../components/title_section.dart';
+import '../../../../shared/widgets/title_section.dart';
 
 class ListScreen extends StatelessWidget {
   const ListScreen({super.key});
@@ -33,7 +33,7 @@ class ListScreen extends StatelessWidget {
           ),
           floatingActionButton: FloatingActionButton(
             // onPressed: () => Get.offAllNamed(Routes.noConnectionRoute),
-            onPressed: () => print('💿 Data Promo ${ListController.to.promo}'),
+            onPressed: () => Get.toNamed(Routes.checkoutRoute),
             child: Icon(
               Icons.shopping_cart,
               color: ColorStyle.light,

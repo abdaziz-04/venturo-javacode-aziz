@@ -15,4 +15,5 @@ class ColorStyle {
   static const Color grey = Color(0xff2E2E2E);
   static const Color black = Color(0xff000000);
   static const Color unselect = Color(0xffC2C2C2);
+  static const Color imgBg = Color(0xffDFDFDF);
 }

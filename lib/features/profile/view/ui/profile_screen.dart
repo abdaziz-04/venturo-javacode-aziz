@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
+import 'package:venturo_core/shared/widgets/custom_app_bar.dart';
 
 import '../../../../constants/cores/assets/image_constants.dart';
 
@@ -18,33 +19,12 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Profil',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: ColorStyle.primary,
-              decoration: TextDecoration.underline,
-            ),
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(20.0),
-            ),
-          ),
-          backgroundColor: Colors.white,
-          elevation: 5.0,
-          shadowColor: Colors.grey.withOpacity(0.5),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.logout, color: ColorStyle.danger),
-              onPressed: () {
-                ProfileController.to.logout();
-              },
-            ),
-          ],
-          centerTitle: true,
-        ),
+        appBar: CustomAppBar(
+            title: 'Profil',
+            showActions: true,
+            onPress: () {
+              ProfileController.to.logout();
+            }),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(top: 30, left: 16, right: 16),

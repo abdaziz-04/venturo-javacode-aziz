@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+
 import 'package:venturo_core/constants/cores/assets/image_constants.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 
@@ -77,7 +77,7 @@ class CheckoutMenuCard extends StatelessWidget {
                     maxLines: 1,
                   ),
                   Text(
-                    menu['harga'].toString(),
+                    'Rp. ${menu['harga'].toString()}',
                     style: TextStyle(
                       fontSize: 18.sp,
                       color: ColorStyle.primary,

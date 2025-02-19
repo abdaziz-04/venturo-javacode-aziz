@@ -14,4 +14,5 @@ abstract class Routes {
   static const String listDetailRoute = '/list_detail';
   static const String noConnectionRoute = '/no_connection';
 static const String orderRoute = '/order';
+static const String checkoutRoute = '/checkout';
 }

@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:venturo_core/configs/routes/route.dart';
+import 'package:venturo_core/features/checkout/bindings/checkout_binding.dart';
+import 'package:venturo_core/features/checkout/view/ui/checkout_screen.dart';
 import 'package:venturo_core/features/forgot_password/bindings/otp_binding.dart';
 import 'package:venturo_core/features/forgot_password/view/ui/forgot_password_screen.dart';
 import 'package:venturo_core/features/forgot_password/view/ui/otp_screen.dart';
@@ -59,6 +61,11 @@ abstract class Pages {
     GetPage(
       name: Routes.getLocationScreenRoute,
       page: () => (GetLocationScreen()),
+    ),
+    GetPage(
+      name: Routes.checkoutRoute,
+      page: () => (CheckoutScreen()),
+      binding: CheckoutBinding(),
     ),
     GetPage(
         name: Routes.homeRoute,
