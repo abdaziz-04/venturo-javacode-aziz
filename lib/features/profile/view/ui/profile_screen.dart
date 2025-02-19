@@ -19,15 +19,14 @@ class ProfileScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Center(
-              child: Text(
+          title: Text(
             'Profil',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: ColorStyle.primary,
               decoration: TextDecoration.underline,
             ),
-          )),
+          ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(20.0),
@@ -44,6 +43,7 @@ class ProfileScreen extends StatelessWidget {
               },
             ),
           ],
+          centerTitle: true,
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -170,7 +170,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   width: double.infinity,
                   child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Obx(() => Column(
                             children: [
                               ProfileInfoRow(
