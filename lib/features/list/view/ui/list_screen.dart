@@ -59,6 +59,9 @@ class ListScreen extends StatelessWidget {
                     return Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.5.w),
                       child: PromoCard(
+                        onTap: () {
+                          Get.toNamed(Routes.promoDetailRoute);
+                        },
                         promoName: promo['nama'] ?? 'Promo yang tersedia',
                         discountNominal: promo['diskon']?.toString() ?? '0',
                         thumbnailUrl: promo['foto'] ??

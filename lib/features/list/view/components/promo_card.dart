@@ -10,10 +10,11 @@ class PromoCard extends StatelessWidget {
     required this.promoName,
     required this.discountNominal,
     required this.thumbnailUrl,
+    required this.onTap,
     this.width,
   });
-
   final bool? enableShadow;
+  final void Function()? onTap;
   final String promoName;
   final String discountNominal;
   final String thumbnailUrl;
@@ -22,7 +23,7 @@ class PromoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onTap,
       borderRadius: BorderRadius.circular(15.r),
       child: Container(
         width: width ?? 282.w,

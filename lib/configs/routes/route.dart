@@ -13,6 +13,7 @@ abstract class Routes {
   static const String listDetailMenuRoute = '/list_detail_menu';
   static const String listDetailRoute = '/list_detail';
   static const String noConnectionRoute = '/no_connection';
-static const String orderRoute = '/order';
-static const String checkoutRoute = '/checkout';
+  static const String orderRoute = '/order';
+  static const String checkoutRoute = '/checkout';
+  static const String promoDetailRoute = '/list_promo_detail';
 }
