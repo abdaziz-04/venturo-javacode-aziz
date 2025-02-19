@@ -44,6 +44,8 @@ dependencies:
   pull_to_refresh: ^2.0.0
   sentry_flutter: ^7.18.0
   skeletonizer: ^1.4.3
+  # Gabisa
+  # device_info_plus: ^9.0.0
 
 dev_dependencies:
   flutter_lints: ^3.0.1
@@ -54,3 +56,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/icons/
