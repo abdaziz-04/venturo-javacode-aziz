@@ -43,34 +43,37 @@ class ListScreen extends StatelessWidget {
           body: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              TitleSection(
-                title: 'Promo yang tersedia',
-                image: ImageConstants.promo,
-              ),
-              // Promo
-              SizedBox(
-                height: 150.h,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(horizontal: 25.w),
-                  itemCount: ListController.to.promo.length,
-                  itemBuilder: (context, index) {
-                    final promo = ListController.to.promo[index];
-                    return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.5.w),
-                      child: PromoCard(
-                        onTap: () {
-                          Get.toNamed(Routes.promoDetailRoute);
-                        },
-                        promoName: promo['nama'] ?? 'Promo yang tersedia',
-                        discountNominal: promo['diskon']?.toString() ?? '0',
-                        thumbnailUrl: promo['foto'] ??
-                            'https://img.freepik.com/free-photo/high-angle-uncompleted-voting-questionnaire_23-2148265549.jpg?semt=ais_hybrid',
-                      ),
-                    );
-                  },
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 10.h),
+                child: TitleSection(
+                  title: 'Promo yang tersedia',
+                  image: ImageConstants.promo,
                 ),
               ),
+              // Promo
+              Obx(() => SizedBox(
+                    height: 150.h,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.symmetric(horizontal: 25.w),
+                      itemCount: ListController.to.promo.length,
+                      itemBuilder: (context, index) {
+                        final promo = ListController.to.promo[index];
+                        return Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.5.w),
+                          child: PromoCard(
+                            onTap: () {
+                              Get.toNamed(Routes.promoDetailRoute,
+                                  arguments: promo['id_promo']);
+                            },
+                            promoName: promo['nama'] ?? 'Promo yang tersedia',
+                            discountNominal: promo['diskon']?.toString() ?? '0',
+                            thumbnailUrl: promo['foto'],
+                          ),
+                        );
+                      },
+                    ),
+                  )),
               SizedBox(height: 25.h),
               // Kategori
               SizedBox(

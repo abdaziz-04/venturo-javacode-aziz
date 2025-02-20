@@ -1,6 +1,10 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:venturo_core/features/list/controllers/list_controller.dart';
 import 'package:venturo_core/shared/widgets/custom_app_bar.dart';
 
 import '../../../../../../shared/styles/color_style.dart';
@@ -11,18 +15,38 @@ class PromoDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomAppBar(title: 'Promo', showActions: false),
-        body: Column(
+      appBar: CustomAppBar(title: 'Promo', showActions: false),
+      body: Obx(() {
+        final promo = ListController.to.selectedPromoDetail.value;
+
+        if (promo.isEmpty || promo['nama'] == null) {
+          return Center(child: CircularProgressIndicator());
+        }
+        return Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(20),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(25),
-                child: Image.network(
-                    'https://javacode.landa.id/img/promo/gambar_62661b52223ff.png'),
+              child: Container(
+                width: 400.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: promo['foto'] == null
+                      ? Container(
+                          height: 200.h,
+                          color: Colors.grey[300],
+                          // Bisa diganti dengan widget skeleton khusus untuk image
+                        )
+                      : Image.network(
+                          promo['foto'],
+                          fit: BoxFit.cover,
+                        ),
+                ),
               ),
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 10.h),
             Expanded(
               child: Container(
                 width: double.infinity,
@@ -54,7 +78,7 @@ class PromoDetailScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 10.h),
                     Text(
-                      'Deskripsi Promo',
+                      promo['nama'],
                       style: TextStyle(
                           fontSize: 18.sp,
                           color: ColorStyle.primary,
@@ -75,20 +99,33 @@ class PromoDetailScreen extends StatelessWidget {
                         ),
                       ],
                     ),
+                    SizedBox(height: 10.h),
                     Row(
                       children: [
                         SizedBox(width: 35.w),
-                        Text(
-                          'Deskripsi Syarat dan Ketentuan',
-                          style: TextStyle(fontSize: 14.sp),
+                        Expanded(
+                          child: promo['sk'] == null
+                              ? Container(
+                                  height: 50.h,
+                                  color: Colors.grey[300],
+                                  // Bisa juga diganti dengan widget skeleton text
+                                )
+                              : Text(
+                                  promo['sk'],
+                                  style: TextStyle(fontSize: 14.sp),
+                                  maxLines: null,
+                                  overflow: TextOverflow.visible,
+                                ),
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-            )
+            ),
           ],
-        ));
+        );
+      }),
+    );
   }
 }

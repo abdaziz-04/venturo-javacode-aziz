@@ -35,7 +35,7 @@ class CheckoutMenuCard extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: ColorStyle.dark.withOpacity(0.5),
+              color: ColorStyle.dark.withOpacity(0.2),
               spreadRadius: 2,
               blurRadius: 5,
               offset: Offset(0, 3),
@@ -70,7 +70,7 @@ class CheckoutMenuCard extends StatelessWidget {
                   Text(
                     menu['nama'],
                     style: TextStyle(
-                      fontSize: 23.sp,
+                      fontSize: 22.sp,
                       fontWeight: FontWeight.bold,
                     ),
                     overflow: TextOverflow.ellipsis,

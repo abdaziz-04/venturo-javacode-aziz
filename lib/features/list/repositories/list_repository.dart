@@ -5,10 +5,12 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 class ListRepository {
   final List<Map<String, dynamic>> data = [];
+  final List<Map<String, dynamic>> dataPromo = [];
   final String apiMenu = ListApiConstant().apiMenu;
   final String apiDetailbyId = ListApiConstant().apiMenuDetail;
   final String apiMenuCategory = ListApiConstant().apiMenuCategory;
   final String apiAllPromo = ListApiConstant().apiPromoAll;
+  final String apiDetailPromo = ListApiConstant().apiPromoDetail;
 
   Future<String?> _getToken() async {
     final box = await Hive.openBox('venturo');
@@ -18,6 +20,47 @@ class ListRepository {
       return null;
     }
     return token;
+  }
+
+  Future<Map<String, dynamic>> fetchDetailPromo(int id) async {
+    final token = await _getToken();
+
+    if (token == null) return {'data': []};
+    final String url = "$apiDetailPromo$id";
+
+    try {
+      Response response = await Dio().get(
+        url,
+        options: Options(headers: {
+          'token': token,
+          'Content-Type': 'application/json',
+        }),
+      );
+      if (response.statusCode == 200) {
+        final result = response.data;
+        print("📦 Data promo berhasil diambil dari API {$result}");
+        if (result is Map && result.containsKey('data')) {
+          final nama = result['data']['nama'];
+          final sk = result['data']['syarat_ketentuan'];
+          final foto = result['data']['foto'];
+          return {
+            'nama': nama ?? "Tidak ada data",
+            'sk': sk ?? "Tidak ada data",
+            'foto': foto ??
+                "https://img.freepik.com/free-photo/high-angle-uncompleted-voting-questionnaire_23-2148265549.jpg?semt=ais_hybrid",
+          };
+        }
+      } else if (response.statusCode == 204) {
+        return {'data': []};
+      }
+    } catch (e, stackTrace) {
+      await Sentry.captureException(
+        e,
+        stackTrace: stackTrace,
+      );
+      print("🚨 Error saat fetch detail promo: $e");
+    }
+    return {'data': []};
   }
 
   Future<Map<String, dynamic>> fetchAllPromo() async {
@@ -45,7 +88,7 @@ class ListRepository {
                       "syarat_ketentuan":
                           item['syarat_ketentuan'] ?? "Tidak ada data",
                       "foto": item['foto'] ??
-                          "https://upload.wikimedia.org/wikipedia/commons/8/8c/NO_IMAGE_YET_square.png",
+                          "https://img.freepik.com/free-photo/high-angle-uncompleted-voting-questionnaire_23-2148265549.jpg?semt=ais_hybrid",
                       "created_at": item['created_at'] ?? 0,
                       "created_by": item['created_by'] ?? 0,
                       "is_deleted": item['is_deleted'] ?? 0,
@@ -65,7 +108,7 @@ class ListRepository {
 
   Future<Map<String, dynamic>> fetchDetailMenu(int id) async {
     final token = await _getToken();
-    // final token = await _getToken();
+
     if (token == null) return {'data': []};
     final String url = "$apiDetailbyId$id";
 

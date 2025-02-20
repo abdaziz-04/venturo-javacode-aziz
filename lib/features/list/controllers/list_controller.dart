@@ -29,6 +29,7 @@ class ListController extends GetxController {
   ];
 
   RxMap<String, dynamic> selectedMenuDetail = <String, dynamic>{}.obs;
+  RxMap<String, dynamic> selectedPromoDetail = <String, dynamic>{}.obs;
 
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
@@ -85,6 +86,26 @@ class ListController extends GetxController {
         stackTrace: stacktrace,
       );
       return false;
+    }
+  }
+
+  Future<void> getDetailPromo(int id) async {
+    selectedPromoDetail.value = {};
+    try {
+      final result = await repository.fetchDetailPromo(id);
+      if (result.isNotEmpty) {
+        selectedPromoDetail.value = result;
+        print(
+            "📦 Detail promo berhasil disimpan ke selectedPromoDetail: $selectedPromoDetail");
+      } else {
+        print("📦 Detail promo kosong");
+      }
+    } catch (exception, stacktrace) {
+      await Sentry.captureException(
+        exception,
+        stackTrace: stacktrace,
+      );
+      print("🚨 Error saat fetch detail promo: $exception");
     }
   }
 

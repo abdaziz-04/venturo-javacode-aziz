@@ -4,4 +4,6 @@ class ListApiConstant {
   final String apiPromoAll = 'https://trainee.landa.id/javacode/promo/all';
   final String apiMenuCategory =
       'https://trainee.landa.id/javacode/menu/kategori/';
+  final String apiPromoDetail =
+      'https://trainee.landa.id/javacode/promo/detail/';
 }
