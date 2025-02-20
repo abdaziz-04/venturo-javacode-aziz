@@ -64,14 +64,12 @@ class CheckoutMenuCard extends StatelessWidget {
             // menu info
             Expanded(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     menu['nama'],
                     style: TextStyle(
                       fontSize: 22.sp,
-                      fontWeight: FontWeight.bold,
                     ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
@@ -79,7 +77,7 @@ class CheckoutMenuCard extends StatelessWidget {
                   Text(
                     'Rp. ${menu['harga'].toString()}',
                     style: TextStyle(
-                      fontSize: 18.sp,
+                      fontSize: 15.sp,
                       color: ColorStyle.primary,
                     ),
                   ),

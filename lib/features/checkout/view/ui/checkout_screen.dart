@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:venturo_core/features/checkout/view/components/checkout_menu_card.dart';
 import 'package:venturo_core/features/list/controllers/list_controller.dart';
+import 'package:venturo_core/features/list/sub_features/detail/controllers/list_detail_controller.dart';
 import 'package:venturo_core/shared/widgets/info_row.dart';
 
 import 'package:venturo_core/shared/widgets/title_section.dart';
@@ -24,32 +26,120 @@ class CheckoutScreen extends StatelessWidget {
         title: 'Pesanan',
         showActions: false,
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print('🐞 Data cart: ${ListDetailController.to.cartItem.value}');
+        },
+        child: Icon(Icons.bug_report),
+      ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-          child: Column(
-            children: [
-              TitleSection(
-                title: 'Makanan',
-                image: ImageConstants.iconFood,
-              ),
-              //! JANLUP FUNGSIONALITAS
-              CheckoutMenuCard(menu: item),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Obx(() {
+                  final List<Map<String, dynamic>> makananItems =
+                      ListDetailController.to.cartItem.where((item) {
+                    if (item == null || item['kategori'] == null) return false;
+                    final kategori = item['kategori'].toString().toLowerCase();
+                    return kategori == 'makanan';
+                  }).toList();
 
-              TitleSection(
-                title: 'Minuman',
-                image: ImageConstants.iconDrinks,
-              ),
-              // Kategori minuman
-              CheckoutMenuCard(menu: item),
-            ],
-          ),
-        ),
+                  if (makananItems.isEmpty) return Container();
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TitleSection(
+                        title: 'Makanan',
+                        image: ImageConstants.iconFood,
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: makananItems.length,
+                        itemBuilder: (context, index) {
+                          final item = makananItems[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CheckoutMenuCard(menu: item),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                }),
+                Obx(() {
+                  final List<Map<String, dynamic>> minumanItems =
+                      ListDetailController.to.cartItem.where((item) {
+                    if (item == null || item['kategori'] == null) return false;
+                    final kategori = item['kategori'].toString().toLowerCase();
+                    return kategori == 'minuman';
+                  }).toList();
+                  if (minumanItems.isEmpty) {
+                    return Container();
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TitleSection(
+                        title: 'Minuman',
+                        image: ImageConstants.iconDrinks,
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: minumanItems.length,
+                        itemBuilder: (context, index) {
+                          final item = minumanItems[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CheckoutMenuCard(menu: item),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                }),
+                Obx(() {
+                  final List<Map<String, dynamic>> snackItems =
+                      ListDetailController.to.cartItem.where((item) {
+                    final kategori = item['kategori'].toString().toLowerCase();
+                    return kategori == 'snack';
+                  }).toList();
+                  if (snackItems.isEmpty) {
+                    return Container();
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TitleSection(
+                        title: 'Snack',
+                        image: ImageConstants.iconFood,
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: snackItems.length,
+                        itemBuilder: (context, index) {
+                          final item = snackItems[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CheckoutMenuCard(menu: item),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                }),
+              ],
+            )),
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: ColorStyle.grey.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(10),
+          color: Color.fromARGB(255, 233, 233, 233),
+          borderRadius: BorderRadius.circular(30),
         ),
         // height: 100,
         width: double.infinity,
