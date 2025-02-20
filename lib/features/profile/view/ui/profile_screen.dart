@@ -22,6 +22,7 @@ class ProfileScreen extends StatelessWidget {
         appBar: CustomAppBar(
             title: 'Profil',
             showActions: true,
+            icon: Icons.logout,
             onPress: () {
               ProfileController.to.logout();
             }),

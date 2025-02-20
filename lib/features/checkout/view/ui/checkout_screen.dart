@@ -26,7 +26,11 @@ class CheckoutScreen extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Pesanan',
-        showActions: false,
+        showActions: true,
+        icon: Icons.delete,
+        onPress: () {
+          ListDetailController.to.deleteAllCart();
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

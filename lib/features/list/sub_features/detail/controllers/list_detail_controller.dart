@@ -25,6 +25,12 @@ class ListDetailController extends GetxController {
       print('Argument tidak valid atau tidak mengandung id_menu.');
     }
     getCart();
+    ever(listController.selectedMenuDetail, (_) {
+      if (listController.selectedMenuDetail['menu'] != null) {
+        price.value = listController.selectedMenuDetail['menu']['harga'];
+        print('Default price di-set: ${price.value}');
+      }
+    });
   }
 
   void addLevel(Map<String, dynamic> level) {

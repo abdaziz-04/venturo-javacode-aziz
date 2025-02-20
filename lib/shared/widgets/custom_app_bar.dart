@@ -7,12 +7,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isCenterTitle;
   final Function? onPress;
   final bool showActions;
+  final IconData? icon;
 
   const CustomAppBar({
     super.key,
     required this.title,
     this.onPress,
     this.isCenterTitle = true,
+    this.icon,
     required this.showActions,
   });
 
@@ -42,7 +44,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: showActions && onPress != null
           ? [
               IconButton(
-                icon: Icon(Icons.logout, color: ColorStyle.danger),
+                icon: Icon(icon, color: ColorStyle.danger),
                 onPressed: () {
                   onPress!();
                 },
