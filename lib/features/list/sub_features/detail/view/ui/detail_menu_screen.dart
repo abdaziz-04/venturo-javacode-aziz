@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,10 +7,8 @@ import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import 'package:venturo_core/features/list/sub_features/detail/view/components/level_modal_bottom_sheet.dart';
-
 import 'package:venturo_core/features/list/sub_features/detail/view/components/notes_bottom_sheet.dart';
 import 'package:venturo_core/features/list/sub_features/detail/view/components/topping_modal_bottom_sheet%20.dart';
-
 import 'package:venturo_core/shared/styles/color_style.dart';
 
 import '../../controllers/list_detail_controller.dart';
@@ -26,9 +26,17 @@ class DetailMenuScreen extends GetView<ListDetailController> {
         body: Column(
           children: [
             Obx(() {
-              final menu =
-                  // ignore: invalid_use_of_protected_member
-                  controller.listController.selectedMenuDetail.value['menu'];
+              final detailData =
+                  controller.listController.selectedMenuDetail.value;
+              if (detailData.isEmpty || detailData['menu'] == null) {
+                return Container(
+                  width: double.infinity,
+                  height: 150,
+                  color: Colors.white,
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+              final menu = detailData['menu'];
               return CachedNetworkImage(
                 imageUrl: menu?['foto'] ?? '',
                 height: 150,
@@ -42,188 +50,228 @@ class DetailMenuScreen extends GetView<ListDetailController> {
               );
             }),
             SizedBox(height: 10.h),
+            // Bagian detail menu
             Expanded(
-                child: Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(
-                horizontal: 25.w,
-                vertical: 20.h,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(30.r),
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 25.w,
+                  vertical: 20.h,
                 ),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color.fromARGB(111, 24, 24, 24),
-                    blurRadius: 15,
-                    spreadRadius: -1,
-                    offset: Offset(0, 1),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(30.r),
                   ),
-                ],
-              ),
-              child: Obx(() {
-                final detailData =
-                    // ignore: invalid_use_of_protected_member
-                    controller.listController.selectedMenuDetail.value;
-                final menu = detailData['menu'];
-                final List<dynamic> topping = detailData['topping'] ?? [];
-                final List<dynamic> level = detailData['level'] ?? [];
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          menu?['nama'] ?? 'Nama tidak tersedia',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: ColorStyle.primary,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                if (ListDetailController.to.qty.value > 1) {
-                                  ListDetailController.to.qty.value--;
-                                }
-                              },
-                              icon: Icon(
-                                Icons.remove_circle_outline,
-                                color: ColorStyle.primary,
-                              ),
-                            ),
-                            Obx(() => Text(
-                                  ListDetailController.to.qty.toString(),
-                                  style: TextStyle(fontSize: 18),
-                                )),
-                            IconButton(
-                              onPressed: () {
-                                ListDetailController.to.qty.value++;
-                              },
-                              icon: Icon(
-                                Icons.add_circle_outline,
-                                color: ColorStyle.primary,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10.h),
-                    Text(
-                      menu?['deskripsi'] ?? 'Deskripsi tidak tersedia',
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 3,
-                    ),
-                    SizedBox(height: 20.h),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.money_sharp,
-                          color: ColorStyle.primary,
-                          size: 20.w,
-                        ),
-                        SizedBox(width: 10.w),
-                        Text(
-                          'Harga',
-                          style: TextStyle(
-                            fontSize: 18.w,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const Spacer(),
-                        Text(
-                          "Rp ${menu?['harga'] ?? '0'}",
-                          style: TextStyle(
-                            fontSize: 18.w,
-                            fontWeight: FontWeight.bold,
-                            color: ColorStyle.primary,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Divider(),
-                    InfoRow(
-                      icon: Icons.star,
-                      label: 'Level',
-                      value:
-                          (level.isNotEmpty && level[0]['keterangan'] != null)
-                              ? level[0]['keterangan'].toString()
-                              : 'Tidak ada level',
-                      onPressed: () {
-                        showModalBottomSheet<void>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return LevelModalBottomSheet(
-                              title: 'Pilih Level',
-                              items: level,
-                            );
-                          },
-                        );
-                      },
-                    ),
-                    const Divider(),
-                    InfoRow(
-                      icon: Icons.fastfood,
-                      label: 'Toping',
-                      value: (topping.isNotEmpty &&
-                              topping[0]['keterangan'] != null)
-                          ? topping[0]['keterangan'].toString()
-                          : 'Tidak ada toping',
-                      onPressed: () {
-                        showModalBottomSheet<void>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return ToppingModalBottomSheet(
-                              title: 'Pilih Toping',
-                              items: topping,
-                            );
-                          },
-                        );
-                      },
-                    ),
-                    const Divider(),
-                    InfoRow(
-                      icon: Icons.notes,
-                      label: 'Catatan',
-                      value: 'Tidak ada catatan',
-                      onPressed: () {
-                        showModalBottomSheet<void>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return NotesModalBottomSheet(
-                              title: 'Catatan',
-                            );
-                          },
-                        );
-                      },
-                    ),
-                    const Divider(),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        textStyle: const TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                        ),
-                        backgroundColor: ColorStyle.primary,
-                        foregroundColor: Colors.white,
-                        minimumSize: Size(double.infinity, 50.h),
-                      ),
-                      onPressed: () {
-                        controller.addToCart(menu?['id_menu']);
-                      },
-                      child: Text('Tambahkan Ke Pesanan'),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color.fromARGB(111, 24, 24, 24),
+                      blurRadius: 15,
+                      spreadRadius: -1,
+                      offset: Offset(0, 1),
                     ),
                   ],
-                );
-              }),
-            )),
+                ),
+                child: Obx(() {
+                  final detailData =
+                      controller.listController.selectedMenuDetail.value;
+                  if (detailData.isEmpty || detailData['menu'] == null) {
+                    return Skeletonizer(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 24,
+                            width: 150,
+                            color: Colors.grey[300],
+                          ),
+                          SizedBox(height: 10.h),
+                          Container(
+                            height: 20,
+                            width: 200,
+                            color: Colors.grey[300],
+                          ),
+                          SizedBox(height: 10.h),
+                          Container(
+                            height: 16,
+                            width: double.infinity,
+                            color: Colors.grey[300],
+                          ),
+                          SizedBox(height: 20.h),
+                          Container(
+                            height: 20,
+                            width: 100,
+                            color: Colors.grey[300],
+                          ),
+                          SizedBox(height: 10.h),
+                          Container(
+                            height: 20,
+                            width: 50,
+                            color: Colors.grey[300],
+                          ),
+                          // Tambahkan skeleton lain sesuai kebutuhan layout
+                        ],
+                      ),
+                    );
+                  }
+                  final menu = detailData['menu'];
+                  final List<dynamic> topping = detailData['topping'] ?? [];
+                  final List<dynamic> level = detailData['level'] ?? [];
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            menu?['nama'] ?? 'Nama tidak tersedia',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: ColorStyle.primary,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  if (ListDetailController.to.qty.value > 1) {
+                                    ListDetailController.to.qty.value--;
+                                  }
+                                },
+                                icon: Icon(
+                                  Icons.remove_circle_outline,
+                                  color: ColorStyle.primary,
+                                ),
+                              ),
+                              Obx(() => Text(
+                                    ListDetailController.to.qty.toString(),
+                                    style: TextStyle(fontSize: 18),
+                                  )),
+                              IconButton(
+                                onPressed: () {
+                                  ListDetailController.to.qty.value++;
+                                },
+                                icon: Icon(
+                                  Icons.add_circle_outline,
+                                  color: ColorStyle.primary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10.h),
+                      Text(
+                        menu?['deskripsi'] ?? 'Deskripsi tidak tersedia',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                      ),
+                      SizedBox(height: 20.h),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.money_sharp,
+                            color: ColorStyle.primary,
+                            size: 20.w,
+                          ),
+                          SizedBox(width: 10.w),
+                          Text(
+                            'Harga',
+                            style: TextStyle(
+                              fontSize: 18.w,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const Spacer(),
+                          Text(
+                            "Rp ${menu?['harga'] ?? '0'}",
+                            style: TextStyle(
+                              fontSize: 18.w,
+                              fontWeight: FontWeight.bold,
+                              color: ColorStyle.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Divider(),
+                      InfoRow(
+                        icon: Icons.star,
+                        label: 'Level',
+                        value:
+                            (level.isNotEmpty && level[0]['keterangan'] != null)
+                                ? level[0]['keterangan'].toString()
+                                : 'Tidak ada level',
+                        onPressed: () {
+                          showModalBottomSheet<void>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return LevelModalBottomSheet(
+                                title: 'Pilih Level',
+                                items: level,
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      const Divider(),
+                      InfoRow(
+                        icon: Icons.fastfood,
+                        label: 'Toping',
+                        value: (topping.isNotEmpty &&
+                                topping[0]['keterangan'] != null)
+                            ? topping[0]['keterangan'].toString()
+                            : 'Tidak ada toping',
+                        onPressed: () {
+                          showModalBottomSheet<void>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ToppingModalBottomSheet(
+                                title: 'Pilih Toping',
+                                items: topping,
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      const Divider(),
+                      InfoRow(
+                        icon: Icons.notes,
+                        label: 'Catatan',
+                        value: 'Tidak ada catatan',
+                        onPressed: () {
+                          showModalBottomSheet<void>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return NotesModalBottomSheet(
+                                title: 'Catatan',
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      const Divider(),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          textStyle: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                          backgroundColor: ColorStyle.primary,
+                          foregroundColor: Colors.white,
+                          minimumSize: Size(double.infinity, 50.h),
+                        ),
+                        onPressed: () {
+                          controller.addToCart(menu?['id_menu']);
+                        },
+                        child: Text('Tambahkan Ke Pesanan'),
+                      ),
+                    ],
+                  );
+                }),
+              ),
+            ),
           ],
         ),
       ),
