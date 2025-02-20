@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison, invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
