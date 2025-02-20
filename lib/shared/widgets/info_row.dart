@@ -10,6 +10,7 @@ class InfoRow extends StatelessWidget {
   final bool containButton;
   final Color valueColor;
   final bool isBold;
+  final Function()? onPress;
 
   const InfoRow({
     super.key,
@@ -20,6 +21,7 @@ class InfoRow extends StatelessWidget {
     required this.value,
     this.containButton = true,
     this.containImage = false,
+    this.onPress,
   });
 
   @override
@@ -45,11 +47,18 @@ class InfoRow extends StatelessWidget {
           ),
           SizedBox(width: 5.w),
           if (containButton == true)
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-              color: ColorStyle.grey.withOpacity(0.5),
-            ),
+            SizedBox(
+              width: 24.w,
+              height: 24.h,
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 16.sp,
+                  color: ColorStyle.grey.withOpacity(0.5),
+                ),
+                onPressed: onPress,
+              ),
+            )
         ],
       ),
     );

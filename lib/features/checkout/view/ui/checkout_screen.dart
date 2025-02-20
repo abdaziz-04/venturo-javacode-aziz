@@ -163,11 +163,15 @@ class CheckoutScreen extends StatelessWidget {
             ),
             const Divider(),
             InfoRow(
-                info: 'Diskon 20%',
-                value: 'Rp ${CheckoutController.to.discount}',
-                containImage: true,
-                valueColor: ColorStyle.danger,
-                image: ImageConstants.icDiscount),
+              info: 'Diskon 20%',
+              value: 'Rp ${CheckoutController.to.discount}',
+              containImage: true,
+              valueColor: ColorStyle.danger,
+              image: ImageConstants.icDiscount,
+              onPress: () {
+                CheckoutController.to.showDiscountDialog();
+              },
+            ),
             const Divider(),
             InfoRow(
                 info: 'Voucher',
