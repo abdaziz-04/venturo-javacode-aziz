@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:venturo_core/features/checkout/controllers/checkout_controller.dart';
 import 'package:venturo_core/features/checkout/view/components/checkout_menu_card.dart';
 import 'package:venturo_core/features/list/controllers/list_controller.dart';
 import 'package:venturo_core/features/list/sub_features/detail/controllers/list_detail_controller.dart';
@@ -155,15 +156,15 @@ class CheckoutScreen extends StatelessWidget {
             SizedBox(height: 15.h),
             InfoRow(
               info: 'Total Pesanan :',
-              value: 'Rp 100.000',
+              value: 'Rp ${CheckoutController.to.totalPrice}',
               isBold: true,
               valueColor: ColorStyle.primary,
               containButton: false,
             ),
             const Divider(),
             InfoRow(
-                info: 'Diskon',
-                value: 'Rp 10.000',
+                info: 'Diskon 20%',
+                value: 'Rp ${CheckoutController.to.discount}',
                 containImage: true,
                 valueColor: ColorStyle.danger,
                 image: ImageConstants.icDiscount),
@@ -217,7 +218,7 @@ class CheckoutScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Rp 90.000',
+                          'Rp ${CheckoutController.to.finalTotalPrice}',
                           style: TextStyle(
                             fontSize: 20.sp,
                             fontWeight: FontWeight.bold,
