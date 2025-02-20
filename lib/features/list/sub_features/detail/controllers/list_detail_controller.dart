@@ -7,9 +7,12 @@ class ListDetailController extends GetxController {
   static ListDetailController get to => Get.find();
   final ListController listController = ListController.to;
   RxInt qty = 1.obs;
-  var selectedLevel = ''.obs;
-  var selectedTopping = ''.obs;
+  final RxList<Map<String, dynamic>> cartItem = <Map<String, dynamic>>[].obs;
+  final RxMap<String, dynamic> selectedLevel = <String, dynamic>{}.obs;
+  final RxMap<String, dynamic> selectedTopping = <String, dynamic>{}.obs;
+
   final cart = Hive.box('cart');
+  RxInt price = 0.obs;
 
   @override
   void onInit() {
@@ -21,16 +24,65 @@ class ListDetailController extends GetxController {
     } else {
       print('Argument tidak valid atau tidak mengandung id_menu.');
     }
+    getCart();
+  }
+
+  void addLevel(Map<String, dynamic> level) {
+    selectedLevel.clear();
+    selectedLevel.value = level;
+    print('👌Selected level: $level');
+  }
+
+  void addTopping(Map<String, dynamic> topping) {
+    selectedTopping.clear();
+    selectedTopping.value = topping;
+    print('👌Selected topping: $topping');
+  }
+
+  void getPrice() {
+    price.value = (listController.selectedMenuDetail['menu']['harga'] +
+            (selectedLevel['harga'] ?? 0) +
+            (selectedTopping['harga'] ?? 0)) *
+        qty.value;
+    print('💰 Harga: ${price.value}');
   }
 
   void addToCart(int idMenu) {
     final cartItem = {
       'id_menu': idMenu,
+      'nama': listController.selectedMenuDetail['menu']['nama'],
+      'foto': listController.selectedMenuDetail['menu']['foto'],
+      'harga': price.value,
+      'kategori': listController.selectedMenuDetail['menu']['kategori'],
       'quantity': qty.value,
-      'level': selectedLevel.value,
-      'topping': selectedTopping.value,
     };
     cart.add(cartItem);
     print('🛒 Berhasil ditambahkan $cartItem');
+  }
+
+  void deleteAllCart() {
+    cart.clear();
+    cartItem.clear();
+    print('🛒 Berhasil menghapus semua item di keranjang');
+  }
+
+  void getCart() {
+    cartItem.clear();
+    for (var i = 0; i < cart.length; i++) {
+      cartItem.add(Map<String, dynamic>.from(cart.getAt(i)));
+    }
+    print('🛒 Isi keranjang: $cartItem');
+  }
+
+  void removeFromCart(int id) {
+    cart.deleteAt(id);
+    print('🛒 Berhasil dihapus dari keranjang');
+  }
+
+  void printCartContents() {
+    print('🛒 Isi keranjang:');
+    for (var i = 0; i < cart.length; i++) {
+      print(cart.getAt(i));
+    }
   }
 }

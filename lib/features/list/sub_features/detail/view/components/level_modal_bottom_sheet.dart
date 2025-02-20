@@ -50,12 +50,11 @@ class LevelModalBottomSheet extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: OptionChip(
-                  text: item['keterangan'] ?? 'Tidak ada keterangan',
-                  // isSelected: controller.selectedLevel.value == item,
+                  text: item['keterangan'] ?? 'Tidak Bisa Pilih Level',
+                  // isSelected: ListDetailController.to.selectedLevel.value == item,
                   onTap: () {
-                    print('👌Selected level: $item');
-                    ListDetailController.to.selectedLevel.value =
-                        item['keterangan'];
+                    ListDetailController.to.addLevel(item);
+                    ListDetailController.to.getPrice();
                   },
                 ),
               );

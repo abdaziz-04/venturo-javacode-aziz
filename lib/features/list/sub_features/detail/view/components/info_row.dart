@@ -21,7 +21,6 @@ class InfoRow extends StatelessWidget {
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Icon(
               icon,
@@ -38,17 +37,21 @@ class InfoRow extends StatelessWidget {
             ),
             const Spacer(),
             Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
                   value,
                   style: TextStyle(
-                    fontSize: 18.w,
+                    fontSize: 15.w,
                     color: ColorStyle.black,
                   ),
                 ),
                 IconButton(
                   onPressed: onPressed,
-                  icon: Icon(Icons.arrow_forward_ios),
+                  icon: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 20.w,
+                  ),
                 ),
               ],
             ),

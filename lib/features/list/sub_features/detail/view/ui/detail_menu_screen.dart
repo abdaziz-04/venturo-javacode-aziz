@@ -4,7 +4,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:venturo_core/features/list/controllers/list_controller.dart';
 
 import 'package:venturo_core/features/list/sub_features/detail/view/components/level_modal_bottom_sheet.dart';
 import 'package:venturo_core/features/list/sub_features/detail/view/components/notes_bottom_sheet.dart';
@@ -137,6 +139,7 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                                 onPressed: () {
                                   if (ListDetailController.to.qty.value > 1) {
                                     ListDetailController.to.qty.value--;
+                                    ListDetailController.to.getPrice();
                                   }
                                 },
                                 icon: Icon(
@@ -151,6 +154,7 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                               IconButton(
                                 onPressed: () {
                                   ListDetailController.to.qty.value++;
+                                  ListDetailController.to.getPrice();
                                 },
                                 icon: Icon(
                                   Icons.add_circle_outline,
@@ -185,7 +189,7 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                           ),
                           const Spacer(),
                           Text(
-                            "Rp ${menu?['harga'] ?? '0'}",
+                            'Rp. ${ListDetailController.to.price.value != 0 ? ListDetailController.to.price.value : ListController.to.selectedMenuDetail.value['menu']['harga'] ?? 0}',
                             style: TextStyle(
                               fontSize: 18.w,
                               fontWeight: FontWeight.bold,
@@ -198,10 +202,9 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                       InfoRow(
                         icon: Icons.star,
                         label: 'Level',
-                        value:
-                            (level.isNotEmpty && level[0]['keterangan'] != null)
-                                ? level[0]['keterangan'].toString()
-                                : 'Tidak ada level',
+                        value: ListDetailController
+                                .to.selectedLevel.value['keterangan'] ??
+                            'Pilih Level',
                         onPressed: () {
                           showModalBottomSheet<void>(
                             context: context,
@@ -218,10 +221,9 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                       InfoRow(
                         icon: Icons.fastfood,
                         label: 'Toping',
-                        value: (topping.isNotEmpty &&
-                                topping[0]['keterangan'] != null)
-                            ? topping[0]['keterangan'].toString()
-                            : 'Tidak ada toping',
+                        value: ListDetailController
+                                .to.selectedTopping.value['keterangan'] ??
+                            'Pilih Toping',
                         onPressed: () {
                           showModalBottomSheet<void>(
                             context: context,
@@ -264,6 +266,24 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                         ),
                         onPressed: () {
                           controller.addToCart(menu?['id_menu']);
+                          // PanaraConfirmDialog.show(
+                          //   context,
+                          //   title: "Tambah ke Pesanan",
+                          //   message: "Kamu Yakin Ingin Menambah ke Pesanan?",
+                          //   confirmButtonText: "Iya",
+                          //   cancelButtonText: "Batal",
+                          //   onTapCancel: () {
+                          //     // Get.back();
+                          //   },
+                          //   onTapConfirm: () {
+                          //     controller.addToCart(menu?['id_menu']);
+
+                          //     // Get.toNamed(Routes.checkoutRoute);
+                          //   },
+                          //   panaraDialogType: PanaraDialogType.custom,
+                          //   barrierDismissible: false,
+                          //   color: ColorStyle.primary,
+                          // );
                         },
                         child: Text('Tambahkan Ke Pesanan'),
                       ),
@@ -273,6 +293,16 @@ class DetailMenuScreen extends GetView<ListDetailController> {
               ),
             ),
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            ListDetailController.to.getPrice();
+          },
+          child: const Icon(
+            Icons.shopping_cart,
+            color: ColorStyle.white,
+          ),
+          backgroundColor: ColorStyle.primary,
         ),
       ),
     );
