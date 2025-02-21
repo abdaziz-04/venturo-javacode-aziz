@@ -11,6 +11,7 @@ import 'package:venturo_core/shared/widgets/info_row.dart';
 
 import 'package:venturo_core/shared/widgets/title_section.dart';
 
+import '../../../../configs/routes/route.dart';
 import '../../../../constants/cores/assets/image_constants.dart';
 import '../../../../shared/styles/color_style.dart';
 import '../../../../shared/styles/elevated_button_style.dart';
@@ -70,7 +71,10 @@ class CheckoutScreen extends StatelessWidget {
                           final item = makananItems[index];
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: CheckoutMenuCard(menu: item),
+                            child: CheckoutMenuCard(
+                                menu: item,
+                                onTap: () =>
+                                    Get.toNamed(Routes.checkoutEditMenuRoute)),
                           );
                         },
                       ),

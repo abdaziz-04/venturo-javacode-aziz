@@ -47,6 +47,16 @@ class CheckoutController extends GetxController {
     );
   }
 
+  void qtyIncrement() {
+    print('🛒 Jumlah item: ${ListDetailController.to.qty.value}');
+  }
+
+  void qtyDecrement() {
+    if (ListDetailController.to.qty.value > 1) {
+      print('🛒 Jumlah item: ${ListDetailController.to.qty.value}');
+    }
+  }
+
   void getCart() {
     cartItem.clear();
     cartItem.addAll(ListDetailController.to.cartItem);

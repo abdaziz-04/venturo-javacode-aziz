@@ -16,8 +16,10 @@ abstract class Routes {
   static const String orderRoute = '/order';
   static const String checkoutRoute = '/checkout';
   static const String promoDetailRoute = '/list_promo_detail';
-static const String voucherRoute = '/voucher';
-static const String promoRoute = '/promo';
-static const String promoPromoDetailRoute = '/promo_promo_detail';
-static const String promoVoucherDetailRoute = '/promo_voucher_detail';
+  static const String voucherRoute = '/voucher';
+  static const String promoRoute = '/promo';
+  static const String promoPromoDetailRoute = '/promo_promo_detail';
+  static const String promoVoucherDetailRoute = '/promo_voucher_detail';
+  static const String checkoutVoucherRoute = '/checkout_voucher';
+  static const String checkoutEditMenuRoute = '/checkout_edit_menu';
 }

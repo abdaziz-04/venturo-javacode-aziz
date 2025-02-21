@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:venturo_core/constants/cores/assets/image_constants.dart';
+import 'package:venturo_core/features/checkout/controllers/checkout_controller.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 
 class CheckoutMenuCard extends StatelessWidget {
@@ -86,7 +87,7 @@ class CheckoutMenuCard extends StatelessWidget {
                       Image.asset(ImageConstants.icNotes),
                       SizedBox(width: 5.w),
                       Text(
-                        'Tambahkan Catatan',
+                        'Catatan',
                         style: TextStyle(
                           fontSize: 13.sp,
                           color: ColorStyle.grey,
@@ -100,17 +101,35 @@ class CheckoutMenuCard extends StatelessWidget {
             // menu quantity
             Row(
               children: [
-                Image.asset(ImageConstants.icDecrease),
-                SizedBox(width: 7.w),
+                IconButton(
+                  onPressed: () {
+                    CheckoutController.to.qtyDecrement();
+                  },
+                  icon: Icon(
+                    Icons.remove_circle_outline,
+                    color: ColorStyle.primary,
+                  ),
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                ),
                 Text(
-                  '1',
+                  menu['quantity'].toString(),
                   style: TextStyle(
-                    fontSize: 20.sp,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: 7.w),
-                Image.asset(ImageConstants.icIncrease),
+                IconButton(
+                  onPressed: () {
+                    CheckoutController.to.qtyIncrement();
+                  },
+                  icon: Icon(
+                    Icons.add_circle_outline,
+                    color: ColorStyle.primary,
+                  ),
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                ),
               ],
             )
           ],
