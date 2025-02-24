@@ -36,7 +36,8 @@ class CheckoutScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print('🐞 Data cart: ${ListDetailController.to.cartItem.value}');
+          // print('🐞 Data cart: ${ListDetailController.to.cartItem.value}');
+          print('Harga: ${CheckoutController.to.finalTotalPrice}');
         },
         child: Icon(Icons.bug_report),
       ),
@@ -164,11 +165,12 @@ class CheckoutScreen extends StatelessWidget {
               isBold: true,
               valueColor: ColorStyle.primary,
               containButton: false,
+              isImportant: true,
             ),
             const Divider(),
             InfoRow(
               info: 'Diskon 20%',
-              value: 'Rp ${CheckoutController.to.discount}',
+              value: '- Rp ${CheckoutController.to.discount}',
               containImage: true,
               valueColor: ColorStyle.danger,
               image: ImageConstants.icDiscount,
@@ -177,11 +179,19 @@ class CheckoutScreen extends StatelessWidget {
               },
             ),
             const Divider(),
-            InfoRow(
+            Obx(() => InfoRow(
                 info: 'Voucher',
-                value: 'Pilih Voucher',
+                value: CheckoutController.to.voucherPrice == 0
+                    ? 'Pilih Voucher'
+                    : '- Rp ${CheckoutController.to.voucherPrice}',
                 containImage: true,
-                image: ImageConstants.icVoucher),
+                image: ImageConstants.icVoucher,
+                valueColor: CheckoutController.to.voucherPrice == 0
+                    ? ColorStyle.dark
+                    : ColorStyle.danger,
+                onPress: () {
+                  Get.toNamed(Routes.checkoutVoucherRoute);
+                })),
             const Divider(),
             InfoRow(
                 info: 'Pembayaran',
@@ -190,7 +200,6 @@ class CheckoutScreen extends StatelessWidget {
                 image: ImageConstants.icPayment),
             SizedBox(height: 30),
             Container(
-              // height: 50.h,
               decoration: BoxDecoration(
                 color: ColorStyle.white,
                 borderRadius: BorderRadius.only(
@@ -225,20 +234,23 @@ class CheckoutScreen extends StatelessWidget {
                             fontSize: 15.sp,
                           ),
                         ),
-                        Text(
-                          'Rp ${CheckoutController.to.finalTotalPrice}',
-                          style: TextStyle(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.bold,
-                            color: ColorStyle.primary,
-                          ),
-                        ),
+                        Obx(() => Text(
+                              'Rp ${CheckoutController.to.finalTotalPrice}',
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.bold,
+                                color: ColorStyle.primary,
+                              ),
+                            )),
                       ],
                     ),
                     const Spacer(),
                     ElevatedButton(
                         style: EvelatedButtonStyle.mainRounded,
-                        onPressed: () {},
+                        onPressed: () {
+                          print('🛒 Pesan Sekarang');
+                          CheckoutController.to.showFingerprintDialog();
+                        },
                         child: Text('Pesan Sekarang'))
                   ],
                 ),

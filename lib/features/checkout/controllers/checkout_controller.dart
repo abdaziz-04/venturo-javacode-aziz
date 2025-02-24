@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:venturo_core/features/checkout/view/components/fingerprint_dialog.dart';
 
 import '../../../shared/styles/color_style.dart';
 import '../../list/sub_features/detail/controllers/list_detail_controller.dart';
@@ -10,6 +11,8 @@ class CheckoutController extends GetxController {
   final RxInt totalPrice = 0.obs;
   final RxInt finalTotalPrice = 0.obs;
   final RxInt discount = 0.obs;
+  final RxInt voucherPrice = 0.obs;
+
   final RxList<Map<String, dynamic>> cartItem = <Map<String, dynamic>>[].obs;
 
   @override
@@ -20,6 +23,11 @@ class CheckoutController extends GetxController {
     calculateTotalPrice();
     calculateDiscount();
     calculateFinalTotalPrice();
+  }
+
+  void showFingerprintDialog() async {
+    final result = await Get.dialog<String>(const FingerprintDialog());
+    print("Result: $result");
   }
 
   void showDiscountDialog() {
@@ -63,13 +71,23 @@ class CheckoutController extends GetxController {
     print('🛒 Isi keranjang dari co controller: $cartItem');
   }
 
+  void addVoucher(int voucher) {
+    voucherPrice.value = voucher;
+    print('🎟️ Voucher: $voucher');
+    calculateFinalTotalPrice();
+  }
+
   void calculateDiscount() {
     discount.value = (totalPrice.value * 0.2).toInt();
     print('💰 Diskon: ${discount.value}');
   }
 
   void calculateFinalTotalPrice() {
-    finalTotalPrice.value = totalPrice.value - discount.value;
+    finalTotalPrice.value =
+        totalPrice.value - discount.value - voucherPrice.value;
+    if (finalTotalPrice.value < 0) {
+      finalTotalPrice.value = 0;
+    }
     print('💰 Total harga akhir: ${finalTotalPrice.value}');
   }
 

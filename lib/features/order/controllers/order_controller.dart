@@ -16,6 +16,8 @@ class OrderController extends GetxController {
     getOrderHistories();
   }
 
+  var selectedTabIndex = 0.obs;
+
   RxList<Map<String, dynamic>> ongoingOrders = RxList();
   RxList<Map<String, dynamic>> historyOrders = RxList();
 
