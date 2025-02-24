@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 import 'package:venturo_core/shared/widgets/custom_app_bar.dart';
@@ -26,12 +27,6 @@ class ProfileScreen extends StatelessWidget {
             onPress: () {
               ProfileController.to.logout();
             }),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            print('Data Login: ${ProfileController.to.loginData.value}');
-          },
-          child: Icon(Icons.deblur),
-        ),
         body: Obx(() {
           final loginData = ProfileController.to.loginData.value;
           if (loginData == null) {
@@ -43,7 +38,22 @@ class ProfileScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Center(child: Image.asset(ImageConstants.imgProfile)),
+                  Center(
+                      child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: ColorStyle.primary,
+                      shape: BoxShape.circle,
+                    ),
+                    child: ClipOval(
+                        child: SizedBox.fromSize(
+                      size: Size.fromRadius(70.r),
+                      child: Image.network(
+                        loginData['user']?['foto'] ?? '',
+                        fit: BoxFit.cover,
+                      ),
+                    )),
+                  )),
                   SizedBox(height: 16),
                   Center(
                     child: Row(
@@ -86,7 +96,8 @@ class ProfileScreen extends StatelessWidget {
                           value: loginData['user']?['nama'] ?? '',
                         ),
                         const Divider(),
-                        ProfileInfoRow(info: 'Tanggal Lahir', value: '2004'),
+                        ProfileInfoRow(
+                            info: 'Tanggal Lahir', value: 'Belum diisi'),
                         const Divider(),
                         ProfileInfoRow(
                             info: 'No Telepon', value: '08123456789'),
