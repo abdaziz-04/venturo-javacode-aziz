@@ -35,11 +35,25 @@ class OptionChip extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(5.0),
           child: Center(
-            child: Text(
-              text.tr,
-              style: Get.textTheme.bodyLarge!.copyWith(
-                color: isSelected ? ColorStyle.white : ColorStyle.primary,
-              ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  text.tr,
+                  style: Get.textTheme.bodyLarge!.copyWith(
+                    color: isSelected ? ColorStyle.white : ColorStyle.primary,
+                  ),
+                ),
+                if (isSelected)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Icon(
+                      Icons.check,
+                      color: ColorStyle.white,
+                      size: 20.r,
+                    ),
+                  ),
+              ],
             ),
           ),
         ),

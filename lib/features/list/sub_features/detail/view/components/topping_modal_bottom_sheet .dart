@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../controllers/list_detail_controller.dart';
 import 'option_chip.dart';
@@ -47,14 +48,15 @@ class ToppingModalBottomSheet extends StatelessWidget {
               children: items.map((item) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: OptionChip(
-                    text: item['keterangan'] ?? 'Tidak Bisa Pilih Topping',
-                    isSelected: false,
-                    onTap: () {
-                      ListDetailController.to.addTopping(item);
-                      ListDetailController.to.getPrice();
-                    },
-                  ),
+                  child: Obx(() => OptionChip(
+                        text: item['keterangan'] ?? 'Tidak Bisa Pilih Topping',
+                        isSelected:
+                            ListDetailController.to.selectedTopping == item,
+                        onTap: () {
+                          ListDetailController.to.addTopping(item);
+                          ListDetailController.to.getPrice();
+                        },
+                      )),
                 );
               }).toList(),
             ),

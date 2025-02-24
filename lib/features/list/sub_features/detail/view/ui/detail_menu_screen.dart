@@ -52,7 +52,6 @@ class DetailMenuScreen extends GetView<ListDetailController> {
               );
             }),
             SizedBox(height: 10.h),
-            // Bagian detail menu
             Expanded(
               child: Container(
                 width: double.infinity,

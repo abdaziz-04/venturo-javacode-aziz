@@ -34,13 +34,11 @@ class ListDetailController extends GetxController {
   }
 
   void addLevel(Map<String, dynamic> level) {
-    selectedLevel.clear();
     selectedLevel.value = level;
     print('👌Selected level: $level');
   }
 
   void addTopping(Map<String, dynamic> topping) {
-    selectedTopping.clear();
     selectedTopping.value = topping;
     print('👌Selected topping: $topping');
   }

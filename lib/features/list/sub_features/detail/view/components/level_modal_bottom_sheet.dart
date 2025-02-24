@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:venturo_core/features/list/sub_features/detail/controllers/list_detail_controller.dart';
 
 import 'option_chip.dart';
@@ -42,21 +43,18 @@ class LevelModalBottomSheet extends StatelessWidget {
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
-          // Obx(() {
-          //   final selectedLevel = ListDetailController.to.selectedLevel.value;
-          // return
           Row(
             children: items.map((item) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: OptionChip(
-                  text: item['keterangan'] ?? 'Tidak Bisa Pilih Level',
-                  // isSelected: ListDetailController.to.selectedLevel.value == item,
-                  onTap: () {
-                    ListDetailController.to.addLevel(item);
-                    ListDetailController.to.getPrice();
-                  },
-                ),
+                child: Obx(() => OptionChip(
+                      text: item['keterangan'] ?? 'Tidak Bisa Pilih Level',
+                      isSelected: ListDetailController.to.selectedLevel == item,
+                      onTap: () {
+                        ListDetailController.to.addLevel(item);
+                        ListDetailController.to.getPrice();
+                      },
+                    )),
               );
             }).toList(),
           )
