@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:venturo_core/shared/models/user_model.dart';
 
 import '../../../configs/routes/route.dart';
 import 'package:device_information/device_information.dart';
@@ -13,10 +14,28 @@ class ProfileController extends GetxController {
 
   var productName = ''.obs;
   var apiLevel = ''.obs;
+  Rxn<UserModel> user = Rxn<UserModel>();
+  RxnString token = RxnString();
+  Rxn<Map<String, dynamic>> loginData = Rxn<Map<String, dynamic>>();
+
   @override
   void onInit() {
     super.onInit();
     getDeviceInfo();
+  }
+
+  // Simpan data login
+  void saveLoginData(Map<String, dynamic> data) {
+    loginData.value = data;
+    try {
+      final parsedUser = UserModel.fromJson(data);
+      user.value = parsedUser;
+      token.value = parsedUser.token;
+      print(
+          "🧑‍💻 Login Success, user: ${user.value?.user.email}, token: ${token.value}, semua data: ${loginData.value}");
+    } catch (e) {
+      print("Error menyimpan data login: $e");
+    }
   }
 
   // Logout

@@ -7,6 +7,7 @@ class InfoRow extends StatelessWidget {
   final String value;
   final String? image;
   final bool containImage;
+  final bool isImportant;
   final bool containButton;
   final Color valueColor;
   final bool isBold;
@@ -14,6 +15,7 @@ class InfoRow extends StatelessWidget {
 
   const InfoRow({
     super.key,
+    this.isImportant = false,
     this.isBold = false,
     this.image,
     this.valueColor = ColorStyle.dark,
@@ -34,13 +36,14 @@ class InfoRow extends StatelessWidget {
           if (containImage == true) SizedBox(width: 10),
           Text(
             info,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: isImportant ? 20 : 16),
           ),
           Spacer(),
           Text(
             value,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: isImportant ? 20 : 16,
               color: valueColor,
               fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
             ),

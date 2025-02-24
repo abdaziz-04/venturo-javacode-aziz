@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:venturo_core/configs/routes/route.dart';
 import 'package:venturo_core/features/checkout/bindings/checkout_binding.dart';
 import 'package:venturo_core/features/checkout/sub_features/edit_menu/view/ui/edit_menu_screen.dart';
+import 'package:venturo_core/features/checkout/sub_features/voucher/view/ui/detail_voucher_screen.dart';
+import 'package:venturo_core/features/checkout/sub_features/voucher/view/ui/voucher_screen.dart';
 import 'package:venturo_core/features/checkout/view/ui/checkout_screen.dart';
 import 'package:venturo_core/features/forgot_password/bindings/otp_binding.dart';
 import 'package:venturo_core/features/forgot_password/view/ui/forgot_password_screen.dart';
@@ -90,6 +92,14 @@ abstract class Pages {
     GetPage(
       name: Routes.checkoutEditMenuRoute,
       page: () => EditMenuScreen(),
-    )
+    ),
+    GetPage(
+      name: Routes.voucherDetail,
+      page: () => DetailVoucherScreen(),
+    ),
+    GetPage(
+      name: Routes.checkoutVoucherRoute,
+      page: () => VoucherScreen(),
+    ),
   ];
 }

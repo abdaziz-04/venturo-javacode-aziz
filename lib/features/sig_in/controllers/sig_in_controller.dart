@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
+import 'package:venturo_core/features/profile/controllers/profile_controller.dart';
 
 import '../../../configs/routes/route.dart';
 import '../../../constants/cores/api/api_constant.dart';
@@ -16,6 +17,12 @@ import '../../../shared/styles/google_text_style.dart';
 
 class SigInController extends GetxController {
   static SigInController get to => Get.find();
+
+  @override
+  void onInit() {
+    super.onInit();
+    Get.put(ProfileController(), permanent: true);
+  }
 
   var formKey = GlobalKey<FormState>();
   var emailCtrl = TextEditingController();
@@ -44,9 +51,9 @@ class SigInController extends GetxController {
         'password': passwordCtrl.text,
       });
       if (response.statusCode == 200) {
-        // final data = jsonDecode(response.data);
+        final data = response.data['data'];
         final String token = response.data['data']['token'].toString();
-        print('Login Success{${response.data['data']['token']}}');
+        ProfileController.to.saveLoginData(data);
 
         box.put('token', response.data['data']['token'].toString());
         print('Token yang tersimpan: $token');
