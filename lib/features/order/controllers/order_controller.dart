@@ -64,4 +64,31 @@ class OrderController extends GetxController {
       orderHistoryState.value = 'error';
     }
   }
+
+  Future<void> updateFilteredHistoryOrders() async {
+    try {
+      final orders = await _orderRepository.fetchOrders();
+
+      final List<Map<String, dynamic>> history =
+          orders.where((order) => order['status'] >= 3).toList();
+
+      if (selectedStatus.value == 'all') {
+        historyOrders.assignAll(history);
+        print('History Orders: $historyOrders');
+      } else if (selectedStatus.value == 'completed') {
+        historyOrders.assignAll(
+          history.where((order) => order['status'] == 3).toList(),
+        );
+        print('History Orders: $historyOrders');
+      } else if (selectedStatus.value == 'cancelled') {
+        historyOrders.assignAll(
+          history.where((order) => order['status'] == 4).toList(),
+        );
+        print('History Orders: $historyOrders');
+      }
+    } catch (e, s) {
+      await Sentry.captureException(e, stackTrace: s);
+      orderHistoryState.value = 'error';
+    }
+  }
 }

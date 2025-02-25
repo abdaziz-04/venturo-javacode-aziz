@@ -55,6 +55,7 @@ class DropDownStatus extends StatelessWidget {
             }).toList(),
             onChanged: (value) {
               orderController.selectedStatus.value = value!;
+              orderController.updateFilteredHistoryOrders();
             },
           );
         }),

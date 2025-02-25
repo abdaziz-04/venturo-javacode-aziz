@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:venturo_core/features/order/controllers/order_controller.dart';
 import 'package:venturo_core/features/order/view/components/date_picker.dart';
-import 'package:venturo_core/features/order/view/components/detail_order_card.dart';
 import 'package:venturo_core/features/order/view/components/drop_down_status.dart';
+import 'package:venturo_core/features/order/view/components/history_detail_order_card.dart';
 import 'package:venturo_core/features/order/view/components/no_data.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 
@@ -41,27 +41,28 @@ class HistoryScreen extends StatelessWidget {
                 ),
               ),
             ),
-            orderController.historyOrders.isEmpty
-                ? NoData(
-                    info: 'Sudah Pesan? Lacak pesananmu di sini.',
-                  )
-                : Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.h),
-                      child: Expanded(
+            Obx(() {
+              return orderController.historyOrders.isEmpty
+                  ? NoData(
+                      info: 'Sudah Pesan? Lacak pesananmu di sini.',
+                    )
+                  : Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.h),
                         child: ListView.builder(
                           itemCount: orderController.historyOrders.length,
                           itemBuilder: (context, index) {
                             final order = orderController.historyOrders[index];
+                            final rxOrder = RxMap<String, dynamic>.from(order);
                             return Padding(
                               padding: EdgeInsets.symmetric(vertical: 10.h),
-                              child: DetailOrderCard(order),
+                              child: HistoryDetailOrderCard(rxOrder),
                             );
                           },
                         ),
                       ),
-                    ),
-                  ),
+                    );
+            })
           ],
         ));
   }
