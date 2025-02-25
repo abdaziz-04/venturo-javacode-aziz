@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:venturo_core/features/order/view/components/status_info.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 
 class DetailOrderCard extends StatelessWidget {
@@ -58,19 +59,7 @@ class DetailOrderCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(
-                        Icons.access_time_rounded,
-                        size: 18.r,
-                        color: ColorStyle.warning,
-                      ),
-                      SizedBox(width: 5.w),
-                      Text(
-                        'Sedang disiapkan',
-                        style: TextStyle(
-                            color: ColorStyle.warning,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.bold),
-                      ),
+                      StatusInfo(detailOrder: detailOrder),
                       Spacer(),
                       Text(
                         detailOrder['tanggal'].toString(),
