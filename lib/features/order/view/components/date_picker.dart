@@ -37,13 +37,12 @@ class _DatePickerState extends State<DatePicker> {
     final DateTimeRange? picked = await showDateRangePicker(
       context: context,
       initialDateRange: _selectedDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
+      firstDate: DateTime(2022),
+      lastDate: DateTime(2028),
     );
 
     if (picked != null) {
       widget.onChanged(picked);
-
       setState(() {
         _selectedDate = picked;
       });
@@ -52,10 +51,9 @@ class _DatePickerState extends State<DatePicker> {
 
   @override
   Widget build(BuildContext context) {
-    // Format: 25/12/21 - 30/12/21
     final String rangeText =
-        '${DateFormat('dd/MM/yy').format(_selectedDate.start)} - '
-        '${DateFormat('dd/MM/yy').format(_selectedDate.end)}';
+        '${DateFormat('yyyy-MM-dd').format(_selectedDate.start)} - '
+        '${DateFormat('yyyy-MM-dd').format(_selectedDate.end)}';
 
     return InkWell(
       onTap: () => _selectDateRange(context),
