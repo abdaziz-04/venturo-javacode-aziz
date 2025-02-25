@@ -36,8 +36,8 @@ class CheckoutScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // print('🐞 Data cart: ${ListDetailController.to.cartItem.value}');
-          print('Harga: ${CheckoutController.to.finalTotalPrice}');
+          print('🐞 Data cart: ${ListDetailController.to.cartItem.value}');
+          // print('Harga: ${CheckoutController.to.finalTotalPrice}');
         },
         child: Icon(Icons.bug_report),
       ),

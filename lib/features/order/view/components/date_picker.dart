@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:venturo_core/shared/styles/color_style.dart';
 
 class DatePicker extends StatefulWidget {
   final void Function(DateTimeRange) onChanged;
@@ -23,6 +25,14 @@ class _DatePickerState extends State<DatePicker> {
     _selectedDate = widget.selectedDate;
   }
 
+  @override
+  void didUpdateWidget(covariant DatePicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.selectedDate != oldWidget.selectedDate) {
+      _selectedDate = widget.selectedDate;
+    }
+  }
+
   Future<void> _selectDateRange(BuildContext context) async {
     final DateTimeRange? picked = await showDateRangePicker(
       context: context,
@@ -30,26 +40,52 @@ class _DatePickerState extends State<DatePicker> {
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
-    if (picked != null && picked != _selectedDate) {
+
+    if (picked != null) {
+      widget.onChanged(picked);
+
       setState(() {
         _selectedDate = picked;
       });
-      widget.onChanged(picked);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          'Selected range: ${_selectedDate.start.toLocal()} - ${_selectedDate.end.toLocal()}',
+    // Format: 25/12/21 - 30/12/21
+    final String rangeText =
+        '${DateFormat('dd/MM/yy').format(_selectedDate.start)} - '
+        '${DateFormat('dd/MM/yy').format(_selectedDate.end)}';
+
+    return InkWell(
+      onTap: () => _selectDateRange(context),
+      borderRadius: BorderRadius.circular(30),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: ColorStyle.imgBg,
+          borderRadius: BorderRadius.circular(30),
+          border: Border.all(color: Colors.teal),
         ),
-        ElevatedButton(
-          onPressed: () => _selectDateRange(context),
-          child: Text('Select date range'),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              rangeText,
+              style: TextStyle(
+                color: Colors.grey[700],
+                fontSize: 14,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Icon(
+              Icons.calendar_month,
+              color: Colors.teal,
+              size: 20,
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+import 'package:venturo_core/shared/styles/color_style.dart';
 
 class DetailOrderCard extends StatelessWidget {
   final Map<String, dynamic> detailOrder;
@@ -10,75 +10,118 @@ class DetailOrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Ink(
-      padding: EdgeInsets.all(7.r),
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(10.r),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black87,
-            offset: Offset(0, 2),
-            blurRadius: 8,
-            spreadRadius: -1,
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          /* Image */
-          Container(
-            height: 90.h,
-            width: 90.w,
-            margin: EdgeInsets.only(right: 12.w),
-            padding: EdgeInsets.all(5.r),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.r),
-              color: Colors.white,
+    return InkWell(
+      child: Ink(
+        padding: EdgeInsets.all(7.r),
+        decoration: BoxDecoration(
+          color: Colors.grey[100],
+          borderRadius: BorderRadius.circular(10.r),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black87,
+              offset: Offset(0, 1),
+              blurRadius: 3,
+              spreadRadius: -1,
             ),
-            child: CachedNetworkImage(
-              imageUrl: detailOrder['foto'] ??
-                  'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/240px-No_image_available.svg.png',
-              fit: BoxFit.contain,
-              errorWidget: (context, _, __) => CachedNetworkImage(
-                imageUrl:
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/240px-No_image_available.svg.png',
+          ],
+        ),
+        child: Row(
+          children: [
+            /* Image */
+            Container(
+              height: 130.h,
+              width: 120.w,
+              margin: EdgeInsets.only(right: 12.w),
+              padding: EdgeInsets.all(5.r),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.r),
+                color: Colors.white,
+              ),
+              child: CachedNetworkImage(
+                imageUrl: detailOrder['menu'].length > 1 &&
+                        detailOrder['menu'][1]['foto'] != null
+                    ? detailOrder['menu'][1]['foto']
+                    : detailOrder['menu'][0]['foto'] ??
+                        'https://st4.depositphotos.com/2102215/38162/v/1600/depositphotos_381626826-stock-illustration-online-food-order-service-advertising.jpg',
                 fit: BoxFit.contain,
+                errorWidget: (context, _, __) => CachedNetworkImage(
+                  imageUrl:
+                      'https://st4.depositphotos.com/2102215/38162/v/1600/depositphotos_381626826-stock-illustration-online-food-order-service-advertising.jpg',
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  // detailOrder['nama'],
-                  'Nama Produk',
-                  style: Get.textTheme.titleMedium,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-                Text(
-                  // 'Rp ${int.parse(detailOrder['harga'])}',
-                  'Rp 100.000',
-                  style: Get.textTheme.bodyMedium!.copyWith(
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.access_time_rounded,
+                        size: 18.r,
+                        color: ColorStyle.warning,
+                      ),
+                      SizedBox(width: 5.w),
+                      Text(
+                        'Sedang disiapkan',
+                        style: TextStyle(
+                            color: ColorStyle.warning,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Spacer(),
+                      Text(
+                        detailOrder['tanggal'].toString(),
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10.h),
+                  Container(
+                    constraints: BoxConstraints(maxWidth: 200.w),
+                    child: Text(
+                      detailOrder['menu']
+                          .map((menu) => menu['nama'])
+                          .join(', '),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                  ),
+                  SizedBox(height: 5.h),
+                  Row(
+                    children: [
+                      Text(
+                        'Rp ${detailOrder['total_bayar']}',
+                        style: TextStyle(
+                            color: ColorStyle.primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.sp),
+                      ),
+                      SizedBox(width: 5.w),
+                      Text(
+                        '(2 Menu)',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          Container(
-            height: 75.r,
-            padding: EdgeInsets.only(left: 12.w, right: 5.w),
-            // child: QuantityCounter(quantity: detailOrder['jumlah']),
-            child: Text(
-              '2',
-              style: Get.textTheme.bodyMedium,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

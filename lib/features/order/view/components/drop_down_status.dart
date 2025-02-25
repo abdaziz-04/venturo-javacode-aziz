@@ -1,30 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:venturo_core/features/order/controllers/order_controller.dart';
+import 'package:venturo_core/shared/styles/color_style.dart';
 
-class DropdownStatus extends StatelessWidget {
-  final Map<String, String> items;
-  final String selectedItem;
+class DropDownStatus extends StatelessWidget {
+  DropDownStatus({
+    super.key,
+  });
 
-  final void Function(String?)? onChanged;
-
-  const DropdownStatus({
-    Key? key,
-    required this.items,
-    required this.selectedItem,
-    required this.onChanged,
-  }) : super(key: key);
+  final OrderController orderController = OrderController.to;
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: DropdownButton<String>(
-        value: selectedItem,
-        items: items.entries.map((entry) {
-          return DropdownMenuItem<String>(
-            value: entry.key,
-            child: Text(entry.value),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.h),
+      height: 40.h,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50.h),
+        border: Border.all(color: ColorStyle.primary),
+        color: ColorStyle.imgBg,
+      ),
+      child: DropdownButtonHideUnderline(
+        child: Obx(() {
+          return DropdownButton<String>(
+            value: orderController.selectedStatus.value,
+            iconSize: 25.h,
+            selectedItemBuilder: (BuildContext context) {
+              return orderController.dateFilterStatus.entries.map((entry) {
+                return Center(
+                  child: Text(
+                    entry.value,
+                    style: TextStyle(
+                      color: ColorStyle.black,
+                      fontSize: 16.sp,
+                      fontWeight:
+                          orderController.selectedStatus.value == entry.key
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                    ),
+                  ),
+                );
+              }).toList();
+            },
+            style: TextStyle(
+                color: ColorStyle.black,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.normal),
+            items: orderController.dateFilterStatus.entries.map((entry) {
+              return DropdownMenuItem<String>(
+                value: entry.key,
+                child: Text(entry.value),
+              );
+            }).toList(),
+            onChanged: (value) {
+              orderController.selectedStatus.value = value!;
+            },
           );
-        }).toList(),
-        onChanged: onChanged,
+        }),
       ),
     );
   }

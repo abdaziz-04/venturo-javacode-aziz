@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,65 @@ class CheckoutController extends GetxController {
     calculateTotalPrice();
     calculateDiscount();
     calculateFinalTotalPrice();
+  }
+
+  Map<String, dynamic> prepareOrderPayload({
+    required int idUser,
+    required int? idVoucher,
+    required int potongan,
+    required int totalBayar,
+    required List<Map<String, dynamic>> cartItems,
+  }) {
+    List<Map<String, dynamic>> orderItems = cartItems.map((item) {
+      return {
+        "id_menu": item["id_menu"],
+        "harga": item["harga"],
+        "level": item["level"] ?? 0,
+        "topping": item["topping"] ?? [],
+        "jumlah": item["quantity"],
+      };
+    }).toList();
+
+    return {
+      "order": {
+        "id_user": idUser,
+        "id_voucher": idVoucher ?? 0,
+        "potongan": potongan,
+        "total_bayar": totalBayar,
+      },
+      "menu": orderItems,
+    };
+  }
+
+  Future<void> placeOrder({
+    required int idUser,
+    required int? idVoucher,
+    required int potongan,
+    required List<Map<String, dynamic>> cartItems,
+  }) async {
+    final Dio dio = Dio();
+
+    final payload = prepareOrderPayload(
+      idUser: idUser,
+      idVoucher: idVoucher,
+      potongan: potongan,
+      totalBayar: finalTotalPrice.value,
+      cartItems: cartItems,
+    );
+
+    try {
+      final response = await dio.post(
+        "https://api.yourserver.com/order", // Ganti dengan URL API order Anda
+        data: payload,
+      );
+      if (response.statusCode == 200) {
+        print("Order berhasil: ${response.data}");
+      } else {
+        print("Order gagal: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Error saat melakukan order: $e");
+    }
   }
 
   void showFingerprintDialog() async {

@@ -7,15 +7,6 @@ class OrderController extends GetxController {
   static OrderController get to => Get.find();
   late final OrderRepository _orderRepository;
 
-  @override
-  void onInit() {
-    super.onInit();
-    _orderRepository = OrderRepository();
-
-    getOnGoingOrders();
-    getOrderHistories();
-  }
-
   var selectedTabIndex = 0.obs;
 
   RxList<Map<String, dynamic>> ongoingOrders = RxList();
@@ -24,84 +15,53 @@ class OrderController extends GetxController {
   RxString onGoingOrderState = 'loading'.obs;
   RxString orderHistoryState = 'loading'.obs;
 
-  Rx<String> selectedCategory = 'all'.obs;
+  final Rx<DateTimeRange> selectedDate = DateTimeRange(
+    start: DateTime.now().subtract(const Duration(days: 7)),
+    end: DateTime.now(),
+  ).obs;
+
+  RxString selectedStatus = 'all'.obs;
 
   Map<String, String> get dateFilterStatus => {
-        'all': 'Semua',
+        'all': 'Semua Status',
         'completed': 'Selesai',
         'cancelled': 'Dibatalkan',
       };
 
-  Rx<DateTimeRange> selectedDateRange = DateTimeRange(
-    start: DateTime.now().subtract(const Duration(days: 30)),
-    end: DateTime.now(),
-  ).obs;
+  @override
+  void onInit() {
+    super.onInit();
+    _orderRepository = OrderRepository();
+    getOnGoingOrders();
+    getOrderHistories();
+  }
 
   Future<void> getOnGoingOrders() async {
     onGoingOrderState.value = 'loading';
-
     try {
-      final result = _orderRepository.getOngoingOrder();
-      final data = result.where((element) => element['status'] != 4).toList();
-      ongoingOrders(data.reversed.toList());
+      final orders = await _orderRepository.fetchOrders();
+      final filtered = orders.where((order) => order['status'] < 3).toList();
+      ongoingOrders.assignAll(filtered.reversed.toList());
       onGoingOrderState.value = 'success';
-    } catch (exception, stacktrace) {
-      await Sentry.captureException(
-        exception,
-        stackTrace: stacktrace,
-      );
-
+      print('Ongoing Orders: $ongoingOrders');
+    } catch (e, s) {
+      await Sentry.captureException(e, stackTrace: s);
       onGoingOrderState.value = 'error';
+      print('Error: $e');
     }
   }
 
   Future<void> getOrderHistories() async {
     orderHistoryState.value = 'loading';
-
     try {
-      final result = _orderRepository.getOrderHistory();
-      historyOrders(result.reversed.toList());
+      final orders = await _orderRepository.fetchOrders();
+      final filtered = orders.where((order) => order['status'] >= 3).toList();
+      historyOrders.assignAll(filtered.reversed.toList());
       orderHistoryState.value = 'success';
-    } catch (exception, stacktrace) {
-      await Sentry.captureException(
-        exception,
-        stackTrace: stacktrace,
-      );
-
+      print('History Orders: $historyOrders');
+    } catch (e, s) {
+      await Sentry.captureException(e, stackTrace: s);
       orderHistoryState.value = 'error';
     }
-  }
-
-  void setDateFilter(String? category, DateTimeRange? dateRange) {
-    selectedCategory(category);
-    selectedDateRange(dateRange);
-  }
-
-  List<Map<String, dynamic>> get filteredHistoryOrders {
-    final historyOrderList = historyOrders.toList();
-
-    if (selectedCategory.value == 'canceled') {
-      historyOrderList.removeWhere((element) => element['status'] != 4);
-    } else if (selectedCategory.value == 'completed') {
-      historyOrderList.removeWhere((element) => element['status'] != 3);
-    }
-    historyOrderList.removeWhere((element) =>
-        DateTime.parse(element['tanggal'] as String)
-            .isBefore(selectedDateRange.value.start) ||
-        DateTime.parse(element['tanggal'] as String)
-            .isAfter(selectedDateRange.value.end));
-
-    historyOrderList.sort((a, b) => DateTime.parse(b['tanggal'] as String)
-        .compareTo(DateTime.parse(a['tanggal'] as String)));
-
-    return historyOrderList;
-  }
-
-  String get totalHistoryOrder {
-    final total = filteredHistoryOrders.where((e) => e['status'] == 3).fold(
-        0,
-        (previousValue, element) =>
-            previousValue + element['total_bayar'] as int);
-    return total.toString();
   }
 }
