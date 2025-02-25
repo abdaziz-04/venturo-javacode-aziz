@@ -13,7 +13,7 @@ class HistoryDetailOrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final order = detailOrder.value;
+      final order = detailOrder;
       return InkWell(
         child: Ink(
           padding: EdgeInsets.all(7.r),
