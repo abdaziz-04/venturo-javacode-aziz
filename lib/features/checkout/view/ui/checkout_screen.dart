@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:venturo_core/features/checkout/controllers/checkout_controller.dart';
-import 'package:venturo_core/features/checkout/sub_features/voucher/controllers/checkout_voucher_controller.dart';
 import 'package:venturo_core/features/checkout/view/components/checkout_menu_card.dart';
 import 'package:venturo_core/features/list/controllers/list_controller.dart';
 import 'package:venturo_core/features/list/sub_features/detail/controllers/list_detail_controller.dart';
@@ -34,6 +33,13 @@ class CheckoutScreen extends StatelessWidget {
         onPress: () {
           ListDetailController.to.deleteAllCart();
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print('🐞 Data cart: ${ListDetailController.to.cartItem.value}');
+          // print('Harga: ${CheckoutController.to.finalTotalPrice}');
+        },
+        child: Icon(Icons.bug_report),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -253,15 +259,6 @@ class CheckoutScreen extends StatelessWidget {
             )
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print('🐞 Cart: ${ListDetailController.to.cartItem}');
-          // print( '🐞 Voucher id: ${CheckoutVoucherController.to.selectedVoucher[0]['id_voucher']}, Potongan harga: ${CheckoutController.to.potongan}');
-
-          // print(ProfileController.to.loginData.value?['user']['id_user']);
-        },
-        child: Icon(Icons.bug_report),
       ),
     );
   }

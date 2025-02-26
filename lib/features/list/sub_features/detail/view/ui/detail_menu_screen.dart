@@ -220,12 +220,9 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                       InfoRow(
                         icon: Icons.fastfood,
                         label: 'Toping',
-                        value:
-                            ListDetailController.to.selectedToppings.isNotEmpty
-                                ? ListDetailController.to.selectedToppings
-                                        .first['keterangan'] ??
-                                    'Pilih Toping'
-                                : 'Pilih Toping',
+                        value: ListDetailController
+                                .to.selectedTopping.value['keterangan'] ??
+                            'Pilih Toping',
                         onPressed: () {
                           showModalBottomSheet<void>(
                             context: context,

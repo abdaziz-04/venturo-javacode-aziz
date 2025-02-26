@@ -50,8 +50,8 @@ class ToppingModalBottomSheet extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Obx(() => OptionChip(
                         text: item['keterangan'] ?? 'Tidak Bisa Pilih Topping',
-                        isSelected: ListDetailController.to.selectedToppings
-                            .contains(item),
+                        isSelected:
+                            ListDetailController.to.selectedTopping == item,
                         onTap: () {
                           ListDetailController.to.addTopping(item);
                           ListDetailController.to.getPrice();
