@@ -9,7 +9,8 @@ class ListDetailController extends GetxController {
   RxInt qty = 1.obs;
   final RxList<Map<String, dynamic>> cartItem = <Map<String, dynamic>>[].obs;
   final RxMap<String, dynamic> selectedLevel = <String, dynamic>{}.obs;
-  final RxMap<String, dynamic> selectedTopping = <String, dynamic>{}.obs;
+  final RxList<Map<String, dynamic>> selectedToppings =
+      <Map<String, dynamic>>[].obs;
 
   final cart = Hive.box('cart');
   RxInt price = 0.obs;
@@ -39,15 +40,22 @@ class ListDetailController extends GetxController {
   }
 
   void addTopping(Map<String, dynamic> topping) {
-    selectedTopping.value = topping;
-    print('👌Selected topping: $topping');
+    if (!selectedToppings.any((element) => element['id'] == topping['id'])) {
+      selectedToppings.add(topping);
+    }
+    print('👌 Selected toppings: $selectedToppings');
   }
 
   void getPrice() {
-    price.value = (listController.selectedMenuDetail['menu']['harga'] +
-            (selectedLevel['harga'] ?? 0) +
-            (selectedTopping['harga'] ?? 0)) *
-        qty.value;
+    int basePrice = listController.selectedMenuDetail['menu']['harga'] ?? 0;
+
+    int levelPrice = selectedLevel['harga'] ?? 0;
+
+    int toppingPrice = selectedToppings.fold<int>(
+      0,
+      (prev, element) => prev + (element['harga'] as int? ?? 0),
+    );
+    price.value = (basePrice + levelPrice + toppingPrice) * qty.value;
     print('💰 Harga: ${price.value}');
   }
 
@@ -58,7 +66,10 @@ class ListDetailController extends GetxController {
       'foto': listController.selectedMenuDetail['menu']['foto'],
       'harga': price.value,
       'kategori': listController.selectedMenuDetail['menu']['kategori'],
-      'quantity': qty.value,
+      'level': selectedLevel['keterangan'],
+      'topping':
+          selectedToppings.map((topping) => topping['id_detail']).toList(),
+      'jumlah': qty.value,
     };
     cart.add(cartItem);
     print('🛒 Berhasil ditambahkan $cartItem');

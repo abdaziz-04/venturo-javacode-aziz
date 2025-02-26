@@ -113,7 +113,7 @@ class CheckoutMenuCard extends StatelessWidget {
                   constraints: const BoxConstraints(),
                 ),
                 Text(
-                  menu['quantity'].toString(),
+                  menu['jumlah'].toString(),
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
