@@ -68,8 +68,9 @@ class CheckoutScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(8.0),
                             child: CheckoutMenuCard(
                                 menu: item,
-                                onTap: () =>
-                                    Get.toNamed(Routes.checkoutEditMenuRoute)),
+                                onTap: () => Get.toNamed(
+                                    Routes.checkoutEditMenuRoute,
+                                    arguments: item['id_menu'])),
                           );
                         },
                       ),
@@ -202,7 +203,7 @@ class CheckoutScreen extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: ColorStyle.black.withOpacity(0.1),
                     spreadRadius: 2,
                     blurRadius: 5,
                     offset: Offset(0, -2),
@@ -255,8 +256,9 @@ class CheckoutScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print(
-              '🐞 Voucher id: ${CheckoutVoucherController.to.selectedVoucher[0]['id_voucher']}, Potongan harga: ${CheckoutController.to.potongan}');
+          print('🐞 Cart: ${ListDetailController.to.cartItem}');
+          // print( '🐞 Voucher id: ${CheckoutVoucherController.to.selectedVoucher[0]['id_voucher']}, Potongan harga: ${CheckoutController.to.potongan}');
+
           // print(ProfileController.to.loginData.value?['user']['id_user']);
         },
         child: Icon(Icons.bug_report),

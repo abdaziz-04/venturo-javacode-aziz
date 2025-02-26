@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:venturo_core/constants/cores/assets/image_constants.dart';
 import 'package:venturo_core/features/checkout/controllers/checkout_controller.dart';
+import 'package:venturo_core/features/checkout/sub_features/edit_menu/controllers/checkout_edit_menu_controller.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 
 class CheckoutMenuCard extends StatelessWidget {
@@ -103,7 +104,10 @@ class CheckoutMenuCard extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: () {
-                    CheckoutController.to.qtyDecrement();
+                    print('Kurangi jumlah ${menu}');
+                    CheckoutEditMenuController.to.qtyDecrement();
+                    print(
+                        'Jumlah item: ${CheckoutEditMenuController.to.qty.value}');
                   },
                   icon: Icon(
                     Icons.remove_circle_outline,
@@ -121,7 +125,10 @@ class CheckoutMenuCard extends StatelessWidget {
                 ),
                 IconButton(
                   onPressed: () {
-                    CheckoutController.to.qtyIncrement();
+                    print('Kurangi jumlah ${menu}');
+                    CheckoutEditMenuController.to.qtyIncrement();
+                    print(
+                        'Jumlah item: ${CheckoutEditMenuController.to.qty.value}');
                   },
                   icon: Icon(
                     Icons.add_circle_outline,

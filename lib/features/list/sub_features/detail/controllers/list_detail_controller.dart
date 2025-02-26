@@ -7,12 +7,12 @@ class ListDetailController extends GetxController {
   static ListDetailController get to => Get.find();
   final ListController listController = ListController.to;
   RxInt qty = 1.obs;
-  final RxList<Map<String, dynamic>> cartItem = <Map<String, dynamic>>[].obs;
+  RxList<Map<String, dynamic>> cartItem = <Map<String, dynamic>>[].obs;
   final RxMap<String, dynamic> selectedLevel = <String, dynamic>{}.obs;
   final RxList<Map<String, dynamic>> selectedToppings =
       <Map<String, dynamic>>[].obs;
 
-  final cart = Hive.box('cart');
+  // final cart = Hive.box('cart');
   RxInt price = 0.obs;
 
   @override
@@ -60,7 +60,7 @@ class ListDetailController extends GetxController {
   }
 
   void addToCart(int idMenu) {
-    final cartItem = {
+    final cartItems = {
       'id_menu': idMenu,
       'nama': listController.selectedMenuDetail['menu']['nama'],
       'foto': listController.selectedMenuDetail['menu']['foto'],
@@ -71,33 +71,26 @@ class ListDetailController extends GetxController {
           selectedToppings.map((topping) => topping['id_detail']).toList(),
       'jumlah': qty.value,
     };
-    cart.add(cartItem);
+    cartItem.add(cartItems);
     print('🛒 Berhasil ditambahkan $cartItem');
   }
 
   void deleteAllCart() {
-    cart.clear();
+    cartItem.clear();
     cartItem.clear();
     print('🛒 Berhasil menghapus semua item di keranjang');
   }
 
   void getCart() {
     cartItem.clear();
-    for (var i = 0; i < cart.length; i++) {
-      cartItem.add(Map<String, dynamic>.from(cart.getAt(i)));
+    for (var i = 0; i < cartItem.length; i++) {
+      cartItem.add(Map<String, dynamic>.from(cartItem[i]));
     }
     print('🛒 Isi keranjang: $cartItem');
   }
 
   void removeFromCart(int id) {
-    cart.deleteAt(id);
-    print('🛒 Berhasil dihapus dari keranjang');
-  }
-
-  void printCartContents() {
-    print('🛒 Isi keranjang:');
-    for (var i = 0; i < cart.length; i++) {
-      print(cart.getAt(i));
-    }
+    cartItem.removeAt(id);
+    print('🛒 Berhasil dihapus dari keranjang $id');
   }
 }

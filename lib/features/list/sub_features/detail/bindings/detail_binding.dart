@@ -5,6 +5,6 @@ import 'package:venturo_core/features/list/sub_features/detail/controllers/list_
 class DetailBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<ListDetailController>(() => ListDetailController());
+    Get.put(ListDetailController(), permanent: true);
   }
 }
