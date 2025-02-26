@@ -22,7 +22,7 @@ class CheckoutScreen extends StatelessWidget {
   CheckoutScreen({Key? key}) : super(key: key);
 
   final assetsConstant = CheckoutAssetsConstant();
-  final item = ListController.to.filteredList[5];
+  // final item = ListController.to.filteredList[5];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,12 +31,20 @@ class CheckoutScreen extends StatelessWidget {
         showActions: true,
         icon: Icons.delete,
         onPress: () {
+          CheckoutController.to.deleteAllCart();
           ListDetailController.to.deleteAllCart();
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print('🐞 Data cart: ${ListDetailController.to.cartItem.value}');
+          // print('🐞 Data cart: ${CheckoutController.to.cartItem.value}');
+          print('🐞 Total harga: ${CheckoutController.to.totalPrice}, '
+              'Diskon: ${CheckoutController.to.discount}, '
+              'Voucher: ${CheckoutController.to.voucherPrice}, '
+              'Total akhir: ${CheckoutController.to.finalTotalPrice}, '
+              'Potongan: ${CheckoutController.to.potongan} '
+              '🤸‍♀️Jumlah: ${CheckoutController.to.qty} '
+              '🛒Cart: ${CheckoutController.to.cartItem}');
           // print('Harga: ${CheckoutController.to.finalTotalPrice}');
         },
         child: Icon(Icons.bug_report),
@@ -49,7 +57,7 @@ class CheckoutScreen extends StatelessWidget {
               children: [
                 Obx(() {
                   final List<Map<String, dynamic>> makananItems =
-                      ListDetailController.to.cartItem.where((item) {
+                      CheckoutController.to.cartItem.where((item) {
                     if (item == null || item['kategori'] == null) return false;
                     final kategori = item['kategori'].toString().toLowerCase();
                     return kategori == 'makanan';
@@ -85,7 +93,7 @@ class CheckoutScreen extends StatelessWidget {
                 }),
                 Obx(() {
                   final List<Map<String, dynamic>> minumanItems =
-                      ListDetailController.to.cartItem.where((item) {
+                      CheckoutController.to.cartItem.where((item) {
                     if (item == null || item['kategori'] == null) return false;
                     final kategori = item['kategori'].toString().toLowerCase();
                     return kategori == 'minuman';
@@ -160,25 +168,25 @@ class CheckoutScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(height: 15.h),
-            InfoRow(
-              info: 'Total Pesanan :',
-              value: 'Rp ${CheckoutController.to.totalPrice}',
-              isBold: true,
-              valueColor: ColorStyle.primary,
-              containButton: false,
-              isImportant: true,
-            ),
+            Obx(() => InfoRow(
+                  info: 'Total Pesanan :',
+                  value: 'Rp ${CheckoutController.to.totalPrice}',
+                  isBold: true,
+                  valueColor: ColorStyle.primary,
+                  containButton: false,
+                  isImportant: true,
+                )),
             const Divider(),
-            InfoRow(
-              info: 'Diskon 20%',
-              value: '- Rp ${CheckoutController.to.discount}',
-              containImage: true,
-              valueColor: ColorStyle.danger,
-              image: ImageConstants.icDiscount,
-              onPress: () {
-                CheckoutController.to.showDiscountDialog();
-              },
-            ),
+            Obx(() => InfoRow(
+                  info: 'Diskon 20%',
+                  value: '- Rp ${CheckoutController.to.discount}',
+                  containImage: true,
+                  valueColor: ColorStyle.danger,
+                  image: ImageConstants.icDiscount,
+                  onPress: () {
+                    CheckoutController.to.showDiscountDialog();
+                  },
+                )),
             const Divider(),
             Obx(() => InfoRow(
                 info: 'Voucher',

@@ -7,11 +7,12 @@ class ListDetailController extends GetxController {
   static ListDetailController get to => Get.find();
   final ListController listController = ListController.to;
   RxInt qty = 1.obs;
-  RxList<Map<String, dynamic>> cartItem = <Map<String, dynamic>>[].obs;
+  final RxList<Map<String, dynamic>> cartItem = <Map<String, dynamic>>[].obs;
   final RxMap<String, dynamic> selectedLevel = <String, dynamic>{}.obs;
-  final RxMap<String, dynamic> selectedTopping = <String, dynamic>{}.obs;
+  final RxList<Map<String, dynamic>> selectedToppings =
+      <Map<String, dynamic>>[].obs;
 
-  // final cart = Hive.box('cart');
+  final cart = Hive.box('cart');
   RxInt price = 0.obs;
 
   @override
@@ -39,47 +40,64 @@ class ListDetailController extends GetxController {
   }
 
   void addTopping(Map<String, dynamic> topping) {
-    selectedTopping.value = topping;
-    print('👌Selected topping: $topping');
+    if (!selectedToppings.any((element) => element['id'] == topping['id'])) {
+      selectedToppings.add(topping);
+    }
+    print('👌 Selected toppings: $selectedToppings');
   }
 
   void getPrice() {
-    price.value = (listController.selectedMenuDetail['menu']['harga'] +
-            (selectedLevel['harga'] ?? 0) +
-            (selectedTopping['harga'] ?? 0)) *
-        qty.value;
+    int basePrice = listController.selectedMenuDetail['menu']['harga'] ?? 0;
+
+    int levelPrice = selectedLevel['harga'] ?? 0;
+
+    int toppingPrice = selectedToppings.fold<int>(
+      0,
+      (prev, element) => prev + (element['harga'] as int? ?? 0),
+    );
+    price.value = (basePrice + levelPrice + toppingPrice) * qty.value;
     print('💰 Harga: ${price.value}');
   }
 
   void addToCart(int idMenu) {
-    final cartItems = {
+    final cartItem = {
       'id_menu': idMenu,
       'nama': listController.selectedMenuDetail['menu']['nama'],
       'foto': listController.selectedMenuDetail['menu']['foto'],
       'harga': price.value,
       'kategori': listController.selectedMenuDetail['menu']['kategori'],
-      'quantity': qty.value,
+      'level': selectedLevel['keterangan'],
+      'topping':
+          selectedToppings.map((topping) => topping['id_detail']).toList(),
+      'jumlah': qty.value,
     };
-    cartItem.add(cartItems);
+    cart.add(cartItem);
     print('🛒 Berhasil ditambahkan $cartItem');
   }
 
   void deleteAllCart() {
-    cartItem.clear();
+    cart.clear();
     cartItem.clear();
     print('🛒 Berhasil menghapus semua item di keranjang');
   }
 
   void getCart() {
     cartItem.clear();
-    for (var i = 0; i < cartItem.length; i++) {
-      cartItem.add(Map<String, dynamic>.from(cartItem[i]));
+    for (var i = 0; i < cart.length; i++) {
+      cartItem.add(Map<String, dynamic>.from(cart.getAt(i)));
     }
     print('🛒 Isi keranjang: $cartItem');
   }
 
   void removeFromCart(int id) {
-    cartItem.removeAt(id);
-    print('🛒 Berhasil dihapus dari keranjang $id');
+    cart.deleteAt(id);
+    print('🛒 Berhasil dihapus dari keranjang');
+  }
+
+  void printCartContents() {
+    print('🛒 Isi keranjang:');
+    for (var i = 0; i < cart.length; i++) {
+      print(cart.getAt(i));
+    }
   }
 }

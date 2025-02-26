@@ -14,6 +14,7 @@ import 'package:venturo_core/features/home/view/ui/home_screen.dart';
 import 'package:venturo_core/features/list/sub_features/detail/bindings/detail_binding.dart';
 import 'package:venturo_core/features/list/sub_features/promo_detail/view/ui/promo_detail_screen.dart';
 import 'package:venturo_core/features/no_connection/view/ui/no_connection_screen.dart';
+import 'package:venturo_core/features/order/view/ui/order_screen.dart';
 
 import 'package:venturo_core/features/profile/view/ui/profile_screen.dart';
 import 'package:venturo_core/features/sig_in/view/ui/sig_in_screen.dart';
@@ -102,6 +103,10 @@ abstract class Pages {
     GetPage(
       name: Routes.checkoutVoucherRoute,
       page: () => VoucherScreen(),
+    ),
+    GetPage(
+      name: Routes.orderRoute,
+      page: () => OrderScreen(),
     ),
   ];
 }

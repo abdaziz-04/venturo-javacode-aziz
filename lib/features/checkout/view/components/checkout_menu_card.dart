@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:venturo_core/constants/cores/assets/image_constants.dart';
 import 'package:venturo_core/features/checkout/controllers/checkout_controller.dart';
-import 'package:venturo_core/features/checkout/sub_features/edit_menu/controllers/checkout_edit_menu_controller.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 
 class CheckoutMenuCard extends StatelessWidget {
@@ -105,9 +104,9 @@ class CheckoutMenuCard extends StatelessWidget {
                 IconButton(
                   onPressed: () {
                     print('Kurangi jumlah ${menu}');
-                    CheckoutEditMenuController.to.qtyDecrement();
+                    CheckoutController.to.decrementJumlah(menu['id_menu']);
                     print(
-                        'Jumlah item: ${CheckoutEditMenuController.to.qty.value}');
+                        'Jumlah item: ${CheckoutController.to.cartItem.value}');
                   },
                   icon: Icon(
                     Icons.remove_circle_outline,
@@ -117,7 +116,7 @@ class CheckoutMenuCard extends StatelessWidget {
                   constraints: const BoxConstraints(),
                 ),
                 Text(
-                  menu['quantity'].toString(),
+                  menu['jumlah'].toString(),
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
@@ -126,9 +125,9 @@ class CheckoutMenuCard extends StatelessWidget {
                 IconButton(
                   onPressed: () {
                     print('Kurangi jumlah ${menu}');
-                    CheckoutEditMenuController.to.qtyIncrement();
+                    CheckoutController.to.incrementJumlah(menu['id_menu']);
                     print(
-                        'Jumlah item: ${CheckoutEditMenuController.to.qty.value}');
+                        'Jumlah item: ${CheckoutController.to.cartItem.value}');
                   },
                   icon: Icon(
                     Icons.add_circle_outline,

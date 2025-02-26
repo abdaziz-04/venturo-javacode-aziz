@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:venturo_core/features/checkout/view/components/fingerprint_dialog.dart';
-
+import 'package:venturo_core/features/checkout/view/components/order_success_dialog.dart';
+import 'dart:convert';
 import '../../../shared/styles/color_style.dart';
 import '../../list/sub_features/detail/controllers/list_detail_controller.dart';
 
@@ -13,6 +14,8 @@ class CheckoutController extends GetxController {
   final RxInt finalTotalPrice = 0.obs;
   final RxInt discount = 0.obs;
   final RxInt voucherPrice = 0.obs;
+  int potongan = 0;
+  int qty = 1;
 
   final RxList<Map<String, dynamic>> cartItem = <Map<String, dynamic>>[].obs;
 
@@ -24,6 +27,96 @@ class CheckoutController extends GetxController {
     calculateTotalPrice();
     calculateDiscount();
     calculateFinalTotalPrice();
+  }
+
+  void updateItemPrice(int idMenu) {
+    int index = cartItem.indexWhere((item) => item['id_menu'] == idMenu);
+    if (index != -1) {
+      Map<String, dynamic> item = cartItem[index];
+
+      int unitPrice;
+      if (item.containsKey('hargaSatuan')) {
+        unitPrice = item['hargaSatuan'] as int;
+      } else {
+        int initialQuantity = item['jumlah'] as int;
+        int totalHargaAwal = item['harga'] as int;
+        unitPrice =
+            (initialQuantity > 0) ? (totalHargaAwal ~/ initialQuantity) : 0;
+      }
+
+      int quantity = item['jumlah'] as int;
+      int newTotalPrice = unitPrice * quantity;
+
+      cartItem[index] = {
+        ...item,
+        'harga': newTotalPrice,
+        'totalHarga': newTotalPrice,
+        'hargaSatuan': unitPrice,
+      };
+
+      cartItem.refresh();
+
+      print('Harga sekarang untuk ${item['nama']}: $newTotalPrice');
+    }
+  }
+
+  void calculateTotalPrice() {
+    totalPrice.value = cartItem.fold<int>(0, (previousValue, element) {
+      int aggregatedPrice = element.containsKey('totalHarga')
+          ? (element['totalHarga'] as int)
+          : (element['harga'] as int);
+      int quantity = element['jumlah'] as int;
+
+      int unitPrice = aggregatedPrice ~/ quantity;
+      element['hargaSatuan'] = unitPrice;
+
+      return previousValue + aggregatedPrice;
+    });
+    print('💰 Total harga: ${totalPrice.value}');
+  }
+
+  void incrementJumlah(int idMenu) {
+    int index = cartItem.indexWhere((item) => item['id_menu'] == idMenu);
+    if (index != -1) {
+      int currentJumlah = cartItem[index]['jumlah'];
+      int newJumlah = currentJumlah + 1;
+      cartItem[index] = {
+        ...cartItem[index],
+        'jumlah': newJumlah,
+      };
+
+      updateItemPrice(idMenu);
+
+      calculateTotalPrice();
+      calculateDiscount();
+      calculateFinalTotalPrice();
+
+      cartItem.refresh();
+      print('Jumlah sekarang: $newJumlah');
+    }
+  }
+
+  void decrementJumlah(int idMenu) {
+    int index = cartItem.indexWhere((item) => item['id_menu'] == idMenu);
+    if (index != -1) {
+      int currentJumlah = cartItem[index]['jumlah'];
+      if (currentJumlah > 1) {
+        int newJumlah = currentJumlah - 1;
+        cartItem[index] = {
+          ...cartItem[index],
+          'jumlah': newJumlah,
+        };
+
+        updateItemPrice(idMenu);
+
+        calculateTotalPrice();
+        calculateDiscount();
+        calculateFinalTotalPrice();
+
+        cartItem.refresh();
+        print('Jumlah sekarang: $newJumlah');
+      }
+    }
   }
 
   Map<String, dynamic> prepareOrderPayload({
@@ -39,7 +132,7 @@ class CheckoutController extends GetxController {
         "harga": item["harga"],
         "level": item["level"] ?? 0,
         "topping": item["topping"] ?? [],
-        "jumlah": item["quantity"],
+        "jumlah": item["jumlah"],
       };
     }).toList();
 
@@ -59,6 +152,7 @@ class CheckoutController extends GetxController {
     required int? idVoucher,
     required int potongan,
     required List<Map<String, dynamic>> cartItems,
+    required int finalTotalPrice,
   }) async {
     final Dio dio = Dio();
 
@@ -66,17 +160,30 @@ class CheckoutController extends GetxController {
       idUser: idUser,
       idVoucher: idVoucher,
       potongan: potongan,
-      totalBayar: finalTotalPrice.value,
+      totalBayar: finalTotalPrice,
       cartItems: cartItems,
     );
 
+    final headers = {
+      'token': 'ce7eaad890aa429494b00bf3019dfb4f2050958c',
+      'Content-Type': 'application/json',
+      'Cookie': 'PHPSESSID=bb56b8cb8fda04fee0c1e361b1e26b20'
+    };
+
     try {
+      final data = json.encode(payload);
+
       final response = await dio.post(
-        "https://api.yourserver.com/order", // Ganti dengan URL API order Anda
-        data: payload,
+        "https://trainee.landa.id/javacode/order/add",
+        options: Options(
+          headers: headers,
+        ),
+        data: data,
       );
       if (response.statusCode == 200) {
-        print("Order berhasil: ${response.data}");
+        Get.back();
+        Get.dialog(const OrderSuccessDialog());
+        print("Order berhasil: ${json.encode(response.data)}");
       } else {
         print("Order gagal: ${response.statusCode}");
       }
@@ -141,9 +248,14 @@ class CheckoutController extends GetxController {
     print('💰 Total harga akhir: ${finalTotalPrice.value}');
   }
 
-  void calculateTotalPrice() {
-    totalPrice.value = cartItem.fold<int>(0,
-        (previousValue, element) => previousValue + (element['harga'] as int));
-    print('💰 Total harga: ${totalPrice.value}');
+  // void calculateTotalPrice() {
+  //   totalPrice.value = cartItem.fold<int>(0,
+  //       (previousValue, element) => previousValue + (element['harga'] as int));
+  //   print('💰 Total harga: ${totalPrice.value}');
+  // }
+
+  void deleteAllCart() {
+    cartItem.clear();
+    print('🛒 Keranjang berhasil dihapus');
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:venturo_core/configs/routes/route.dart';
 import '../../../../shared/styles/color_style.dart';
 
 class OrderSuccessDialog extends StatelessWidget {
@@ -57,7 +58,9 @@ class OrderSuccessDialog extends StatelessWidget {
             SizedBox(
               width: 168.w,
               child: ElevatedButton(
-                onPressed: () => Get.back(),
+                onPressed: () {
+                  Get.toNamed(Routes.orderRoute);
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColor,
                   maximumSize: Size(1.sw, 56.h),
