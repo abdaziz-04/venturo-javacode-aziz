@@ -53,7 +53,8 @@ class ToppingModalBottomSheet extends StatelessWidget {
                         text: item['keterangan'] ?? 'Tidak Bisa Pilih Topping',
                         isSelected: CheckoutEditMenuController
                             .to.selectedToppings
-                            .contains(item),
+                            .any((element) =>
+                                element['id_detail'] == item['id_detail']),
                         onTap: () {
                           CheckoutEditMenuController.to.addTopping(item);
                           CheckoutEditMenuController.to.getPrice();

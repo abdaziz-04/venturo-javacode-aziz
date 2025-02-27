@@ -29,6 +29,7 @@ class CheckoutEditMenuController extends GetxController {
       print('Argument tidak valid atau tidak mengandung id_menu.');
     }
     saveCartItemById(arguments);
+    getQty();
   }
 
   void saveCartItemById(int idMenu) {
@@ -50,8 +51,7 @@ class CheckoutEditMenuController extends GetxController {
       final result = await repository.fetchDetailMenu(id);
       if (result.isNotEmpty) {
         selectedMenuDetail.value = result;
-        print(
-            "📦 Detail menu berhasil disimpan ke selectedMenuDetail: $selectedMenuDetail");
+        print("📦 Detail menu: $selectedMenuDetail");
       } else {
         print("📦 Detail menu kosong");
       }
@@ -69,18 +69,22 @@ class CheckoutEditMenuController extends GetxController {
     print('👌Selected level: $level');
   }
 
+  void getQty() {
+    qty.value = previousCartItem['jumlah'];
+    print('📦 Jumlah: $qty');
+  }
+
   void addTopping(Map<String, dynamic> topping) {
-    if (!selectedToppings.any((element) => element['id'] == topping['id'])) {
+    if (!selectedToppings
+        .any((element) => element['id_detail'] == topping['id_detail'])) {
       selectedToppings.add(topping);
     }
     print('👌 Selected toppings: $selectedToppings');
   }
 
   void getPrice() {
-    int basePrice = selectedMenuDetail['menu']['harga'] ?? 0;
-
-    int levelPrice = selectedLevel['harga'] ?? 0;
-
+    int basePrice = (selectedMenuDetail['menu']?['harga'] as int?) ?? 0;
+    int levelPrice = (selectedLevel['harga'] as int?) ?? 0;
     int toppingPrice = selectedToppings.fold<int>(
       0,
       (prev, element) => prev + (element['harga'] as int? ?? 0),
@@ -89,18 +93,32 @@ class CheckoutEditMenuController extends GetxController {
     print('💰 Harga: ${price.value}');
   }
 
-  void updateCart(int idMenu) {
-    final cartItem = {
-      'id_menu': idMenu,
-      'nama': selectedMenuDetail['menu']['nama'],
-      'foto': selectedMenuDetail['menu']['foto'],
+  void updateCart() {
+    final newData = {
       'harga': price.value,
+      'totalHarga': price.value,
       'level': selectedLevel['keterangan'],
       'topping':
           selectedToppings.map((topping) => topping['id_detail']).toList(),
       'jumlah': qty.value,
     };
-    // cart.add(cartItem);
-    print('🛒 Berhasil ditambahkan $cartItem');
+
+    final index = CheckoutController.to.cartItem.indexWhere(
+      (item) => item['id_menu'] == previousCartItem['id_menu'],
+    );
+
+    if (index != -1) {
+      CheckoutController.to.cartItem[index] = {
+        ...CheckoutController.to.cartItem[index],
+        ...newData,
+      };
+      CheckoutController.to.calculateTotalPrice();
+      Get.back();
+      print(
+          '🛒 Keranjang berhasil di‑update: ${CheckoutController.to.cartItem[index]}');
+    } else {
+      print(
+          '🚨 Item dengan id_menu ${previousCartItem['id_menu']} tidak ditemukan di keranjang.');
+    }
   }
 }

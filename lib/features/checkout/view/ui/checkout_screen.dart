@@ -38,11 +38,11 @@ class CheckoutScreen extends StatelessWidget {
         onPressed: () {
           // print('🐞 Data cart: ${CheckoutController.to.cartItem.value}');
           print('🐞 Total harga: ${CheckoutController.to.totalPrice}, '
-              'Diskon: ${CheckoutController.to.discount}, '
-              'Voucher: ${CheckoutController.to.voucherPrice}, '
-              'Total akhir: ${CheckoutController.to.finalTotalPrice}, '
-              'Potongan: ${CheckoutController.to.potongan} '
-              '🤸‍♀️Jumlah: ${CheckoutController.to.qty} '
+              // 'Diskon: ${CheckoutController.to.discount}, '
+              // 'Voucher: ${CheckoutController.to.voucherPrice}, '
+              // 'Total akhir: ${CheckoutController.to.finalTotalPrice}, '
+              // 'Potongan: ${CheckoutController.to.potongan} '
+              // '🤸‍♀️Jumlah: ${CheckoutController.to.qty} '
               '🛒Cart: ${CheckoutController.to.cartItem}');
           // print('Harga: ${CheckoutController.to.finalTotalPrice}');
         },
@@ -115,7 +115,11 @@ class CheckoutScreen extends StatelessWidget {
                           final item = minumanItems[index];
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: CheckoutMenuCard(menu: item),
+                            child: CheckoutMenuCard(
+                                menu: item,
+                                onTap: () => Get.toNamed(
+                                    Routes.checkoutEditMenuRoute,
+                                    arguments: item['id_menu'])),
                           );
                         },
                       ),

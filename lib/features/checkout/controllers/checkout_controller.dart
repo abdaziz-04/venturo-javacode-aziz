@@ -248,12 +248,6 @@ class CheckoutController extends GetxController {
     print('💰 Total harga akhir: ${finalTotalPrice.value}');
   }
 
-  // void calculateTotalPrice() {
-  //   totalPrice.value = cartItem.fold<int>(0,
-  //       (previousValue, element) => previousValue + (element['harga'] as int));
-  //   print('💰 Total harga: ${totalPrice.value}');
-  // }
-
   void deleteAllCart() {
     cartItem.clear();
     print('🛒 Keranjang berhasil dihapus');

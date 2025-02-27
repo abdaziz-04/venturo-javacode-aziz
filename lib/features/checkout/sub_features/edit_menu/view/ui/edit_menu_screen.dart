@@ -8,10 +8,10 @@ import 'package:venturo_core/features/checkout/sub_features/edit_menu/controller
 import 'package:venturo_core/features/checkout/sub_features/edit_menu/view/components/info_row.dart';
 import 'package:venturo_core/features/checkout/sub_features/edit_menu/view/components/level_modal_bottom_sheet.dart';
 import 'package:venturo_core/features/checkout/sub_features/edit_menu/view/components/notes_bottom_sheet.dart';
+import 'package:venturo_core/features/checkout/sub_features/edit_menu/view/components/topping_modal_bottom_sheet%20.dart';
 
 import 'package:venturo_core/features/list/sub_features/detail/controllers/list_detail_controller.dart';
 
-import 'package:venturo_core/features/list/sub_features/detail/view/components/topping_modal_bottom_sheet%20.dart';
 import 'package:venturo_core/shared/widgets/custom_app_bar.dart';
 
 import '../../../../../../shared/styles/color_style.dart';
@@ -36,7 +36,8 @@ class EditMenuScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print('Isi cart: ${ceController.previousCartItem}');
+          print('Topping: ${ceController.selectedMenuDetail['topping']}');
+          // print('Topping: ${ceController.selectedToppings.value}');
         },
         child: Icon(Icons.bug_report_outlined),
         backgroundColor: ColorStyle.primary,
@@ -160,8 +161,8 @@ class EditMenuScreen extends StatelessWidget {
                               ),
                             ),
                             Obx(() => Text(
-                                  ceController.previousCartItem['jumlah']
-                                      .toString(),
+                                  // ceController.qty.value.toString(),
+                                  ceController.qty.value.toString(),
                                   style: TextStyle(fontSize: 18),
                                 )),
                             IconButton(
@@ -202,7 +203,8 @@ class EditMenuScreen extends StatelessWidget {
                         ),
                         const Spacer(),
                         Text(
-                          'Rp. ${ceController.previousCartItem['harga']}',
+                          'Rp. ${ceController.price.value != 0 ? ceController.price.value : ceController.previousCartItem['harga'] ?? 0}',
+                          // ceController.price.value.toString(),
                           style: TextStyle(
                             fontSize: 18.w,
                             fontWeight: FontWeight.bold,
@@ -236,9 +238,8 @@ class EditMenuScreen extends StatelessWidget {
                     InfoRow(
                       icon: Icons.fastfood,
                       label: 'Toping',
-                      value: ListDetailController.to.selectedToppings.isNotEmpty
-                          ? ListDetailController
-                                  .to.selectedToppings.first['keterangan'] ??
+                      value: ceController.selectedToppings.isNotEmpty
+                          ? ceController.selectedToppings.first['keterangan'] ??
                               'Pilih Toping'
                           : 'Pilih Toping',
                       onPressed: () {
@@ -247,7 +248,7 @@ class EditMenuScreen extends StatelessWidget {
                           builder: (BuildContext context) {
                             return ToppingModalBottomSheet(
                               title: 'Pilih Toping',
-                              items: topping,
+                              items: ceController.selectedMenuDetail['topping'],
                             );
                           },
                         );
@@ -296,6 +297,7 @@ class EditMenuScreen extends StatelessWidget {
             Expanded(
               child: ElevatedButton(
                 onPressed: () {
+                  ceController.updateCart();
                   print('Simpan data');
                 },
                 style: ElevatedButton.styleFrom(
