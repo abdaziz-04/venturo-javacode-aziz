@@ -60,6 +60,7 @@ class CheckoutMenuCard extends StatelessWidget {
                     'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/240px-No_image_available.svg.png',
                 useOldImageOnUrlChange: true,
                 fit: BoxFit.contain,
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             ),
             // menu info
@@ -105,8 +106,7 @@ class CheckoutMenuCard extends StatelessWidget {
                   onPressed: () {
                     print('Kurangi jumlah ${menu}');
                     CheckoutController.to.decrementJumlah(menu['id_menu']);
-                    print(
-                        'Jumlah item: ${CheckoutController.to.cartItem.value}');
+                    print('Jumlah item: ${CheckoutController.to.cartItem}');
                   },
                   icon: Icon(
                     Icons.remove_circle_outline,
@@ -126,8 +126,7 @@ class CheckoutMenuCard extends StatelessWidget {
                   onPressed: () {
                     print('Kurangi jumlah ${menu}');
                     CheckoutController.to.incrementJumlah(menu['id_menu']);
-                    print(
-                        'Jumlah item: ${CheckoutController.to.cartItem.value}');
+                    print('Jumlah item: ${CheckoutController.to.cartItem}');
                   },
                   icon: Icon(
                     Icons.add_circle_outline,
