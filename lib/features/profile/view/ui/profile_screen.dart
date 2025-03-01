@@ -164,7 +164,9 @@ class ProfileScreen extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(100),
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  print('Beri Penilaian');
+                                },
                                 child: Text(
                                   'Nilai Sekarang',
                                   style: TextStyle(color: Colors.white),
