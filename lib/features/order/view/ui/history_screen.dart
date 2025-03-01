@@ -2,6 +2,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:venturo_core/features/order/controllers/order_controller.dart';
 import 'package:venturo_core/features/order/view/components/date_picker.dart';
 import 'package:venturo_core/features/order/view/components/drop_down_status.dart';
@@ -55,16 +56,21 @@ class HistoryScreen extends StatelessWidget {
                     )
                   : Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.h),
-                      child: ListView.builder(
-                        itemCount: orderController.historyOrders.length,
-                        itemBuilder: (context, index) {
-                          final order = orderController.historyOrders[index];
-                          final rxOrder = RxMap<String, dynamic>.from(order);
-                          return Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10.h),
-                            child: HistoryDetailOrderCard(rxOrder),
-                          );
-                        },
+                      child: SmartRefresher(
+                        controller: orderController.hRefresh,
+                        onRefresh: orderController.historyRefresh,
+                        enablePullDown: true,
+                        child: ListView.builder(
+                          itemCount: orderController.historyOrders.length,
+                          itemBuilder: (context, index) {
+                            final order = orderController.historyOrders[index];
+                            final rxOrder = RxMap<String, dynamic>.from(order);
+                            return Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10.h),
+                              child: HistoryDetailOrderCard(rxOrder),
+                            );
+                          },
+                        ),
                       ),
                     );
             }),

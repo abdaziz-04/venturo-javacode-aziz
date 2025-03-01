@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -49,7 +47,6 @@ class ListScreen extends StatelessWidget {
                   image: ImageConstants.promo,
                 ),
               ),
-              // Promo
               Obx(() => SizedBox(
                     height: 150.h,
                     child: ListView.builder(
@@ -74,7 +71,6 @@ class ListScreen extends StatelessWidget {
                     ),
                   )),
               SizedBox(height: 25.h),
-              // Kategori
               SizedBox(
                 height: 45.h,
                 width: 1.sw,

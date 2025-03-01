@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:venturo_core/features/order/repositories/order_repository.dart';
 
@@ -14,6 +15,9 @@ class OrderController extends GetxController {
 
   RxString onGoingOrderState = 'loading'.obs;
   RxString orderHistoryState = 'loading'.obs;
+
+  final RefreshController oRefresh = RefreshController(initialRefresh: false);
+  final RefreshController hRefresh = RefreshController(initialRefresh: false);
 
   final Rx<DateTimeRange> selectedDate = DateTimeRange(
     start: DateTime.now().subtract(const Duration(days: 7)),
@@ -34,6 +38,22 @@ class OrderController extends GetxController {
     _orderRepository = OrderRepository();
     getOnGoingOrders();
     getOrderHistories();
+  }
+
+  void historyRefresh() async {
+    try {
+      await getOrderHistories();
+    } finally {
+      hRefresh.refreshCompleted();
+    }
+  }
+
+  void onGoingRefresh() async {
+    try {
+      await getOnGoingOrders();
+    } finally {
+      oRefresh.refreshCompleted();
+    }
   }
 
   Future<void> getOnGoingOrders() async {
