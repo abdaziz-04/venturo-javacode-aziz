@@ -17,7 +17,7 @@ class OrderAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 45.h),
+        padding: EdgeInsets.symmetric(horizontal: 25.h),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -57,6 +57,7 @@ class OrderAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
                 )),
+            SizedBox(width: 20.w),
           ],
         ),
       ),

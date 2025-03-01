@@ -21,7 +21,7 @@ class CheckedStep extends StatelessWidget {
       child: Icon(
         Icons.check,
         color: ColorStyle.white,
-        size: 20,
+        size: 25,
       ),
     );
   }

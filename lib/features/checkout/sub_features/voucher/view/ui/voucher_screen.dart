@@ -23,6 +23,7 @@ class VoucherScreen extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          print('voucher = ${CheckoutVoucherController.to.isVoucherSelected}');
           print('voucher = ${CheckoutController.to.voucherPrice}');
         },
         child: Icon(Icons.bug_report_outlined),

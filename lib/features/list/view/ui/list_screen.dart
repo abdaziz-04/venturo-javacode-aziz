@@ -32,7 +32,6 @@ class ListScreen extends StatelessWidget {
             },
           ),
           floatingActionButton: FloatingActionButton(
-            // onPressed: () => Get.offAllNamed(Routes.noConnectionRoute),
             onPressed: () => Get.toNamed(Routes.checkoutRoute),
             child: Icon(
               Icons.shopping_cart,
@@ -127,7 +126,7 @@ class ListScreen extends StatelessWidget {
               }),
               Expanded(
                 child: Obx(() => SmartRefresher(
-                      controller: ListController.to.refreshController,
+                      controller: ListController.to.cRefresh,
                       enablePullDown: true,
                       onRefresh: ListController.to.onRefresh,
                       enablePullUp:

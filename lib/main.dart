@@ -12,6 +12,7 @@ import 'package:venturo_core/shared/bindings/global_binding.dart';
 import 'configs/pages/page.dart';
 import 'configs/themes/theme.dart';
 import 'shared/controllers/global_controller.dart';
+
 import 'utils/services/sentry_services.dart';
 
 void main() async {
@@ -21,6 +22,7 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox("venturo");
   await Hive.openBox('cart');
+  await Hive.openBox('user');
 
   // Firebase
   await Firebase.initializeApp();

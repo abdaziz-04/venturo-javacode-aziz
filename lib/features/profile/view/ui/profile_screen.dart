@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
 import 'package:venturo_core/shared/styles/color_style.dart';
 import 'package:venturo_core/shared/widgets/custom_app_bar.dart';
+import 'package:venturo_core/shared/widgets/info_row.dart';
+import 'package:venturo_core/shared/widgets/text_bottom_sheet.dart';
 
 import '../../../../constants/cores/assets/image_constants.dart';
 
-import '../../../../shared/widgets/tile_option_widget.dart';
 import '../../constants/profile_assets_constant.dart';
 import '../../controllers/profile_controller.dart';
 import '../components/profile_info_row.dart';
@@ -22,22 +24,17 @@ class ProfileScreen extends StatelessWidget {
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            print(ProfileController.to.loginData.value);
+            print('Data login = ${ProfileController.to.loginData}');
+            // ProfileController.to.getUser();
           },
-          child: const Icon(Icons.bug_report),
+          child: Icon(Icons.bug_report_outlined),
         ),
         appBar: CustomAppBar(
-            title: 'Profil',
-            showActions: true,
-            icon: Icons.logout,
-            onPress: () {
-              ProfileController.to.logout();
-            }),
+          title: 'Profil',
+          showActions: false,
+        ),
         body: Obx(() {
-          final loginData = ProfileController.to.loginData.value;
-          if (loginData == null) {
-            return const Center(child: Text("No login data available"));
-          }
+          final loginData = ProfileController.to.loginData;
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.only(top: 30, left: 16, right: 16),
@@ -55,7 +52,7 @@ class ProfileScreen extends StatelessWidget {
                         child: SizedBox.fromSize(
                       size: Size.fromRadius(70.r),
                       child: Image.network(
-                        loginData['user']?['foto'] ?? '',
+                        loginData[0]['user']?['foto'] ?? '',
                         fit: BoxFit.cover,
                       ),
                     )),
@@ -97,27 +94,43 @@ class ProfileScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         SizedBox(height: 16),
-                        ProfileInfoRow(
+                        InfoRow(
                           info: 'Nama',
-                          value: loginData['user']?['nama'] ?? '',
+                          value: loginData[0]['user']?['nama'] ?? '',
+                          onPress: () {
+                            showModalBottomSheet<void>(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (BuildContext context) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context)
+                                          .viewInsets
+                                          .bottom),
+                                  child: TextModalBottomSheet(
+                                    title: 'Nama',
+                                    hintText:
+                                        loginData[0]['user']?['nama'] ?? '',
+                                  ),
+                                );
+                              },
+                            );
+                          },
                         ),
                         const Divider(),
-                        ProfileInfoRow(
-                            info: 'Tanggal Lahir', value: 'Belum diisi'),
+                        InfoRow(info: 'Tanggal Lahir', value: 'Belum diisi'),
                         const Divider(),
-                        ProfileInfoRow(
-                            info: 'No Telepon', value: '08123456789'),
+                        InfoRow(info: 'No Telepon', value: '08123456789'),
                         const Divider(),
-                        ProfileInfoRow(
+                        InfoRow(
                             info: 'Email',
-                            value: loginData['user']?['email'] ?? ''),
+                            value: loginData[0]['user']?['email'] ?? ''),
                         const Divider(),
-                        ProfileInfoRow(
+                        InfoRow(
                             info: 'Ubah Pin',
-                            value: loginData['user']?['pin'] ?? ''),
+                            value: loginData[0]['user']?['pin'] ?? ''),
                         const Divider(),
-                        ProfileInfoRow(
-                            info: 'Ganti Bahasa', value: 'Indonesia'),
+                        InfoRow(info: 'Ganti Bahasa', value: 'Indonesia'),
                         SizedBox(height: 16),
                       ],
                     ),
@@ -199,11 +212,31 @@ class ProfileScreen extends StatelessWidget {
                               ],
                             ))),
                   ),
-                  TileOptionWidget(
-                    title: 'Privacy Policy'.tr,
-                    message: 'Here',
-                    onTap: ProfileController.to.privacyPolicyWebView,
+                  SizedBox(height: 16),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 40.h,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorStyle.primary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                        ),
+                        onPressed: () {
+                          ProfileController.to.logout();
+                        },
+                        child: Text(
+                          'Logout',
+                          style: TextStyle(color: Colors.white),
+                        )),
                   ),
+                  SizedBox(height: 30.h),
+                  // TileOptionWidget(
+                  //   title: 'Privacy Policy'.tr,
+                  //   message: 'Here',
+                  //   onTap: ProfileController.to.privacyPolicyWebView,
+                  // ),
                 ],
               ),
             ),

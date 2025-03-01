@@ -182,6 +182,7 @@ class CheckoutController extends GetxController {
       );
       if (response.statusCode == 200) {
         Get.back();
+
         Get.dialog(const OrderSuccessDialog());
         print("Order berhasil: ${json.encode(response.data)}");
       } else {

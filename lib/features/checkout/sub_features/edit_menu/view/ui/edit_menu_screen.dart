@@ -217,10 +217,10 @@ class EditMenuScreen extends StatelessWidget {
                     InfoRow(
                       icon: Icons.star,
                       label: 'Level',
-                      value: ceController.selectedLevel.value.isNotEmpty
-                          ? ceController.selectedLevel.value['keterangan'] ??
+                      value: ceController.selectedLevel.isNotEmpty
+                          ? ceController.selectedLevel['keterangan'] ??
                               'Pilih Level'
-                          : ceController.previousCartItem.value['level'] ??
+                          : ceController.previousCartItem['level'] ??
                               'Pilih Level',
                       onPressed: () {
                         showModalBottomSheet<void>(

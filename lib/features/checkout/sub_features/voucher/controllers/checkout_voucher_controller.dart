@@ -9,6 +9,8 @@ class CheckoutVoucherController extends GetxController {
   final RxList<Map<String, dynamic>> selectedVoucher =
       <Map<String, dynamic>>[].obs;
 
+  RxBool isVoucherSelected = false.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -29,9 +31,11 @@ class CheckoutVoucherController extends GetxController {
     print("🎫 Voucher yang dipilih: ${selectedVoucher}");
     if (selectedVoucher.contains(item)) {
       selectedVoucher.remove(item);
+      isVoucherSelected.value = true;
       print("🎫 Voucher ${item['nominal']} dihapus");
     } else {
       selectedVoucher.add(item);
+      isVoucherSelected.value = false;
       print("🎫 Voucher ${item['nominal']} ditambahkan");
     }
   }

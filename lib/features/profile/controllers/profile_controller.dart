@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:venturo_core/shared/models/user_model.dart';
 
@@ -14,27 +15,25 @@ class ProfileController extends GetxController {
 
   var productName = ''.obs;
   var apiLevel = ''.obs;
-  Rxn<UserModel> user = Rxn<UserModel>();
+  // Rxn<UserModel> user = Rxn<UserModel>();
   RxnString token = RxnString();
-  Rxn<Map<String, dynamic>> loginData = Rxn<Map<String, dynamic>>();
+  RxList<Map<String, dynamic>> loginData = RxList<Map<String, dynamic>>();
+  final userData = Hive.box('user');
 
   @override
   void onInit() {
     super.onInit();
     getDeviceInfo();
+    getUser();
   }
 
-  // Simpan data login
-  void saveLoginData(Map<String, dynamic> data) {
-    loginData.value = data;
-    try {
-      final parsedUser = UserModel.fromJson(data);
-      user.value = parsedUser;
-      token.value = parsedUser.token;
-      print(
-          "🧑‍💻 Login Success, user: ${user.value?.user.email}, token: ${token.value}, semua data: ${loginData.value}");
-    } catch (e) {
-      print("Error menyimpan data login: $e");
+  void getUser() {
+    final data = userData.get('user');
+    if (data != null && data is Map) {
+      loginData.value = [Map<String, dynamic>.from(data)];
+      print('Data user: ${loginData}');
+    } else {
+      print("Data user tidak ditemukan atau tidak sesuai format: $data");
     }
   }
 

@@ -43,12 +43,13 @@ class FingerprintDialog extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 CheckoutController.to.placeOrder(
-                    idUser: ProfileController.to.loginData.value?['user']
-                        ['id_user'],
+                    idUser: 70,
+                    // ProfileController.to.loginData.value?['user']
+                    //     ['id_user'],
                     idVoucher: CheckoutVoucherController.to.selectedVoucher[0]
                         ['id_voucher'],
                     potongan: CheckoutController.to.potongan,
-                    cartItems: ListDetailController.to.cartItem,
+                    cartItems: CheckoutController.to.cartItem,
                     finalTotalPrice:
                         CheckoutController.to.finalTotalPrice.value);
               },

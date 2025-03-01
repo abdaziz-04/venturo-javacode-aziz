@@ -126,18 +126,18 @@ class SigIScreen extends StatelessWidget {
                 },
               ),
               SizedBox(height: 15.h),
-              AppleAuthButton(
-                style: const AuthButtonStyle(
-                  width: 180,
-                  height: 50,
-                  borderRadius: 100,
-                  iconSize: 24,
-                ),
-                text: 'Masuk dengan Apple',
-                onPressed: () async {
-                  SigInController.to.signInWithGoogle(context);
-                },
-              ),
+              // AppleAuthButton(
+              //   style: const AuthButtonStyle(
+              //     width: 180,
+              //     height: 50,
+              //     borderRadius: 100,
+              //     iconSize: 24,
+              //   ),
+              //   text: 'Masuk dengan Apple',
+              //   onPressed: () async {
+              //     SigInController.to.signInWithGoogle(context);
+              //   },
+              // ),
             ],
           ),
         ),

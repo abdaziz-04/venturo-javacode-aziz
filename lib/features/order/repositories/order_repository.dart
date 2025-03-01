@@ -28,7 +28,7 @@ class OrderRepository {
     var dio = Dio();
     // Melakukan request GET ke API
     final response = await dio.request(
-      'https://trainee.landa.id/javacode/order/user/1',
+      'https://trainee.landa.id/javacode/order/user/70',
       options: Options(
         method: 'GET',
         headers: headers,

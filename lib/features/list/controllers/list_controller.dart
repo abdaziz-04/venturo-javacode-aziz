@@ -31,8 +31,7 @@ class ListController extends GetxController {
   RxMap<String, dynamic> selectedMenuDetail = <String, dynamic>{}.obs;
   RxMap<String, dynamic> selectedPromoDetail = <String, dynamic>{}.obs;
 
-  final RefreshController refreshController =
-      RefreshController(initialRefresh: false);
+  final RefreshController cRefresh = RefreshController(initialRefresh: false);
 
   @override
   void onInit() async {
@@ -50,9 +49,9 @@ class ListController extends GetxController {
     final result = await getListOfData();
 
     if (result) {
-      refreshController.refreshCompleted();
+      cRefresh.refreshCompleted();
     } else {
-      refreshController.refreshFailed();
+      cRefresh.refreshFailed();
     }
   }
 
@@ -120,13 +119,13 @@ class ListController extends GetxController {
 
       if (result['data'].isEmpty) {
         canLoadMore(false);
-        refreshController.loadNoData();
+        cRefresh.loadNoData();
         print('📦 Data kosong');
       } else {
         items.addAll(result['data']);
         print('📦 Data berhasil diambil dari API {$items}');
         page.value++;
-        refreshController.loadComplete();
+        cRefresh.loadComplete();
       }
 
       return true;
@@ -135,7 +134,7 @@ class ListController extends GetxController {
         exception,
         stackTrace: stacktrace,
       );
-      refreshController.loadFailed();
+      cRefresh.loadFailed();
       return false;
     }
   }

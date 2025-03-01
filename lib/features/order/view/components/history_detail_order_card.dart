@@ -59,10 +59,8 @@ class HistoryDetailOrderCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Baris status dan tanggal
                     Row(
                       children: [
-                        // Pastikan StatusInfo menerima Map biasa
                         StatusInfo(detailOrder: order),
                         const Spacer(),
                         Text(
@@ -92,7 +90,6 @@ class HistoryDetailOrderCard extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 5.h),
-                    // Baris total bayar dan jumlah menu
                     Row(
                       children: [
                         Text(
@@ -105,7 +102,7 @@ class HistoryDetailOrderCard extends StatelessWidget {
                         ),
                         SizedBox(width: 5.w),
                         Text(
-                          '(2 Menu)',
+                          '(${detailOrder['menu'].length} Menu)',
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 14.sp,

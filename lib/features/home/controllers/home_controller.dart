@@ -7,7 +7,7 @@ class HomeController extends GetxController {
   static HomeController get to => Get.find();
 
   var tabIndex = 0.obs;
-  final ListController listController = Get.put(ListController());
+
   final ProfileController profileController = Get.put(ProfileController());
 
   void changeTabIndex(int index) {

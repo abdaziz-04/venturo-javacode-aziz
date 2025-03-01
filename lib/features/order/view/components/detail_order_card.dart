@@ -1,17 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:venturo_core/features/order/view/components/status_info.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 
 class DetailOrderCard extends StatelessWidget {
   final Map<String, dynamic> detailOrder;
+  final void Function()? onTap;
 
-  const DetailOrderCard(this.detailOrder, {Key? key}) : super(key: key);
+  const DetailOrderCard({Key? key, required this.detailOrder, this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: onTap,
       child: Ink(
         padding: EdgeInsets.all(7.r),
         decoration: BoxDecoration(
@@ -45,11 +49,7 @@ class DetailOrderCard extends StatelessWidget {
                     : detailOrder['menu'][0]['foto'] ??
                         'https://st4.depositphotos.com/2102215/38162/v/1600/depositphotos_381626826-stock-illustration-online-food-order-service-advertising.jpg',
                 fit: BoxFit.contain,
-                errorWidget: (context, _, __) => CachedNetworkImage(
-                  imageUrl:
-                      'https://st4.depositphotos.com/2102215/38162/v/1600/depositphotos_381626826-stock-illustration-online-food-order-service-advertising.jpg',
-                  fit: BoxFit.contain,
-                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             ),
             Expanded(
@@ -98,7 +98,7 @@ class DetailOrderCard extends StatelessWidget {
                       ),
                       SizedBox(width: 5.w),
                       Text(
-                        '(2 Menu)',
+                        '(${detailOrder['menu'].length} Menu)',
                         style: TextStyle(
                           color: Colors.grey,
                           fontSize: 14.sp,

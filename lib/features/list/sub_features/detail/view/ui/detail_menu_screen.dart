@@ -110,7 +110,6 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                             width: 50,
                             color: Colors.grey[300],
                           ),
-                          // Tambahkan skeleton lain sesuai kebutuhan layout
                         ],
                       ),
                     );
@@ -246,9 +245,16 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                         onPressed: () {
                           showModalBottomSheet<void>(
                             context: context,
+                            isScrollControlled: true,
                             builder: (BuildContext context) {
-                              return NotesModalBottomSheet(
-                                title: 'Catatan',
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom),
+                                child: NotesModalBottomSheet(
+                                  title: 'Catatan',
+                                ),
                               );
                             },
                           );
@@ -268,24 +274,13 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                         ),
                         onPressed: () {
                           controller.addToCart(menu?['id_menu']);
-                          // PanaraConfirmDialog.show(
-                          //   context,
-                          //   title: "Tambah ke Pesanan",
-                          //   message: "Kamu Yakin Ingin Menambah ke Pesanan?",
-                          //   confirmButtonText: "Iya",
-                          //   cancelButtonText: "Batal",
-                          //   onTapCancel: () {
-                          //     // Get.back();
-                          //   },
-                          //   onTapConfirm: () {
-                          //     controller.addToCart(menu?['id_menu']);
-
-                          //     // Get.toNamed(Routes.checkoutRoute);
-                          //   },
-                          //   panaraDialogType: PanaraDialogType.custom,
-                          //   barrierDismissible: false,
-                          //   color: ColorStyle.primary,
-                          // );
+                          Get.snackbar(
+                            "Berhasil",
+                            "Menu berhasil ditambahkan ke pesanan",
+                            snackPosition: SnackPosition.BOTTOM,
+                            backgroundColor: ColorStyle.primary,
+                            colorText: Colors.white,
+                          );
                         },
                         child: Text('Tambahkan Ke Pesanan'),
                       ),

@@ -33,6 +33,7 @@ class SigInController extends GetxController {
   var isRememberMe = false.obs;
   final Dio _dio = Dio();
   final box = Hive.box('venturo');
+  final userData = Hive.box('user');
 
   // show password
   void showPassword() {
@@ -52,10 +53,22 @@ class SigInController extends GetxController {
       });
       if (response.statusCode == 200) {
         final data = response.data['data'];
+        print('Data: $data');
         final String token = response.data['data']['token'].toString();
-        ProfileController.to.saveLoginData(data);
 
-        box.put('token', response.data['data']['token'].toString());
+        final dataUser = {
+          'id_user': data['user']['id_user'],
+          'email': data['user']['email'],
+          'nama': data['user']['nama'],
+          'pin': data['user']['pin'],
+          'foto': data['user']['foto'],
+          'token': data['token'],
+        };
+
+        userData.put('token', token);
+        userData.put('user', dataUser);
+        print("Saved Data: ${userData.get('user')}");
+
         print('Token yang tersimpan: $token');
 
         Get.offAllNamed(Routes.getLocationScreenRoute);
