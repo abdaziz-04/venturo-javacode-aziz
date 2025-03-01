@@ -207,7 +207,8 @@ class CheckoutScreen extends StatelessWidget {
             const Divider(),
             InfoRow(
                 info: 'Pembayaran',
-                value: 'Transfer Bank',
+                value: 'Tunai',
+                containButton: false,
                 containImage: true,
                 image: ImageConstants.icPayment),
             SizedBox(height: 30),

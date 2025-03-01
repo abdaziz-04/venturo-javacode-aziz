@@ -42,9 +42,8 @@ class VoucherCard extends StatelessWidget {
                       CheckoutVoucherController.to.addVoucher(item);
                     },
                     icon: Obx(() => Icon(
-                          CheckoutVoucherController
-                                      .to.isVoucherSelected.value ==
-                                  true
+                          CheckoutVoucherController.to.selectedVoucher
+                                  .contains(item)
                               ? Icons.check_box
                               : Icons.check_box_outline_blank,
                           color: ColorStyle.primary,
