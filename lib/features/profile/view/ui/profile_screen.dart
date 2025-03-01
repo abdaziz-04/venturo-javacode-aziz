@@ -24,7 +24,7 @@ class ProfileScreen extends StatelessWidget {
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            print('Data login = ${ProfileController.to.loginData}');
+            print('Data login = ${ProfileController.to.loginData[0]['nama']}');
             // ProfileController.to.getUser();
           },
           child: Icon(Icons.bug_report_outlined),
@@ -52,7 +52,7 @@ class ProfileScreen extends StatelessWidget {
                         child: SizedBox.fromSize(
                       size: Size.fromRadius(70.r),
                       child: Image.network(
-                        loginData[0]['user']?['foto'] ?? '',
+                        loginData[0]['foto'] ?? '',
                         fit: BoxFit.cover,
                       ),
                     )),
@@ -96,7 +96,7 @@ class ProfileScreen extends StatelessWidget {
                         SizedBox(height: 16),
                         InfoRow(
                           info: 'Nama',
-                          value: loginData[0]['user']?['nama'] ?? '',
+                          value: loginData[0]['nama'] ?? '',
                           onPress: () {
                             showModalBottomSheet<void>(
                               context: context,
@@ -109,8 +109,7 @@ class ProfileScreen extends StatelessWidget {
                                           .bottom),
                                   child: TextModalBottomSheet(
                                     title: 'Nama',
-                                    hintText:
-                                        loginData[0]['user']?['nama'] ?? '',
+                                    hintText: loginData[0]['nama'] ?? '',
                                   ),
                                 );
                               },
@@ -123,12 +122,10 @@ class ProfileScreen extends StatelessWidget {
                         InfoRow(info: 'No Telepon', value: '08123456789'),
                         const Divider(),
                         InfoRow(
-                            info: 'Email',
-                            value: loginData[0]['user']?['email'] ?? ''),
+                            info: 'Email', value: loginData[0]['email'] ?? ''),
                         const Divider(),
                         InfoRow(
-                            info: 'Ubah Pin',
-                            value: loginData[0]['user']?['pin'] ?? ''),
+                            info: 'Ubah Pin', value: loginData[0]['pin'] ?? ''),
                         const Divider(),
                         InfoRow(info: 'Ganti Bahasa', value: 'Indonesia'),
                         SizedBox(height: 16),

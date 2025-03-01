@@ -45,7 +45,6 @@ class CheckoutMenuCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // menu image
             Container(
               height: 90.h,
               width: 90.w,
@@ -63,7 +62,6 @@ class CheckoutMenuCard extends StatelessWidget {
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             ),
-            // menu info
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,7 +69,7 @@ class CheckoutMenuCard extends StatelessWidget {
                   Text(
                     menu['nama'],
                     style: TextStyle(
-                      fontSize: 22.sp,
+                      fontSize: 24.sp,
                     ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
@@ -79,18 +77,20 @@ class CheckoutMenuCard extends StatelessWidget {
                   Text(
                     'Rp. ${menu['harga'].toString()}',
                     style: TextStyle(
-                      fontSize: 15.sp,
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.bold,
                       color: ColorStyle.primary,
                     ),
                   ),
+                  SizedBox(height: 5.h),
                   Row(
                     children: [
                       Image.asset(ImageConstants.icNotes),
                       SizedBox(width: 5.w),
                       Text(
-                        'Catatan',
+                        menu['catatan'] ?? 'Tidak ada catatan',
                         style: TextStyle(
-                          fontSize: 13.sp,
+                          fontSize: 14.sp,
                           color: ColorStyle.grey,
                         ),
                       ),
@@ -99,7 +99,6 @@ class CheckoutMenuCard extends StatelessWidget {
                 ],
               ),
             ),
-            // menu quantity
             Row(
               children: [
                 IconButton(

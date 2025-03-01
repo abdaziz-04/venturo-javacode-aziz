@@ -7,13 +7,11 @@ import 'option_chip.dart';
 class LevelModalBottomSheet extends StatelessWidget {
   final String title;
   final List<dynamic> items;
-  final Function(dynamic)? onTap;
 
   const LevelModalBottomSheet({
     Key? key,
     required this.title,
     required this.items,
-    this.onTap,
   }) : super(key: key);
 
   @override

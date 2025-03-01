@@ -13,7 +13,7 @@ class VoucherRepository {
   var apiConstant = CheckoutApiConstant();
 
   Future<String?> _getToken() async {
-    final box = await Hive.openBox('venturo');
+    final box = await Hive.openBox('user');
     final token = box.get('token', defaultValue: '');
     if (token.isEmpty) {
       print("⚠️ Token kosong! Coba login ulang.");

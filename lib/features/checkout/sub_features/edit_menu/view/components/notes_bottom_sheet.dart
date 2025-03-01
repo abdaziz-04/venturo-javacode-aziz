@@ -3,11 +3,10 @@ import 'package:flutter/widgets.dart';
 
 import 'package:venturo_core/shared/styles/color_style.dart';
 
-// ! PENTING - BUAT AGAR BOTTOM SHEET FLEKSIBEL (TIDAK TERTUTUP KEYBOARD)
 class NotesModalBottomSheet extends StatelessWidget {
   final String title;
 
-  final Function(dynamic)? onTap;
+  final Function()? onTap;
 
   const NotesModalBottomSheet({
     Key? key,

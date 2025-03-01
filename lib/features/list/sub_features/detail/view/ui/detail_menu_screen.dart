@@ -127,6 +127,7 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                             menu?['nama'] ?? 'Nama tidak tersedia',
                             style: TextStyle(
                               fontSize: 24,
+                              overflow: TextOverflow.ellipsis,
                               fontWeight: FontWeight.bold,
                               color: ColorStyle.primary,
                             ),
@@ -241,7 +242,9 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                       InfoRow(
                         icon: Icons.notes,
                         label: 'Catatan',
-                        value: 'Tidak ada catatan',
+                        value: ListDetailController.to.notes.value.isNotEmpty
+                            ? ListDetailController.to.notes.value
+                            : 'Tambahkan Catatan',
                         onPressed: () {
                           showModalBottomSheet<void>(
                             context: context,
@@ -293,7 +296,8 @@ class DetailMenuScreen extends GetView<ListDetailController> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            ListDetailController.to.getPrice();
+            // ListDetailController.to.getPrice();
+            print('🛒 Catatan :${ListDetailController.to.notes}');
           },
           child: const Icon(
             Icons.shopping_cart,

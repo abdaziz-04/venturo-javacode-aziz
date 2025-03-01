@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -5,19 +6,22 @@ import '../../../controllers/list_controller.dart';
 
 class ListDetailController extends GetxController {
   static ListDetailController get to => Get.find();
+  late final TextEditingController notesController;
   final ListController listController = ListController.to;
-  RxInt qty = 1.obs;
   final RxList<Map<String, dynamic>> cartItem = <Map<String, dynamic>>[].obs;
   final RxMap<String, dynamic> selectedLevel = <String, dynamic>{}.obs;
+  RxInt qty = 1.obs;
   final RxList<Map<String, dynamic>> selectedToppings =
       <Map<String, dynamic>>[].obs;
+  RxString notes = ''.obs;
+  RxInt price = 0.obs;
 
   final cart = Hive.box('cart');
-  RxInt price = 0.obs;
 
   @override
   void onInit() {
     super.onInit();
+    notesController = TextEditingController();
     final arguments = Get.arguments;
     print('ListDetailController.onInit() - Arguments: $arguments');
     if (arguments != null) {
@@ -32,6 +36,11 @@ class ListDetailController extends GetxController {
         print('Default price di-set: ${price.value}');
       }
     });
+  }
+
+  void addNotes() {
+    notes.value = notesController.text;
+    print('📝 Catatan: ${notes.value};');
   }
 
   void addLevel(Map<String, dynamic> level) {
@@ -70,6 +79,7 @@ class ListDetailController extends GetxController {
       'topping':
           selectedToppings.map((topping) => topping['id_detail']).toList(),
       'jumlah': qty.value,
+      'catatan': notes.value,
     };
     cart.add(cartItem);
     print('🛒 Berhasil ditambahkan $cartItem');

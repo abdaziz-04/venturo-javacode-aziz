@@ -21,7 +21,7 @@ class CheckoutScreen extends StatelessWidget {
   CheckoutScreen({Key? key}) : super(key: key);
 
   final assetsConstant = CheckoutAssetsConstant();
-  // final item = ListController.to.filteredList[5];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
