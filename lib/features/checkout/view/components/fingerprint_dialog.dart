@@ -3,8 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:venturo_core/features/checkout/controllers/checkout_controller.dart';
 import 'package:venturo_core/features/checkout/sub_features/voucher/controllers/checkout_voucher_controller.dart';
-import 'package:venturo_core/features/list/sub_features/detail/controllers/list_detail_controller.dart';
-import 'package:venturo_core/features/profile/controllers/profile_controller.dart';
 import '../../../../shared/styles/color_style.dart';
 
 class FingerprintDialog extends StatelessWidget {
