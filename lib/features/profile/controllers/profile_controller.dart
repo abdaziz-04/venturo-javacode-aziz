@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:venturo_core/shared/models/user_model.dart';
 
 import '../../../configs/routes/route.dart';
 import 'package:device_information/device_information.dart';
@@ -15,7 +13,6 @@ class ProfileController extends GetxController {
 
   var productName = ''.obs;
   var apiLevel = ''.obs;
-  // Rxn<UserModel> user = Rxn<UserModel>();
   RxnString token = RxnString();
   RxList<Map<String, dynamic>> loginData = RxList<Map<String, dynamic>>();
   final userData = Hive.box('user');
@@ -41,9 +38,7 @@ class ProfileController extends GetxController {
   void logout() async {
     await FirebaseAuth.instance.signOut();
     await GlobalController.setLoggedIn(false);
-    final box = Hive.box('venturo');
-    await box.delete('token');
-    print('Token dihapus');
+    await userData.clear();
 
     Get.offAllNamed(Routes.sigInRoute);
   }

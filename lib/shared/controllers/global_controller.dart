@@ -20,7 +20,7 @@ class GlobalController extends GetxController {
     await box.put(tokenKey, token);
   }
 
-  static Future<String?> getToken() async {
+  static Future<String?> getsToken() async {
     var box = await Hive.openBox(boxName);
     return box.get(tokenKey) as String?;
   }
