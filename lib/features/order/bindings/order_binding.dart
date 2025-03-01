@@ -6,5 +6,6 @@ class OrderBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(OrderController());
+    Get.lazyPut(() => OrderController());
   }
 }

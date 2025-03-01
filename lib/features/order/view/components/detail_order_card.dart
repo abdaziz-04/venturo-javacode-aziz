@@ -70,7 +70,6 @@ class DetailOrderCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10.h),
                   Container(
                     constraints: BoxConstraints(maxWidth: 200.w),
                     child: Text(
