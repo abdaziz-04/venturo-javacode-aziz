@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:venturo_core/features/checkout/controllers/checkout_controller.dart';
-import 'package:venturo_core/features/checkout/sub_features/voucher/controllers/checkout_voucher_controller.dart';
 import '../../../../shared/styles/color_style.dart';
 
 class FingerprintDialog extends StatelessWidget {
@@ -40,16 +39,8 @@ class FingerprintDialog extends StatelessWidget {
             SizedBox(height: 20.h),
             GestureDetector(
               onTap: () {
-                CheckoutController.to.placeOrder(
-                    idUser: 70,
-                    // ProfileController.to.loginData.value?['user']
-                    //     ['id_user'],
-                    idVoucher: CheckoutVoucherController.to.selectedVoucher[0]
-                        ['id_voucher'],
-                    potongan: CheckoutController.to.potongan,
-                    cartItems: CheckoutController.to.cartItem,
-                    finalTotalPrice:
-                        CheckoutController.to.finalTotalPrice.value);
+                print('Fingerprint');
+                CheckoutController.to.authenticate();
               },
               child: Icon(
                 Icons.fingerprint,

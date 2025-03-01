@@ -2,8 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:venturo_core/features/checkout/sub_features/voucher/controllers/checkout_voucher_controller.dart';
 import 'package:venturo_core/features/checkout/view/components/fingerprint_dialog.dart';
 import 'package:venturo_core/features/checkout/view/components/order_success_dialog.dart';
+import 'package:venturo_core/features/profile/controllers/profile_controller.dart';
 import 'dart:convert';
 import '../../../shared/styles/color_style.dart';
 import '../../list/sub_features/detail/controllers/list_detail_controller.dart';
@@ -18,6 +21,7 @@ class CheckoutController extends GetxController {
   int qty = 1;
 
   final RxList<Map<String, dynamic>> cartItem = <Map<String, dynamic>>[].obs;
+  final _auth = LocalAuthentication();
 
   @override
   void onInit() {
@@ -119,6 +123,34 @@ class CheckoutController extends GetxController {
     }
   }
 
+  Future<bool> hasBiometrics() async {
+    final isAvailable = await _auth.canCheckBiometrics;
+    final isDeviceSupported = await _auth.isDeviceSupported();
+    return isAvailable && isDeviceSupported;
+  }
+
+  Future<bool> authenticate() async {
+    final isAuthAvailable = await hasBiometrics();
+    if (!isAuthAvailable) return false;
+    try {
+      final isAuthenticated = await _auth.authenticate(
+          localizedReason: 'Touch your finger on the sensor to login');
+      if (isAuthenticated) {
+        print('🔒 Berhasil terautentikasi');
+        CheckoutController.to.placeOrder(
+            idUser: ProfileController.to.loginData[0]['user']?['id_user'],
+            idVoucher: CheckoutVoucherController.to.selectedVoucher[0]
+                ['id_voucher'],
+            potongan: CheckoutController.to.potongan,
+            cartItems: CheckoutController.to.cartItem,
+            finalTotalPrice: CheckoutController.to.finalTotalPrice.value);
+      }
+      return isAuthenticated;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Map<String, dynamic> prepareOrderPayload({
     required int idUser,
     required int? idVoucher,
@@ -133,6 +165,7 @@ class CheckoutController extends GetxController {
         "level": item["level"] ?? 0,
         "topping": item["topping"] ?? [],
         "jumlah": item["jumlah"],
+        "catatan": item["catatan"],
       };
     }).toList();
 

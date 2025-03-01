@@ -61,7 +61,7 @@ class OrderSuccessDialog extends StatelessWidget {
               width: 168.w,
               child: ElevatedButton(
                 onPressed: () {
-                  Get.toNamed(Routes.orderRoute);
+                  Get.offAllNamed(Routes.homeRoute, arguments: {"tabIndex": 1});
                   CheckoutController.to.deleteAllCart();
                   ListDetailController.to.deleteAllCart();
                 },

@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 
-import '../../list/controllers/list_controller.dart';
 import '../../profile/controllers/profile_controller.dart';
 
 class HomeController extends GetxController {
@@ -17,6 +16,11 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
   }
 
   @override
