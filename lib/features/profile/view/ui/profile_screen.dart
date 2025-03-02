@@ -160,7 +160,16 @@ class ProfileScreen extends StatelessWidget {
                             },
                           ),
                           const Divider(),
-                          InfoRow(info: 'Tanggal Lahir', value: 'Belum diisi'),
+                          InfoRow(
+                            info: 'Tanggal Lahir',
+                            value: ProfileController.to.selectedDate.value !=
+                                    null
+                                ? '${ProfileController.to.selectedDate.value!.day}/${ProfileController.to.selectedDate.value!.month}/${ProfileController.to.selectedDate.value!.year}'
+                                : 'Belum diisi',
+                            onPress: () {
+                              ProfileController.to.selectDate(context);
+                            },
+                          ),
                           const Divider(),
                           InfoRow(
                             info: 'No Telepon',

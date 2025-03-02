@@ -32,6 +32,7 @@ class ProfileController extends GetxController {
   RxString email = ''.obs;
   RxString phone = ''.obs;
   RxString pin = ''.obs;
+  Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
 
   File? get imageFile => _imageFile.value;
 
@@ -44,6 +45,18 @@ class ProfileController extends GetxController {
     phoneController = TextEditingController();
     pinController = TextEditingController();
     getUser();
+  }
+
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDate.value ?? DateTime.now(),
+      firstDate: DateTime(1965),
+      lastDate: DateTime.now(),
+    );
+    if (pickedDate != null) {
+      selectedDate.value = pickedDate;
+    }
   }
 
   void changeName() {
