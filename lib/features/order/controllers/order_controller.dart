@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:venturo_core/features/checkout/controllers/checkout_controller.dart';
 import 'package:venturo_core/features/order/repositories/order_repository.dart';
+import 'package:venturo_core/features/profile/controllers/profile_controller.dart';
 
 class OrderController extends GetxController {
   static OrderController get to => Get.find();
@@ -24,6 +27,8 @@ class OrderController extends GetxController {
     end: DateTime.now(),
   ).obs;
 
+  final _auth = LocalAuthentication();
+
   RxString selectedStatus = 'all'.obs;
 
   Map<String, String> get dateFilterStatus => {
@@ -38,6 +43,47 @@ class OrderController extends GetxController {
     _orderRepository = OrderRepository();
     getOnGoingOrders();
     getOrderHistories();
+  }
+
+  Future<bool> hasBiometrics() async {
+    final isAvailable = await _auth.canCheckBiometrics;
+    final isDeviceSupported = await _auth.isDeviceSupported();
+    return isAvailable && isDeviceSupported;
+  }
+
+  Future<bool> authOrderAgain(
+      {required int potongan,
+      required List<Map<String, dynamic>> cartItem,
+      required int finalTotalPrice}) async {
+    final isAuthAvailable = await hasBiometrics();
+    if (!isAuthAvailable) {
+      print('Biometrics not available or device not supported');
+      return false;
+    }
+    try {
+      final isAuthenticated = await _auth.authenticate(
+          localizedReason: 'Touch your finger on the sensor to login');
+      if (isAuthenticated) {
+        print('🔒 Berhasil terautentikasi');
+        print('Placing order with details:');
+        print(
+            'User ID: ${ProfileController.to.loginData[0]['user']?['id_user']}');
+        print('Potongan: $potongan');
+        print('Cart Items: $cartItem');
+        print('Final Total Price: $finalTotalPrice');
+        CheckoutController.to.placeOrder(
+            idUser: ProfileController.to.loginData[0]['id_user'],
+            potongan: potongan,
+            cartItems: cartItem,
+            finalTotalPrice: finalTotalPrice);
+      } else {
+        print('Authentication failed');
+      }
+      return isAuthenticated;
+    } catch (e) {
+      print('Error during authentication: $e');
+      return false;
+    }
   }
 
   void historyRefresh() async {

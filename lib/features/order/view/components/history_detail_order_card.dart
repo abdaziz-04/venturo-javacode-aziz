@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:venturo_core/features/checkout/controllers/checkout_controller.dart';
+import 'package:venturo_core/features/order/controllers/order_controller.dart';
 import 'package:venturo_core/features/order/view/components/order_again_button.dart';
 import 'package:venturo_core/features/order/view/components/rate_button.dart';
 import 'package:venturo_core/features/order/view/components/status_info.dart';
@@ -93,7 +94,7 @@ class HistoryDetailOrderCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          'Rp ${order['total_bayar']}',
+                          'Rp ${detailOrder['total_bayar']}',
                           style: TextStyle(
                             color: ColorStyle.primary,
                             fontWeight: FontWeight.bold,
@@ -116,10 +117,12 @@ class HistoryDetailOrderCard extends StatelessWidget {
                       children: [
                         if (order['status'] == 4)
                           OrderAgainButton(onTap: () {
-                            print('Order again ${order}');
-                            CheckoutController.to.authOrderAgain(
+                            // print('Order again ${order}');
+                            Get.lazyPut(() => CheckoutController());
+                            OrderController.to.authOrderAgain(
                                 potongan: 0,
-                                cartItems: detailOrder['menu'],
+                                cartItem: List<Map<String, dynamic>>.from(
+                                    detailOrder['menu']),
                                 finalTotalPrice: detailOrder['total_bayar']);
                           })
                         else ...[

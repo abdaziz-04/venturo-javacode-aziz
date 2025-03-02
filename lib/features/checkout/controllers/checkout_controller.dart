@@ -151,29 +151,6 @@ class CheckoutController extends GetxController {
     }
   }
 
-  Future<bool> authOrderAgain(
-      {required int potongan,
-      required List<Map<String, dynamic>> cartItems,
-      required int finalTotalPrice}) async {
-    final isAuthAvailable = await hasBiometrics();
-    if (!isAuthAvailable) return false;
-    try {
-      final isAuthenticated = await _auth.authenticate(
-          localizedReason: 'Touch your finger on the sensor to login');
-      if (isAuthenticated) {
-        print('🔒 Berhasil terautentikasi');
-        CheckoutController.to.placeOrder(
-            idUser: ProfileController.to.loginData[0]['user']?['id_user'],
-            potongan: potongan,
-            cartItems: cartItem,
-            finalTotalPrice: finalTotalPrice);
-      }
-      return isAuthenticated;
-    } catch (e) {
-      return false;
-    }
-  }
-
   Map<String, dynamic> prepareOrderPayload({
     required int idUser,
     required int? idVoucher,
