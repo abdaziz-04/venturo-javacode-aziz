@@ -138,7 +138,7 @@ class CheckoutController extends GetxController {
       if (isAuthenticated) {
         print('🔒 Berhasil terautentikasi');
         CheckoutController.to.placeOrder(
-            idUser: ProfileController.to.loginData[0]['user']?['id_user'],
+            idUser: ProfileController.to.loginData[0]['id_user'],
             idVoucher: CheckoutVoucherController.to.selectedVoucher[0]
                 ['id_voucher'],
             potongan: CheckoutController.to.potongan,
