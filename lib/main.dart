@@ -23,6 +23,7 @@ void main() async {
   await Hive.openBox("venturo");
   await Hive.openBox('cart');
   await Hive.openBox('user');
+  await Hive.openBox('rating');
 
   // Firebase
   await Firebase.initializeApp();

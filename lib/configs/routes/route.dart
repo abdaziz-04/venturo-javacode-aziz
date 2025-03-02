@@ -24,4 +24,7 @@ abstract class Routes {
   static const String checkoutEditMenuRoute = '/checkout_edit_menu';
   static const String voucherDetail = '/voucher_detail';
   static const String orderDetailRoute = '/order_detail';
+  static const String ratingRoute = '/rating';
+  static const String addRateRoute = '/rating_add_rate';
+  static const String reviewReplyRoute = '/rating_review_reply';
 }
