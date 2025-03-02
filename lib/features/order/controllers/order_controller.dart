@@ -146,13 +146,11 @@ class OrderController extends GetxController {
             filteredOrders.where((order) => order['status'] == 4).toList();
       }
 
-      if (selectedDate.value != null) {
-        filteredOrders = filteredOrders.where((order) {
-          final orderDate = DateTime.parse(order['tanggal'] as String);
-          return !orderDate.isBefore(selectedDate.value.start) &&
-              !orderDate.isAfter(selectedDate.value.end);
-        }).toList();
-      }
+      filteredOrders = filteredOrders.where((order) {
+        final orderDate = DateTime.parse(order['tanggal'] as String);
+        return !orderDate.isBefore(selectedDate.value.start) &&
+            !orderDate.isAfter(selectedDate.value.end);
+      }).toList();
 
       historyOrders.assignAll(filteredOrders);
       print('Filtered History Orders: $historyOrders');
