@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:venturo_core/configs/routes/route.dart';
 import 'package:venturo_core/features/list/controllers/list_controller.dart';
 
 import 'package:venturo_core/features/list/sub_features/detail/view/components/level_modal_bottom_sheet.dart';
@@ -296,8 +297,7 @@ class DetailMenuScreen extends GetView<ListDetailController> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // ListDetailController.to.getPrice();
-            print('🛒 Catatan :${ListDetailController.to.notes}');
+            Get.toNamed(Routes.checkoutRoute);
           },
           child: const Icon(
             Icons.shopping_cart,

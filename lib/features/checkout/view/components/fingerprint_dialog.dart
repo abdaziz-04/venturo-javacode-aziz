@@ -11,11 +11,9 @@ class FingerprintDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: Colors.white,
-
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.r),
       ),
-      // Isi dialog
       child: Padding(
         padding: EdgeInsets.all(20.r),
         child: Column(
