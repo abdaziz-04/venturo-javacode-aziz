@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import 'package:venturo_core/shared/styles/color_style.dart';
 
 class TextModalBottomSheet extends StatelessWidget {
   final String title;
   final String hintText;
-
-  final Function(dynamic)? onTap;
+  final TextEditingController controller;
+  final Function()? onTap;
+  final bool isPassword;
 
   const TextModalBottomSheet({
     Key? key,
+    required this.controller,
     required this.title,
     required this.hintText,
+    this.isPassword = false,
     this.onTap,
   }) : super(key: key);
 
@@ -49,7 +53,8 @@ class TextModalBottomSheet extends StatelessWidget {
               children: [
                 Expanded(
                     child: TextField(
-                  controller: TextEditingController(),
+                  obscureText: isPassword,
+                  controller: controller,
                   decoration: InputDecoration(
                     hintText: hintText,
                     border: UnderlineInputBorder(),
@@ -57,7 +62,8 @@ class TextModalBottomSheet extends StatelessWidget {
                 )),
                 IconButton(
                     onPressed: () {
-                      print('Notes: ');
+                      onTap!();
+                      Get.back();
                     },
                     icon: Icon(
                       Icons.check_circle,

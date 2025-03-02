@@ -11,6 +11,7 @@ class InfoRow extends StatelessWidget {
   final bool containButton;
   final Color valueColor;
   final bool isBold;
+  final bool isPassword;
   final Function()? onPress;
 
   const InfoRow({
@@ -21,6 +22,7 @@ class InfoRow extends StatelessWidget {
     this.valueColor = ColorStyle.dark,
     required this.info,
     required this.value,
+    this.isPassword = false,
     this.containButton = true,
     this.containImage = false,
     this.onPress,
