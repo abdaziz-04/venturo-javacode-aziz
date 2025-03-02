@@ -135,23 +135,27 @@ class OrderController extends GetxController {
     try {
       final orders = await _orderRepository.fetchOrders();
 
-      final List<Map<String, dynamic>> history =
+      List<Map<String, dynamic>> filteredOrders =
           orders.where((order) => order['status'] >= 3).toList();
 
-      if (selectedStatus.value == 'all') {
-        historyOrders.assignAll(history);
-        print('History Orders: $historyOrders');
-      } else if (selectedStatus.value == 'completed') {
-        historyOrders.assignAll(
-          history.where((order) => order['status'] == 3).toList(),
-        );
-        print('History Orders: $historyOrders');
+      if (selectedStatus.value == 'completed') {
+        filteredOrders =
+            filteredOrders.where((order) => order['status'] == 3).toList();
       } else if (selectedStatus.value == 'cancelled') {
-        historyOrders.assignAll(
-          history.where((order) => order['status'] == 4).toList(),
-        );
-        print('History Orders: $historyOrders');
+        filteredOrders =
+            filteredOrders.where((order) => order['status'] == 4).toList();
       }
+
+      if (selectedDate.value != null) {
+        filteredOrders = filteredOrders.where((order) {
+          final orderDate = DateTime.parse(order['tanggal'] as String);
+          return !orderDate.isBefore(selectedDate.value.start) &&
+              !orderDate.isAfter(selectedDate.value.end);
+        }).toList();
+      }
+
+      historyOrders.assignAll(filteredOrders);
+      print('Filtered History Orders: $historyOrders');
     } catch (e, s) {
       await Sentry.captureException(e, stackTrace: s);
       orderHistoryState.value = 'error';

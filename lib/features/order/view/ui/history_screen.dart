@@ -25,8 +25,8 @@ class HistoryScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print(orderController.historyOrders);
-          // print('Status dipilih: ${orderController.selectedStatus}, '
-          //     'Tanggal dipilih: ${orderController.selectedDate}');
+          print('Status dipilih: ${orderController.selectedStatus}, '
+              'Tanggal dipilih: ${orderController.selectedDate}');
         },
         child: const Icon(Icons.bug_report),
       ),
@@ -41,8 +41,10 @@ class HistoryScreen extends StatelessWidget {
                 children: [
                   DropDownStatus(),
                   Obx(() => DatePicker(
-                        onChanged: (newRange) =>
-                            orderController.selectedDate.value = newRange,
+                        onChanged: (newRange) {
+                          orderController.selectedDate.value = newRange;
+                          orderController.updateFilteredHistoryOrders();
+                        },
                         selectedDate: orderController.selectedDate.value,
                       ))
                 ],
