@@ -21,13 +21,6 @@ class OnGoingScreen extends StatelessWidget {
       screenClassOverride: 'Trainee',
     );
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print(OrderController.to.ongoingOrders);
-          // print(OrderController.to.historyOrders);
-        },
-        child: const Icon(Icons.bug_report),
-      ),
       body: orderController.ongoingOrders.isEmpty
           ? NoData(
               info: 'Sudah Pesan? Lacak pesananmu di sini.',

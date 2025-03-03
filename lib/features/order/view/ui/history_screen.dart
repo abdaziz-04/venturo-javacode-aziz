@@ -22,14 +22,6 @@ class HistoryScreen extends StatelessWidget {
     );
     final OrderController orderController = OrderController.to;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print(orderController.historyOrders);
-          print('Status dipilih: ${orderController.selectedStatus}, '
-              'Tanggal dipilih: ${orderController.selectedDate}');
-        },
-        child: const Icon(Icons.bug_report),
-      ),
       body: Column(
         children: [
           Container(
