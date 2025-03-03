@@ -24,6 +24,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Colors.white,
       title: Text(
         title,
         style: TextStyle(
@@ -37,7 +38,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           bottom: Radius.circular(20.0),
         ),
       ),
-      backgroundColor: Colors.white,
       elevation: 5.0,
       shadowColor: Colors.grey.withOpacity(0.5),
       centerTitle: isCenterTitle,

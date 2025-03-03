@@ -68,6 +68,7 @@ class SigInController extends GetxController {
         userData.put('token', token);
         userData.put('user', dataUser);
         print("Saved Data: ${userData.get('user')}");
+        ProfileController.to.getUser();
 
         print('Token yang tersimpan: $token');
 
