@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
+import 'package:venturo_core/features/checkout/controllers/checkout_controller.dart';
+import 'package:venturo_core/features/checkout/sub_features/voucher/controllers/checkout_voucher_controller.dart';
+import 'package:venturo_core/features/profile/controllers/profile_controller.dart';
 
 class PinDialog extends StatefulWidget {
   final String pin;
@@ -27,7 +30,14 @@ class _PinDialogState extends State<PinDialog> {
 
     if (pin == widget.pin) {
       // Jika PIN benar, tutup dialog dan kirim 'true'
-      Get.back<bool>(result: true);
+      print('🦸‍♂️ PIN correct');
+      CheckoutController.to.placeOrder(
+          idUser: ProfileController.to.loginData[0]['id_user'],
+          idVoucher: CheckoutVoucherController.to.selectedVoucher[0]
+              ['id_voucher'],
+          potongan: CheckoutController.to.potongan,
+          cartItems: CheckoutController.to.cartItem,
+          finalTotalPrice: CheckoutController.to.finalTotalPrice.value);
     } else {
       // Jika PIN salah
       tries++;

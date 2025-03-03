@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:venturo_core/features/checkout/controllers/checkout_controller.dart';
+import 'package:venturo_core/features/checkout/view/components/pin_dialog.dart';
 import '../../../../shared/styles/color_style.dart';
 
 class FingerprintDialog extends StatelessWidget {
@@ -56,7 +57,12 @@ class FingerprintDialog extends StatelessWidget {
             ),
             SizedBox(height: 10.h),
             TextButton(
-              onPressed: () => Get.back<String>(result: 'pin'),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => PinDialog(pin: '123456'),
+                );
+              },
               child: Text(
                 'Verifikasi Menggunakan PIN'.tr,
                 style: TextStyle(

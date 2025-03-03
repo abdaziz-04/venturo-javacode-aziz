@@ -137,7 +137,7 @@ class CheckoutController extends GetxController {
           localizedReason: 'Touch your finger on the sensor to login');
       if (isAuthenticated) {
         print('🔒 Berhasil terautentikasi');
-        CheckoutController.to.placeOrder(
+        placeOrder(
             idUser: ProfileController.to.loginData[0]['id_user'],
             idVoucher: CheckoutVoucherController.to.selectedVoucher[0]
                 ['id_voucher'],
