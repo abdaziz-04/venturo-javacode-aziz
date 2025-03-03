@@ -132,7 +132,6 @@ class SigInController extends GetxController {
     }
   }
 
-  // Submitted form val
   void validateForm(context) async {
     await GlobalController.to.checkConnection();
 

@@ -1,8 +1,6 @@
-import 'dart:io';
-
 import 'package:auth_buttons/auth_buttons.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -24,33 +22,10 @@ class SigIScreen extends StatelessWidget {
   final SigInController sc = Get.put(SigInController());
   @override
   Widget build(BuildContext context) {
-    /// Google analytics untuk tracking user di setiap halaman
-    if (Platform.isAndroid) {
-      /// Tracking bawah dia masuk screen sign in di device android
-      analytics.setCurrentScreen(
-        screenName: 'Sign In Screen',
-        screenClassOverride: 'Android',
-      );
-    } else if (Platform.isIOS) {
-      /// Tracking bawah dia masuk screen sign in di device ios
-      analytics.setCurrentScreen(
-        screenName: 'Sign In Screen',
-        screenClassOverride: 'IOS',
-      );
-    } else if (Platform.isMacOS) {
-      /// Tracking bawah dia masuk screen sign in di device macos
-      analytics.setCurrentScreen(
-        screenName: 'Sign In Screen',
-        screenClassOverride: 'MacOS',
-      );
-    }
-    if (kIsWeb) {
-      /// Tracking bawah dia masuk screen sign in di device web
-      analytics.setCurrentScreen(
-        screenName: 'Sign In Screen',
-        screenClassOverride: 'Web',
-      );
-    }
+    analytics.setCurrentScreen(
+      screenName: 'Sign In Screen',
+      screenClassOverride: 'Android',
+    );
     return Scaffold(
       appBar: null,
       extendBody: false,
@@ -125,19 +100,6 @@ class SigIScreen extends StatelessWidget {
                   SigInController.to.signInWithGoogle(context);
                 },
               ),
-              SizedBox(height: 15.h),
-              // AppleAuthButton(
-              //   style: const AuthButtonStyle(
-              //     width: 180,
-              //     height: 50,
-              //     borderRadius: 100,
-              //     iconSize: 24,
-              //   ),
-              //   text: 'Masuk dengan Apple',
-              //   onPressed: () async {
-              //     SigInController.to.signInWithGoogle(context);
-              //   },
-              // ),
             ],
           ),
         ),
