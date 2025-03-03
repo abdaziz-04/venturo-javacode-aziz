@@ -99,6 +99,14 @@ class DetailOrderScreen extends StatelessWidget {
                 image: ImageConstants.icPayment),
             const Divider(),
             InfoRow(
+                info: 'Potongan Harga',
+                value: 'Rp ${orderController.totalHarga - data['total_bayar']}',
+                containImage: true,
+                containButton: false,
+                isBold: true,
+                image: ImageConstants.icDiscount),
+            const Divider(),
+            InfoRow(
               info: 'Total Pembayaran',
               value: data['total_bayar'].toString(),
               containButton: false,
@@ -111,12 +119,6 @@ class DetailOrderScreen extends StatelessWidget {
             SizedBox(height: 15.h),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print(orderController.order);
-        },
-        child: const Icon(Icons.bug_report),
       ),
     );
   }

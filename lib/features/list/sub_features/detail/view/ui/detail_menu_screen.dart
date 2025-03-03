@@ -127,7 +127,7 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                           Text(
                             menu?['nama'] ?? 'Nama tidak tersedia',
                             style: TextStyle(
-                              fontSize: 24,
+                              fontSize: 23.sp,
                               overflow: TextOverflow.ellipsis,
                               fontWeight: FontWeight.bold,
                               color: ColorStyle.primary,

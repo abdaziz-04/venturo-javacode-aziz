@@ -30,8 +30,10 @@ class CheckoutScreen extends StatelessWidget {
         showActions: true,
         icon: Icons.delete,
         onPress: () {
-          CheckoutController.to.deleteAllCart();
-          ListDetailController.to.deleteAllCart();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            CheckoutController.to.deleteAllCart();
+            ListDetailController.to.deleteAllCart();
+          });
         },
       ),
       floatingActionButton: FloatingActionButton(

@@ -43,22 +43,30 @@ class LevelModalBottomSheet extends StatelessWidget {
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
-          Row(
-            children: items.map((item) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Obx(() => OptionChip(
-                      text: item['keterangan'] ?? 'Tidak Bisa Pilih Level',
-                      isSelected: ListDetailController.to.selectedLevel == item,
-                      onTap: () {
-                        ListDetailController.to.addLevel(item);
-                        ListDetailController.to.getPrice();
-                      },
-                    )),
-              );
-            }).toList(),
-          )
-          // }),
+          items.isEmpty
+              ? Center(
+                  child: Text(
+                    'Level tidak tersedia',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                )
+              : Row(
+                  children: items.map((item) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Obx(() => OptionChip(
+                            text:
+                                item['keterangan'] ?? 'Tidak Bisa Pilih Level',
+                            isSelected:
+                                ListDetailController.to.selectedLevel == item,
+                            onTap: () {
+                              ListDetailController.to.addLevel(item);
+                              ListDetailController.to.getPrice();
+                            },
+                          )),
+                    );
+                  }).toList(),
+                ),
         ],
       ),
     );

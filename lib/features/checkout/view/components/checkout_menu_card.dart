@@ -87,11 +87,14 @@ class CheckoutMenuCard extends StatelessWidget {
                     children: [
                       Image.asset(ImageConstants.icNotes),
                       SizedBox(width: 5.w),
-                      Text(
-                        menu['catatan'] ?? 'Tidak ada catatan',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          color: ColorStyle.grey,
+                      Expanded(
+                        child: Text(
+                          menu['catatan'] ?? 'Tidak ada catatan',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: ColorStyle.grey,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
@@ -109,6 +112,7 @@ class CheckoutMenuCard extends StatelessWidget {
                   },
                   icon: Icon(
                     Icons.remove_circle_outline,
+                    size: 20.r,
                     color: ColorStyle.primary,
                   ),
                   padding: EdgeInsets.zero,
@@ -128,6 +132,7 @@ class CheckoutMenuCard extends StatelessWidget {
                     print('Jumlah item: ${CheckoutController.to.cartItem}');
                   },
                   icon: Icon(
+                    size: 20.r,
                     Icons.add_circle_outline,
                     color: ColorStyle.primary,
                   ),
