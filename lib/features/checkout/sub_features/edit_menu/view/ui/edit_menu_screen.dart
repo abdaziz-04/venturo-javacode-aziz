@@ -141,7 +141,7 @@ class EditMenuScreen extends StatelessWidget {
                         Text(
                           menu?['nama'] ?? 'Nama tidak tersedia',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 23.sp,
                             fontWeight: FontWeight.bold,
                             color: ColorStyle.primary,
                           ),

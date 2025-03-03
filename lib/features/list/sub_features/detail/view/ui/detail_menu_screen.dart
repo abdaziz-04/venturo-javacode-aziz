@@ -295,16 +295,6 @@ class DetailMenuScreen extends GetView<ListDetailController> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Get.toNamed(Routes.checkoutRoute);
-          },
-          child: const Icon(
-            Icons.shopping_cart,
-            color: ColorStyle.white,
-          ),
-          backgroundColor: ColorStyle.primary,
-        ),
       ),
     );
   }

@@ -30,25 +30,23 @@ class CheckoutScreen extends StatelessWidget {
         showActions: true,
         icon: Icons.delete,
         onPress: () {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            CheckoutController.to.deleteAllCart();
-            ListDetailController.to.deleteAllCart();
-          });
+          Get.defaultDialog(
+            title: 'Hapus Semua Pesanan',
+            middleText: 'Apakah anda yakin ingin menghapus semua pesanan?',
+            textConfirm: 'Ya',
+            textCancel: 'Tidak',
+            buttonColor: ColorStyle.primary,
+            confirmTextColor: ColorStyle.white,
+            cancelTextColor: ColorStyle.primary,
+            onConfirm: () {
+              Get.back();
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                CheckoutController.to.deleteAllCart();
+                ListDetailController.to.deleteAllCart();
+              });
+            },
+          );
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // print('🐞 Data cart: ${CheckoutController.to.cartItem.value}');
-          print('🐞 Total harga: ${CheckoutController.to.totalPrice}, '
-              // 'Diskon: ${CheckoutController.to.discount}, '
-              // 'Voucher: ${CheckoutController.to.voucherPrice}, '
-              // 'Total akhir: ${CheckoutController.to.finalTotalPrice}, '
-              // 'Potongan: ${CheckoutController.to.potongan} '
-              // '🤸‍♀️Jumlah: ${CheckoutController.to.qty} '
-              '🛒Cart: ${CheckoutController.to.cartItem}');
-          // print('Harga: ${CheckoutController.to.finalTotalPrice}');
-        },
-        child: Icon(Icons.bug_report),
       ),
       body: SingleChildScrollView(
         child: Padding(

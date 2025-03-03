@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:venturo_core/shared/styles/color_style.dart';
 
 import '../../../controllers/list_controller.dart';
 
@@ -88,6 +89,13 @@ class ListDetailController extends GetxController {
   void deleteAllCart() {
     cart.clear();
     cartItem.clear();
+    Get.snackbar(
+      "Berhasil",
+      "Semua Pesanan Berhasil Dihapus",
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: ColorStyle.primary,
+      colorText: Colors.white,
+    );
     print('🛒 Berhasil menghapus semua item di keranjang');
   }
 
