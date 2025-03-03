@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:venturo_core/features/rating/controllers/rating_controller.dart';
 
 class RatingAddRateController extends GetxController {
   static RatingAddRateController get to => Get.find();
@@ -71,6 +72,7 @@ class RatingAddRateController extends GetxController {
       "review": review.value,
     };
     ratingBox.add(data);
+    RatingController.to.getRate();
     print('Data rating: $data');
 
     Get.back();

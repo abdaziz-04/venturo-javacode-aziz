@@ -8,13 +8,24 @@ class RatingController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
     getRate();
   }
 
   void getRate() {
     rateItem.clear();
     final ratingBox = Hive.box('rating');
-    rateItem.addAll(ratingBox.values.cast<Map<String, dynamic>>());
+
+    for (var item in ratingBox.values) {
+      if (item is Map) {
+        final mapItem = Map<String, dynamic>.from(
+            item.map((key, value) => MapEntry(key.toString(), value)));
+        rateItem.add(mapItem);
+      } else {
+        print('Data tidak sesuai format Map<String, dynamic>: $item');
+      }
+    }
+
     print('🛒 Isi rate dari Hive box: $rateItem');
   }
 
