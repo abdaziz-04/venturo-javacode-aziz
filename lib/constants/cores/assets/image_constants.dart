@@ -22,4 +22,5 @@ class ImageConstants {
   static const String icVoucher = 'assets/icons/ic_voucher.png';
   static const String icPayment = 'assets/icons/ic_payment.png';
   static const String icCart = 'assets/icons/ic_cart.png';
+  static const String imgPan = 'assets/images/img_pan.png';
 }

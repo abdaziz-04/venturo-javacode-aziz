@@ -5,6 +5,7 @@ import 'package:pinput/pinput.dart';
 import 'package:venturo_core/features/checkout/controllers/checkout_controller.dart';
 import 'package:venturo_core/features/checkout/sub_features/voucher/controllers/checkout_voucher_controller.dart';
 import 'package:venturo_core/features/profile/controllers/profile_controller.dart';
+import 'package:venturo_core/shared/styles/color_style.dart';
 
 class PinDialog extends StatefulWidget {
   final String pin;
@@ -29,26 +30,24 @@ class _PinDialogState extends State<PinDialog> {
     await Future.delayed(const Duration(milliseconds: 500));
 
     if (pin == widget.pin) {
-      // Jika PIN benar, tutup dialog dan kirim 'true'
-      print('🦸‍♂️ PIN correct');
-      CheckoutController.to.placeOrder(
-          idUser: ProfileController.to.loginData[0]['id_user'],
-          idVoucher: CheckoutVoucherController.to.selectedVoucher[0]
-              ['id_voucher'],
-          potongan: CheckoutController.to.potongan,
-          cartItems: CheckoutController.to.cartItem,
-          finalTotalPrice: CheckoutController.to.finalTotalPrice.value);
+      print('🦸‍♂️ PIN correct $pin');
+
+      // ! JANGAN LUPA
+      // CheckoutController.to.placeOrder(
+      //     idUser: ProfileController.to.loginData[0]['id_user'],
+      //     idVoucher: CheckoutVoucherController.to.selectedVoucher[0]
+      //         ['id_voucher'],
+      //     potongan: CheckoutController.to.potongan,
+      //     cartItems: CheckoutController.to.cartItem,
+      //     finalTotalPrice: CheckoutController.to.finalTotalPrice.value);
     } else {
-      // Jika PIN salah
       tries++;
 
       if (tries >= 3) {
-        // Jika lebih dari 3 kali, tutup dialog dan kirim 'false'
         Get.back<bool>(result: false);
       } else {
-        // Tampilkan sisa percobaan
         controller.clear();
-        errorText.value = 'PIN wrong! n chances left.'.trParams({
+        errorText.value = 'PIN wrong! @n chances left.'.trParams({
           'n': (3 - tries).toString(),
         });
       }
@@ -69,9 +68,7 @@ class _PinDialogState extends State<PinDialog> {
     );
 
     return Dialog(
-      // Warna latar belakang dialog
       backgroundColor: Colors.white,
-      // Bentuk dialog membulat
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.r),
       ),
@@ -80,21 +77,18 @@ class _PinDialogState extends State<PinDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Judul
             Text(
               'Verify order',
-              style: Get.textTheme.labelLarge,
+              style: TextStyle(
+                fontSize: 20.sp,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-
-            // Subjudul
             Text(
               'Enter PIN code',
               style: Get.textTheme.bodySmall!.copyWith(color: Colors.black),
             ),
-
             24.verticalSpacingRadius,
-
-            // Input PIN
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -121,25 +115,21 @@ class _PinDialogState extends State<PinDialog> {
                     ),
                   ),
                 ),
-
                 10.horizontalSpace,
-
-                // Tombol untuk toggle show/hide PIN
                 Obx(
                   () => InkWell(
                     radius: 24.r,
                     onTap: () => obscure.value = !obscure.value,
                     child: Icon(
                       obscure.value ? Icons.visibility : Icons.visibility_off,
-                      color: Theme.of(context).primaryColor,
+                      color: ColorStyle.grey,
                       size: 20.r,
                     ),
                   ),
                 ),
+                SizedBox(width: 10.w),
               ],
             ),
-
-            // Pesan error
             Obx(
               () => errorText.value != null
                   ? Padding(

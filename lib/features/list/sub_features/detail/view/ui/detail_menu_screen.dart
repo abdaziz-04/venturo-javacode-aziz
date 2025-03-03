@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:venturo_core/configs/routes/route.dart';
 import 'package:venturo_core/features/list/controllers/list_controller.dart';
 
 import 'package:venturo_core/features/list/sub_features/detail/view/components/level_modal_bottom_sheet.dart';

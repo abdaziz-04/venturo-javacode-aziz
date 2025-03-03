@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:venturo_core/features/checkout/controllers/checkout_controller.dart';
 import 'package:venturo_core/features/checkout/view/components/pin_dialog.dart';
+import 'package:venturo_core/features/profile/controllers/profile_controller.dart';
 import '../../../../shared/styles/color_style.dart';
 
 class FingerprintDialog extends StatelessWidget {
@@ -58,9 +59,11 @@ class FingerprintDialog extends StatelessWidget {
             SizedBox(height: 10.h),
             TextButton(
               onPressed: () {
+                Get.back();
                 showDialog(
                   context: context,
-                  builder: (context) => PinDialog(pin: '123456'),
+                  builder: (context) =>
+                      PinDialog(pin: ProfileController.to.loginData[0]['pin']),
                 );
               },
               child: Text(

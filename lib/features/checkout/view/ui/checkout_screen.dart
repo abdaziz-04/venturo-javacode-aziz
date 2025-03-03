@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:venturo_core/features/checkout/controllers/checkout_controller.dart';
 import 'package:venturo_core/features/checkout/view/components/checkout_menu_card.dart';
+import 'package:venturo_core/features/checkout/view/components/order_success_dialog.dart';
 import 'package:venturo_core/features/list/sub_features/detail/controllers/list_detail_controller.dart';
 import 'package:venturo_core/shared/widgets/info_row.dart';
 
@@ -25,6 +26,9 @@ class CheckoutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        Get.dialog(const OrderSuccessDialog());
+      }),
       appBar: CustomAppBar(
         title: 'Pesanan',
         showActions: true,
