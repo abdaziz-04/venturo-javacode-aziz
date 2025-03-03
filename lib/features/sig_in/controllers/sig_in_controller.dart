@@ -45,53 +45,82 @@ class SigInController extends GetxController {
   }
 
   Future<void> loginApi(BuildContext context) async {
-    final url = ApiConstant.apiLogin;
-    try {
-      final response = await _dio.post(url, data: {
-        'email': emailCtrl.text,
-        'password': passwordCtrl.text,
-      });
-      if (response.statusCode == 200) {
-        final data = response.data['data'];
-        print('Data: $data');
-        final String token = response.data['data']['token'].toString();
+    await GlobalController.to.checkConnection();
 
-        final dataUser = {
-          'id_user': data['user']['id_user'],
-          'email': data['user']['email'],
-          'nama': data['user']['nama'],
-          'pin': data['user']['pin'],
-          'foto': data['user']['foto'],
-          'token': data['token'],
-        };
+    // Validasi form
+    var isValid = formKey.currentState!.validate();
+    Get.focusScope!.unfocus();
 
-        userData.put('token', token);
-        userData.put('user', dataUser);
-        print("Saved Data: ${userData.get('user')}");
-        ProfileController.to.getUser();
+    if (isValid && GlobalController.to.isConnect.value == true) {
+      EasyLoading.show(
+        status: 'Sedang diproses....',
+        maskType: EasyLoadingMaskType.black,
+        dismissOnTap: false,
+      );
 
-        print('Token yang tersimpan: $token');
+      formKey.currentState!.save();
 
-        Get.offAllNamed(Routes.getLocationScreenRoute);
-        await GlobalController.setLoggedIn(true);
-      } else {
-        PanaraInfoDialog.show(context,
+      final url = ApiConstant.apiLogin;
+      try {
+        final response = await _dio.post(url, data: {
+          'email': emailCtrl.text,
+          'password': passwordCtrl.text,
+        });
+        if (response.statusCode == 200) {
+          final data = response.data['data'];
+          print('Data: $data');
+          final String token = data['token'].toString();
+
+          final dataUser = {
+            'id_user': data['user']['id_user'],
+            'email': data['user']['email'],
+            'nama': data['user']['nama'],
+            'pin': data['user']['pin'],
+            'foto': data['user']['foto'],
+            'token': token,
+          };
+
+          // Simpan data ke Hive
+          userData.put('token', token);
+          userData.put('user', dataUser);
+          print("Saved Data: ${userData.get('user')}");
+          ProfileController.to.getUser();
+
+          print('Token yang tersimpan: $token');
+
+          Get.offAllNamed(Routes.getLocationScreenRoute);
+          await GlobalController.setLoggedIn(true);
+        } else {
+          PanaraInfoDialog.show(
+            context,
             title: 'Warning',
             buttonText: 'Coba Lagi',
-            message: 'Email atau Password salah', onTapDismiss: () {
-          Get.back();
-        },
+            message: 'Email atau Password salah',
+            onTapDismiss: () {
+              Get.back();
+            },
             panaraDialogType: PanaraDialogType.warning,
-            barrierDismissible: false);
-      }
-    } catch (e) {
-      print('Error: $e');
-      PanaraInfoDialog.show(context,
+            barrierDismissible: false,
+          );
+        }
+      } catch (e) {
+        print('Error: $e');
+        PanaraInfoDialog.show(
+          context,
           title: 'Warning',
           buttonText: 'Coba Lagi',
-          message: 'Tidak dapat login', onTapDismiss: () {
-        Get.back();
-      }, panaraDialogType: PanaraDialogType.warning, barrierDismissible: false);
+          message: 'Tidak dapat login',
+          onTapDismiss: () {
+            Get.back();
+          },
+          panaraDialogType: PanaraDialogType.warning,
+          barrierDismissible: false,
+        );
+      } finally {
+        EasyLoading.dismiss();
+      }
+    } else if (GlobalController.to.isConnect.value == false) {
+      Get.toNamed(Routes.initial);
     }
   }
 
