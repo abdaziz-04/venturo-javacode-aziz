@@ -17,47 +17,52 @@ class OrderAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 45.h),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Obx(() => TextButton(
-                  onPressed: () {
-                    OrderController.to.selectedTabIndex.value = 0;
-                  },
-                  child: Text(
-                    'Sedang berjalan',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: OrderController.to.selectedTabIndex.value == 0
-                          ? ColorStyle.primary
-                          : ColorStyle.black,
-                      fontSize: 18.sp,
-                      decoration: OrderController.to.selectedTabIndex.value == 0
-                          ? TextDecoration.underline
-                          : TextDecoration.none,
+        padding: EdgeInsets.symmetric(horizontal: 25.h),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Obx(() => TextButton(
+                    onPressed: () {
+                      OrderController.to.selectedTabIndex.value = 0;
+                    },
+                    child: Text(
+                      'Sedang berjalan',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: OrderController.to.selectedTabIndex.value == 0
+                            ? ColorStyle.primary
+                            : ColorStyle.black,
+                        fontSize: 18.sp,
+                        decoration:
+                            OrderController.to.selectedTabIndex.value == 0
+                                ? TextDecoration.underline
+                                : TextDecoration.none,
+                      ),
                     ),
-                  ),
-                )),
-            Obx(() => TextButton(
-                  onPressed: () {
-                    OrderController.to.selectedTabIndex.value = 1;
-                  },
-                  child: Text(
-                    'Riwayat',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: OrderController.to.selectedTabIndex.value == 1
-                          ? ColorStyle.primary
-                          : ColorStyle.black,
-                      fontSize: 18.sp,
-                      decoration: OrderController.to.selectedTabIndex.value == 1
-                          ? TextDecoration.underline
-                          : TextDecoration.none,
+                  )),
+              Obx(() => TextButton(
+                    onPressed: () {
+                      OrderController.to.selectedTabIndex.value = 1;
+                    },
+                    child: Text(
+                      'Riwayat',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: OrderController.to.selectedTabIndex.value == 1
+                            ? ColorStyle.primary
+                            : ColorStyle.black,
+                        fontSize: 18.sp,
+                        decoration:
+                            OrderController.to.selectedTabIndex.value == 1
+                                ? TextDecoration.underline
+                                : TextDecoration.none,
+                      ),
                     ),
-                  ),
-                )),
-          ],
+                  )),
+              SizedBox(width: 20.w),
+            ],
+          ),
         ),
       ),
       shape: RoundedRectangleBorder(

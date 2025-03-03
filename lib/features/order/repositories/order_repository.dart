@@ -9,7 +9,7 @@ class OrderRepository {
   var apiConstant = OrderApiConstant();
 
   Future<String?> _getToken() async {
-    final box = await Hive.openBox('venturo');
+    final box = await Hive.openBox('user');
     final token = box.get('token', defaultValue: '');
     if (token.isEmpty) {
       print("⚠️ Token kosong! Coba login ulang.");
@@ -26,9 +26,9 @@ class OrderRepository {
     };
 
     var dio = Dio();
-    // Melakukan request GET ke API
+
     final response = await dio.request(
-      'https://trainee.landa.id/javacode/order/user/1',
+      'https://trainee.landa.id/javacode/order/user/70',
       options: Options(
         method: 'GET',
         headers: headers,

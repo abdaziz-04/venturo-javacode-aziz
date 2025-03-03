@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:venturo_core/features/list/controllers/list_controller.dart';
 import 'package:venturo_core/shared/widgets/custom_app_bar.dart';
-
+import 'package:flutter_html/flutter_html.dart';
 import '../../../../../../shared/styles/color_style.dart';
 
 class PromoDetailScreen extends StatelessWidget {
@@ -108,13 +108,14 @@ class PromoDetailScreen extends StatelessWidget {
                               ? Container(
                                   height: 50.h,
                                   color: Colors.grey[300],
-                                  // Bisa juga diganti dengan widget skeleton text
                                 )
-                              : Text(
-                                  promo['sk'],
-                                  style: TextStyle(fontSize: 14.sp),
-                                  maxLines: null,
-                                  overflow: TextOverflow.visible,
+                              : Html(
+                                  data: promo['sk'],
+                                  style: {
+                                    'body': Style(
+                                      fontSize: FontSize(14.sp),
+                                    ),
+                                  },
                                 ),
                         ),
                       ],

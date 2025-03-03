@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:venturo_core/configs/routes/route.dart';
 import 'package:venturo_core/features/list/controllers/list_controller.dart';
 
 import 'package:venturo_core/features/list/sub_features/detail/view/components/level_modal_bottom_sheet.dart';
@@ -110,7 +111,6 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                             width: 50,
                             color: Colors.grey[300],
                           ),
-                          // Tambahkan skeleton lain sesuai kebutuhan layout
                         ],
                       ),
                     );
@@ -127,7 +127,8 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                           Text(
                             menu?['nama'] ?? 'Nama tidak tersedia',
                             style: TextStyle(
-                              fontSize: 24,
+                              fontSize: 23.sp,
+                              overflow: TextOverflow.ellipsis,
                               fontWeight: FontWeight.bold,
                               color: ColorStyle.primary,
                             ),
@@ -242,13 +243,22 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                       InfoRow(
                         icon: Icons.notes,
                         label: 'Catatan',
-                        value: 'Tidak ada catatan',
+                        value: ListDetailController.to.notes.value.isNotEmpty
+                            ? ListDetailController.to.notes.value
+                            : 'Tambahkan Catatan',
                         onPressed: () {
                           showModalBottomSheet<void>(
                             context: context,
+                            isScrollControlled: true,
                             builder: (BuildContext context) {
-                              return NotesModalBottomSheet(
-                                title: 'Catatan',
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom),
+                                child: NotesModalBottomSheet(
+                                  title: 'Catatan',
+                                ),
                               );
                             },
                           );
@@ -268,24 +278,13 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                         ),
                         onPressed: () {
                           controller.addToCart(menu?['id_menu']);
-                          // PanaraConfirmDialog.show(
-                          //   context,
-                          //   title: "Tambah ke Pesanan",
-                          //   message: "Kamu Yakin Ingin Menambah ke Pesanan?",
-                          //   confirmButtonText: "Iya",
-                          //   cancelButtonText: "Batal",
-                          //   onTapCancel: () {
-                          //     // Get.back();
-                          //   },
-                          //   onTapConfirm: () {
-                          //     controller.addToCart(menu?['id_menu']);
-
-                          //     // Get.toNamed(Routes.checkoutRoute);
-                          //   },
-                          //   panaraDialogType: PanaraDialogType.custom,
-                          //   barrierDismissible: false,
-                          //   color: ColorStyle.primary,
-                          // );
+                          Get.snackbar(
+                            "Berhasil",
+                            "Menu berhasil ditambahkan ke pesanan",
+                            snackPosition: SnackPosition.BOTTOM,
+                            backgroundColor: ColorStyle.primary,
+                            colorText: Colors.white,
+                          );
                         },
                         child: Text('Tambahkan Ke Pesanan'),
                       ),
@@ -295,16 +294,6 @@ class DetailMenuScreen extends GetView<ListDetailController> {
               ),
             ),
           ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            ListDetailController.to.getPrice();
-          },
-          child: const Icon(
-            Icons.shopping_cart,
-            color: ColorStyle.white,
-          ),
-          backgroundColor: ColorStyle.primary,
         ),
       ),
     );

@@ -14,8 +14,15 @@ import 'package:venturo_core/features/home/view/ui/home_screen.dart';
 import 'package:venturo_core/features/list/sub_features/detail/bindings/detail_binding.dart';
 import 'package:venturo_core/features/list/sub_features/promo_detail/view/ui/promo_detail_screen.dart';
 import 'package:venturo_core/features/no_connection/view/ui/no_connection_screen.dart';
+import 'package:venturo_core/features/order/sub_features/detail_order/bindings/DetailOrderBinding.dart';
+import 'package:venturo_core/features/order/sub_features/detail_order/view/ui/detail_order_screen.dart';
+import 'package:venturo_core/features/order/view/ui/order_screen.dart';
 
 import 'package:venturo_core/features/profile/view/ui/profile_screen.dart';
+import 'package:venturo_core/features/rating/bindings/rating_binding.dart';
+import 'package:venturo_core/features/rating/sub_features/add_rate/view/ui/add_rate_screen.dart';
+import 'package:venturo_core/features/rating/sub_features/review_reply/view/ui/review_reply_screen.dart';
+import 'package:venturo_core/features/rating/view/ui/rating_screen.dart';
 import 'package:venturo_core/features/sig_in/view/ui/sig_in_screen.dart';
 import 'package:venturo_core/features/splash/bindings/splash_binding.dart';
 import 'package:venturo_core/features/splash/view/ui/splash_screen.dart';
@@ -100,8 +107,30 @@ abstract class Pages {
       page: () => DetailVoucherScreen(),
     ),
     GetPage(
+      name: Routes.orderDetailRoute,
+      page: () => DetailOrderScreen(),
+      binding: DetailOrderBinding(),
+    ),
+    GetPage(
       name: Routes.checkoutVoucherRoute,
       page: () => VoucherScreen(),
+    ),
+    GetPage(
+      name: Routes.orderRoute,
+      page: () => OrderScreen(),
+    ),
+    GetPage(
+      name: Routes.addRateRoute,
+      page: () => AddRateScreen(),
+    ),
+    GetPage(
+      name: Routes.ratingRoute,
+      page: () => RatingScreen(),
+      binding: RatingBinding(),
+    ),
+    GetPage(
+      name: Routes.reviewReplyRoute,
+      page: () => ReviewReplyScreen(),
     ),
   ];
 }

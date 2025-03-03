@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:venturo_core/configs/routes/route.dart';
+import 'package:venturo_core/features/checkout/controllers/checkout_controller.dart';
+import 'package:venturo_core/features/list/sub_features/detail/controllers/list_detail_controller.dart';
 import '../../../../shared/styles/color_style.dart';
 
 class OrderSuccessDialog extends StatelessWidget {
@@ -57,7 +60,11 @@ class OrderSuccessDialog extends StatelessWidget {
             SizedBox(
               width: 168.w,
               child: ElevatedButton(
-                onPressed: () => Get.back(),
+                onPressed: () {
+                  Get.offAllNamed(Routes.homeRoute, arguments: {"tabIndex": 1});
+                  CheckoutController.to.deleteAllCart();
+                  ListDetailController.to.deleteAllCart();
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColor,
                   maximumSize: Size(1.sw, 56.h),

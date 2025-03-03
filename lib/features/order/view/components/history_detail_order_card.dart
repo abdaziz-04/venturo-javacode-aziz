@@ -2,6 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:venturo_core/features/checkout/controllers/checkout_controller.dart';
+import 'package:venturo_core/features/order/controllers/order_controller.dart';
+import 'package:venturo_core/features/order/view/components/order_again_button.dart';
+import 'package:venturo_core/features/order/view/components/rate_button.dart';
 import 'package:venturo_core/features/order/view/components/status_info.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 
@@ -31,7 +35,6 @@ class HistoryDetailOrderCard extends StatelessWidget {
           ),
           child: Row(
             children: [
-              // Bagian gambar
               Container(
                 height: 130.h,
                 width: 120.w,
@@ -59,10 +62,8 @@ class HistoryDetailOrderCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Baris status dan tanggal
                     Row(
                       children: [
-                        // Pastikan StatusInfo menerima Map biasa
                         StatusInfo(detailOrder: order),
                         const Spacer(),
                         Text(
@@ -74,8 +75,6 @@ class HistoryDetailOrderCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 10.h),
-                    // Tampilkan nama menu
                     Container(
                       constraints: BoxConstraints(maxWidth: 200.w),
                       child: Text(
@@ -92,11 +91,10 @@ class HistoryDetailOrderCard extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 5.h),
-                    // Baris total bayar dan jumlah menu
                     Row(
                       children: [
                         Text(
-                          'Rp ${order['total_bayar']}',
+                          'Rp ${detailOrder['total_bayar']}',
                           style: TextStyle(
                             color: ColorStyle.primary,
                             fontWeight: FontWeight.bold,
@@ -105,7 +103,7 @@ class HistoryDetailOrderCard extends StatelessWidget {
                         ),
                         SizedBox(width: 5.w),
                         Text(
-                          '(2 Menu)',
+                          '(${detailOrder['menu'].length} Menu)',
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 14.sp,
@@ -113,6 +111,30 @@ class HistoryDetailOrderCard extends StatelessWidget {
                         ),
                       ],
                     ),
+                    SizedBox(height: 10.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        if (order['status'] == 4)
+                          OrderAgainButton(onTap: () {
+                            // print('Order again ${order}');
+                            Get.lazyPut(() => CheckoutController());
+                            OrderController.to.authOrderAgain(
+                                potongan: 0,
+                                cartItem: List<Map<String, dynamic>>.from(
+                                    detailOrder['menu']),
+                                finalTotalPrice: detailOrder['total_bayar']);
+                          })
+                        else ...[
+                          RateButton(),
+                          OrderAgainButton(
+                            onTap: () {
+                              print('Order again ${order}');
+                            },
+                          ),
+                        ],
+                      ],
+                    )
                   ],
                 ),
               ),

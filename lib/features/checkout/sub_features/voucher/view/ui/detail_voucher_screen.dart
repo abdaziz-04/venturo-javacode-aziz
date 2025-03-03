@@ -2,8 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:venturo_core/features/checkout/sub_features/voucher/controllers/checkout_voucher_controller.dart';
 import 'package:venturo_core/shared/styles/elevated_button_style.dart';
 import 'package:venturo_core/shared/widgets/custom_app_bar.dart';
 
@@ -77,10 +79,18 @@ class DetailVoucherScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                     textAlign: TextAlign.right,
                   ),
-                  Text(
-                    voucher['catatan'],
-                    style: TextStyle(fontSize: 14.sp),
+                  Html(
+                    data: voucher['catatan'],
+                    style: {
+                      'body': Style(
+                        fontSize: FontSize(16.sp),
+                      ),
+                    },
                   ),
+                  // Text(
+                  //   voucher['catatan'],
+                  //   style: TextStyle(fontSize: 14.sp),
+                  // ),
                   const Divider(),
                   Row(
                     children: [
@@ -131,7 +141,10 @@ class DetailVoucherScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                     style: EvelatedButtonStyle.mainRounded,
-                    onPressed: () {},
+                    onPressed: () {
+                      CheckoutVoucherController.to.addVoucher(voucher);
+                      Get.back();
+                    },
                     child: Text('Oke')),
               )
             ],

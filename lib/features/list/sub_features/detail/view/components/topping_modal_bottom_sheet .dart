@@ -23,45 +23,55 @@ class ToppingModalBottomSheet extends StatelessWidget {
       width: double.infinity,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 15),
-            Center(
-              child: Container(
-                width: 104,
-                height: 5,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(10),
+        child: items.isEmpty
+            ? Center(
+                child: Text(
+                  'Topping tidak tersedia',
+                  style: const TextStyle(fontSize: 16),
                 ),
+              )
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 15),
+                  Center(
+                    child: Container(
+                      width: 104,
+                      height: 5,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: items.map((item) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Obx(() => OptionChip(
+                              text: item['keterangan'] ??
+                                  'Tidak Bisa Pilih Topping',
+                              isSelected: ListDetailController
+                                  .to.selectedToppings
+                                  .contains(item),
+                              onTap: () {
+                                ListDetailController.to.addTopping(item);
+                                ListDetailController.to.getPrice();
+                              },
+                            )),
+                      );
+                    }).toList(),
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              title,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: items.map((item) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Obx(() => OptionChip(
-                        text: item['keterangan'] ?? 'Tidak Bisa Pilih Topping',
-                        isSelected: ListDetailController.to.selectedToppings
-                            .contains(item),
-                        onTap: () {
-                          ListDetailController.to.addTopping(item);
-                          ListDetailController.to.getPrice();
-                        },
-                      )),
-                );
-              }).toList(),
-            ),
-          ],
-        ),
       ),
     );
   }

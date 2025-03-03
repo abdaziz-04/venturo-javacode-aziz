@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:venturo_core/features/list/sub_features/detail/controllers/list_detail_controller.dart';
 
 import 'package:venturo_core/shared/styles/color_style.dart';
 
-// ! PENTING - BUAT AGAR BOTTOM SHEET FLEKSIBEL (TIDAK TERTUTUP KEYBOARD)
 class NotesModalBottomSheet extends StatelessWidget {
   final String title;
-
-  final Function(dynamic)? onTap;
 
   const NotesModalBottomSheet({
     Key? key,
     required this.title,
-    this.onTap,
   }) : super(key: key);
 
   @override
@@ -47,7 +45,7 @@ class NotesModalBottomSheet extends StatelessWidget {
               children: [
                 Expanded(
                     child: TextField(
-                  controller: TextEditingController(),
+                  controller: ListDetailController.to.notesController,
                   decoration: InputDecoration(
                     hintText: 'Tambahkan catatan',
                     border: OutlineInputBorder(
@@ -57,7 +55,8 @@ class NotesModalBottomSheet extends StatelessWidget {
                 )),
                 IconButton(
                     onPressed: () {
-                      print('Notes: ');
+                      ListDetailController.to.addNotes();
+                      Get.back();
                     },
                     icon: Icon(Icons.check_circle, color: ColorStyle.primary)),
               ],

@@ -1,23 +1,28 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:venturo_core/shared/styles/color_style.dart';
 
 import '../../../controllers/list_controller.dart';
 
 class ListDetailController extends GetxController {
   static ListDetailController get to => Get.find();
+  late final TextEditingController notesController;
   final ListController listController = ListController.to;
-  RxInt qty = 1.obs;
-  RxList<Map<String, dynamic>> cartItem = <Map<String, dynamic>>[].obs;
+  final RxList<Map<String, dynamic>> cartItem = <Map<String, dynamic>>[].obs;
   final RxMap<String, dynamic> selectedLevel = <String, dynamic>{}.obs;
+  RxInt qty = 1.obs;
   final RxList<Map<String, dynamic>> selectedToppings =
       <Map<String, dynamic>>[].obs;
-
-  // final cart = Hive.box('cart');
+  RxString notes = ''.obs;
   RxInt price = 0.obs;
+
+  final cart = Hive.box('cart');
 
   @override
   void onInit() {
     super.onInit();
+    notesController = TextEditingController();
     final arguments = Get.arguments;
     print('ListDetailController.onInit() - Arguments: $arguments');
     if (arguments != null) {
@@ -32,6 +37,11 @@ class ListDetailController extends GetxController {
         print('Default price di-set: ${price.value}');
       }
     });
+  }
+
+  void addNotes() {
+    notes.value = notesController.text;
+    print('📝 Catatan: ${notes.value};');
   }
 
   void addLevel(Map<String, dynamic> level) {
@@ -60,7 +70,7 @@ class ListDetailController extends GetxController {
   }
 
   void addToCart(int idMenu) {
-    final cartItems = {
+    final cartItem = {
       'id_menu': idMenu,
       'nama': listController.selectedMenuDetail['menu']['nama'],
       'foto': listController.selectedMenuDetail['menu']['foto'],
@@ -70,27 +80,42 @@ class ListDetailController extends GetxController {
       'topping':
           selectedToppings.map((topping) => topping['id_detail']).toList(),
       'jumlah': qty.value,
+      'catatan': notes.value,
     };
-    cartItem.add(cartItems);
+    cart.add(cartItem);
     print('🛒 Berhasil ditambahkan $cartItem');
   }
 
   void deleteAllCart() {
+    cart.clear();
     cartItem.clear();
-    cartItem.clear();
+    Get.snackbar(
+      "Berhasil",
+      "Semua Pesanan Berhasil Dihapus",
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: ColorStyle.primary,
+      colorText: Colors.white,
+    );
     print('🛒 Berhasil menghapus semua item di keranjang');
   }
 
   void getCart() {
     cartItem.clear();
-    for (var i = 0; i < cartItem.length; i++) {
-      cartItem.add(Map<String, dynamic>.from(cartItem[i]));
+    for (var i = 0; i < cart.length; i++) {
+      cartItem.add(Map<String, dynamic>.from(cart.getAt(i)));
     }
     print('🛒 Isi keranjang: $cartItem');
   }
 
   void removeFromCart(int id) {
-    cartItem.removeAt(id);
-    print('🛒 Berhasil dihapus dari keranjang $id');
+    cart.deleteAt(id);
+    print('🛒 Berhasil dihapus dari keranjang');
+  }
+
+  void printCartContents() {
+    print('🛒 Isi keranjang:');
+    for (var i = 0; i < cart.length; i++) {
+      print(cart.getAt(i));
+    }
   }
 }

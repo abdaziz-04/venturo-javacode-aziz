@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:venturo_core/constants/cores/assets/image_constants.dart';
 import 'package:venturo_core/features/checkout/controllers/checkout_controller.dart';
-import 'package:venturo_core/features/checkout/sub_features/edit_menu/controllers/checkout_edit_menu_controller.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 
 class CheckoutMenuCard extends StatelessWidget {
@@ -46,7 +45,6 @@ class CheckoutMenuCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // menu image
             Container(
               height: 90.h,
               width: 90.w,
@@ -61,9 +59,9 @@ class CheckoutMenuCard extends StatelessWidget {
                     'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/240px-No_image_available.svg.png',
                 useOldImageOnUrlChange: true,
                 fit: BoxFit.contain,
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             ),
-            // menu info
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,7 +69,7 @@ class CheckoutMenuCard extends StatelessWidget {
                   Text(
                     menu['nama'],
                     style: TextStyle(
-                      fontSize: 22.sp,
+                      fontSize: 24.sp,
                     ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
@@ -79,19 +77,24 @@ class CheckoutMenuCard extends StatelessWidget {
                   Text(
                     'Rp. ${menu['harga'].toString()}',
                     style: TextStyle(
-                      fontSize: 15.sp,
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.bold,
                       color: ColorStyle.primary,
                     ),
                   ),
+                  SizedBox(height: 5.h),
                   Row(
                     children: [
                       Image.asset(ImageConstants.icNotes),
                       SizedBox(width: 5.w),
-                      Text(
-                        'Catatan',
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                          color: ColorStyle.grey,
+                      Expanded(
+                        child: Text(
+                          menu['catatan'] ?? 'Tidak ada catatan',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: ColorStyle.grey,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
@@ -99,18 +102,17 @@ class CheckoutMenuCard extends StatelessWidget {
                 ],
               ),
             ),
-            // menu quantity
             Row(
               children: [
                 IconButton(
                   onPressed: () {
                     print('Kurangi jumlah ${menu}');
-                    CheckoutEditMenuController.to.qtyDecrement();
-                    print(
-                        'Jumlah item: ${CheckoutEditMenuController.to.qty.value}');
+                    CheckoutController.to.decrementJumlah(menu['id_menu']);
+                    print('Jumlah item: ${CheckoutController.to.cartItem}');
                   },
                   icon: Icon(
                     Icons.remove_circle_outline,
+                    size: 20.r,
                     color: ColorStyle.primary,
                   ),
                   padding: EdgeInsets.zero,
@@ -126,11 +128,11 @@ class CheckoutMenuCard extends StatelessWidget {
                 IconButton(
                   onPressed: () {
                     print('Kurangi jumlah ${menu}');
-                    CheckoutEditMenuController.to.qtyIncrement();
-                    print(
-                        'Jumlah item: ${CheckoutEditMenuController.to.qty.value}');
+                    CheckoutController.to.incrementJumlah(menu['id_menu']);
+                    print('Jumlah item: ${CheckoutController.to.cartItem}');
                   },
                   icon: Icon(
+                    size: 20.r,
                     Icons.add_circle_outline,
                     color: ColorStyle.primary,
                   ),

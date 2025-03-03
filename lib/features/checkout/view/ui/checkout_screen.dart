@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:venturo_core/features/checkout/controllers/checkout_controller.dart';
-import 'package:venturo_core/features/checkout/sub_features/voucher/controllers/checkout_voucher_controller.dart';
 import 'package:venturo_core/features/checkout/view/components/checkout_menu_card.dart';
-import 'package:venturo_core/features/list/controllers/list_controller.dart';
 import 'package:venturo_core/features/list/sub_features/detail/controllers/list_detail_controller.dart';
 import 'package:venturo_core/shared/widgets/info_row.dart';
 
@@ -23,7 +21,7 @@ class CheckoutScreen extends StatelessWidget {
   CheckoutScreen({Key? key}) : super(key: key);
 
   final assetsConstant = CheckoutAssetsConstant();
-  final item = ListController.to.filteredList[5];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +30,22 @@ class CheckoutScreen extends StatelessWidget {
         showActions: true,
         icon: Icons.delete,
         onPress: () {
-          ListDetailController.to.deleteAllCart();
+          Get.defaultDialog(
+            title: 'Hapus Semua Pesanan',
+            middleText: 'Apakah anda yakin ingin menghapus semua pesanan?',
+            textConfirm: 'Ya',
+            textCancel: 'Tidak',
+            buttonColor: ColorStyle.primary,
+            confirmTextColor: ColorStyle.white,
+            cancelTextColor: ColorStyle.primary,
+            onConfirm: () {
+              Get.back();
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                CheckoutController.to.deleteAllCart();
+                ListDetailController.to.deleteAllCart();
+              });
+            },
+          );
         },
       ),
       body: SingleChildScrollView(
@@ -43,7 +56,7 @@ class CheckoutScreen extends StatelessWidget {
               children: [
                 Obx(() {
                   final List<Map<String, dynamic>> makananItems =
-                      ListDetailController.to.cartItem.where((item) {
+                      CheckoutController.to.cartItem.where((item) {
                     if (item == null || item['kategori'] == null) return false;
                     final kategori = item['kategori'].toString().toLowerCase();
                     return kategori == 'makanan';
@@ -79,7 +92,7 @@ class CheckoutScreen extends StatelessWidget {
                 }),
                 Obx(() {
                   final List<Map<String, dynamic>> minumanItems =
-                      ListDetailController.to.cartItem.where((item) {
+                      CheckoutController.to.cartItem.where((item) {
                     if (item == null || item['kategori'] == null) return false;
                     final kategori = item['kategori'].toString().toLowerCase();
                     return kategori == 'minuman';
@@ -102,7 +115,11 @@ class CheckoutScreen extends StatelessWidget {
                           final item = minumanItems[index];
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: CheckoutMenuCard(menu: item),
+                            child: CheckoutMenuCard(
+                                menu: item,
+                                onTap: () => Get.toNamed(
+                                    Routes.checkoutEditMenuRoute,
+                                    arguments: item['id_menu'])),
                           );
                         },
                       ),
@@ -154,25 +171,25 @@ class CheckoutScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(height: 15.h),
-            InfoRow(
-              info: 'Total Pesanan :',
-              value: 'Rp ${CheckoutController.to.totalPrice}',
-              isBold: true,
-              valueColor: ColorStyle.primary,
-              containButton: false,
-              isImportant: true,
-            ),
+            Obx(() => InfoRow(
+                  info: 'Total Pesanan :',
+                  value: 'Rp ${CheckoutController.to.totalPrice}',
+                  isBold: true,
+                  valueColor: ColorStyle.primary,
+                  containButton: false,
+                  isImportant: true,
+                )),
             const Divider(),
-            InfoRow(
-              info: 'Diskon 20%',
-              value: '- Rp ${CheckoutController.to.discount}',
-              containImage: true,
-              valueColor: ColorStyle.danger,
-              image: ImageConstants.icDiscount,
-              onPress: () {
-                CheckoutController.to.showDiscountDialog();
-              },
-            ),
+            Obx(() => InfoRow(
+                  info: 'Diskon 20%',
+                  value: '- Rp ${CheckoutController.to.discount}',
+                  containImage: true,
+                  valueColor: ColorStyle.danger,
+                  image: ImageConstants.icDiscount,
+                  onPress: () {
+                    CheckoutController.to.showDiscountDialog();
+                  },
+                )),
             const Divider(),
             Obx(() => InfoRow(
                 info: 'Voucher',
@@ -190,7 +207,8 @@ class CheckoutScreen extends StatelessWidget {
             const Divider(),
             InfoRow(
                 info: 'Pembayaran',
-                value: 'Transfer Bank',
+                value: 'Tunai',
+                containButton: false,
                 containImage: true,
                 image: ImageConstants.icPayment),
             SizedBox(height: 30),
@@ -253,15 +271,6 @@ class CheckoutScreen extends StatelessWidget {
             )
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print('🐞 Cart: ${ListDetailController.to.cartItem}');
-          // print( '🐞 Voucher id: ${CheckoutVoucherController.to.selectedVoucher[0]['id_voucher']}, Potongan harga: ${CheckoutController.to.potongan}');
-
-          // print(ProfileController.to.loginData.value?['user']['id_user']);
-        },
-        child: Icon(Icons.bug_report),
       ),
     );
   }

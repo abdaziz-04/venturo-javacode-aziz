@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 
@@ -52,8 +53,8 @@ class _DatePickerState extends State<DatePicker> {
   @override
   Widget build(BuildContext context) {
     final String rangeText =
-        '${DateFormat('yyyy-MM-dd').format(_selectedDate.start)} - '
-        '${DateFormat('yyyy-MM-dd').format(_selectedDate.end)}';
+        '${DateFormat('yyyy/MM/dd').format(_selectedDate.start)} - '
+        '${DateFormat('yyyy/MM/dd').format(_selectedDate.end)}';
 
     return InkWell(
       onTap: () => _selectDateRange(context),
@@ -71,8 +72,9 @@ class _DatePickerState extends State<DatePicker> {
             Text(
               rangeText,
               style: TextStyle(
-                color: Colors.grey[700],
-                fontSize: 14,
+                color: ColorStyle.black,
+                fontSize: 11.sp,
+                fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(width: 8),

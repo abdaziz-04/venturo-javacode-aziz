@@ -43,6 +43,9 @@ class TextFormFieldWidget extends StatelessWidget {
         if (isRequired && (value == null || value.isEmpty)) {
           return requiredText;
         }
+        if (isPassword && value != null && value.trim().length < 4) {
+          return 'Password minimal 4 karakter';
+        }
         return null;
       },
     );
