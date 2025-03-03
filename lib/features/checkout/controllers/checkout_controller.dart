@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:venturo_core/features/checkout/sub_features/voucher/controllers/checkout_voucher_controller.dart';
 import 'package:venturo_core/features/checkout/view/components/fingerprint_dialog.dart';
@@ -19,6 +20,7 @@ class CheckoutController extends GetxController {
   final RxInt voucherPrice = 0.obs;
   int potongan = 0;
   int qty = 1;
+  int pin = 123456;
 
   final RxList<Map<String, dynamic>> cartItem = <Map<String, dynamic>>[].obs;
   final _auth = LocalAuthentication();
@@ -31,7 +33,19 @@ class CheckoutController extends GetxController {
     calculateTotalPrice();
     calculateDiscount();
     calculateFinalTotalPrice();
+    getPin();
   }
+
+  void getPin() {
+    if (ProfileController.to.pin != 0) {
+      pin = ProfileController.to.pin;
+    } else if (ProfileController.to.loginData.isNotEmpty) {
+      pin = int.parse(ProfileController.to.loginData[0]['pin']);
+    }
+    print('🔒 Pin: ${pin}');
+  }
+
+  // int.parse(ProfileController.to.loginData[0]['pin'])
 
   void updateItemPrice(int idMenu) {
     int index = cartItem.indexWhere((item) => item['id_menu'] == idMenu);

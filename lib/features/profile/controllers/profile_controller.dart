@@ -30,7 +30,7 @@ class ProfileController extends GetxController {
   RxString nama = ''.obs;
   RxString email = ''.obs;
   RxString phone = ''.obs;
-  RxString pin = ''.obs;
+  int pin = 00000;
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
 
   File? get imageFile => _imageFile.value;
@@ -74,8 +74,8 @@ class ProfileController extends GetxController {
   }
 
   void changePin() {
-    pin.value = pinController.text;
-    print('Pin: ${pin.value}');
+    pin = int.tryParse(pinController.text) ?? 0;
+    print('Pin: ${pin}');
   }
 
   void getUser() {

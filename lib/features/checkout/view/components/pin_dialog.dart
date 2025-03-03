@@ -32,14 +32,13 @@ class _PinDialogState extends State<PinDialog> {
     if (pin == widget.pin) {
       print('🦸‍♂️ PIN correct $pin');
 
-      // ! JANGAN LUPA
-      // CheckoutController.to.placeOrder(
-      //     idUser: ProfileController.to.loginData[0]['id_user'],
-      //     idVoucher: CheckoutVoucherController.to.selectedVoucher[0]
-      //         ['id_voucher'],
-      //     potongan: CheckoutController.to.potongan,
-      //     cartItems: CheckoutController.to.cartItem,
-      //     finalTotalPrice: CheckoutController.to.finalTotalPrice.value);
+      CheckoutController.to.placeOrder(
+          idUser: ProfileController.to.loginData[0]['id_user'],
+          idVoucher: CheckoutVoucherController.to.selectedVoucher[0]
+              ['id_voucher'],
+          potongan: CheckoutController.to.potongan,
+          cartItems: CheckoutController.to.cartItem,
+          finalTotalPrice: CheckoutController.to.finalTotalPrice.value);
     } else {
       tries++;
 

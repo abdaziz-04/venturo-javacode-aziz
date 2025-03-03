@@ -55,6 +55,8 @@ class TextModalBottomSheet extends StatelessWidget {
                     child: TextField(
                   obscureText: isPassword,
                   controller: controller,
+                  keyboardType:
+                      isPassword ? TextInputType.number : TextInputType.text,
                   decoration: InputDecoration(
                     hintText: hintText,
                     border: UnderlineInputBorder(),
