@@ -88,7 +88,7 @@ class OrderTracker extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Text(
-                  'Pesanan Diterima',
+                  'order received'.tr,
                   style: TextStyle(
                     fontSize: 16.sp,
                   ),
@@ -99,7 +99,7 @@ class OrderTracker extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Text(
-                  'Silahkan Diambil',
+                  'you can take it'.tr,
                   style: TextStyle(
                     fontSize: 16.sp,
                   ),
@@ -110,7 +110,7 @@ class OrderTracker extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Text(
-                  'Pesanan Selesai',
+                  'orer done'.tr,
                   style: TextStyle(
                     fontSize: 16.sp,
                   ),

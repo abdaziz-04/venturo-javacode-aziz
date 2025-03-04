@@ -21,7 +21,7 @@ class DetailVoucherScreen extends StatelessWidget {
       return Center(child: CircularProgressIndicator());
     }
     return Scaffold(
-      appBar: CustomAppBar(title: 'Detail Voucher', showActions: false),
+      appBar: CustomAppBar(title: 'Detail Voucher'.tr, showActions: false),
       body: Column(
         children: [
           Padding(
@@ -100,7 +100,7 @@ class DetailVoucherScreen extends StatelessWidget {
                       ),
                       SizedBox(width: 10.w),
                       Text(
-                        'Valid Date',
+                        'Valid Date'.tr,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16.sp),
                       ),
@@ -145,7 +145,7 @@ class DetailVoucherScreen extends StatelessWidget {
                       CheckoutVoucherController.to.addVoucher(voucher);
                       Get.back();
                     },
-                    child: Text('Oke')),
+                    child: Text('Oke'.tr)),
               )
             ],
           ),

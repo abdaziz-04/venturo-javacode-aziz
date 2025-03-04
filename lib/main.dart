@@ -9,6 +9,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:venturo_core/shared/bindings/global_binding.dart';
+import 'package:venturo_core/utils/translations/profile_translate.dart';
 import 'configs/pages/page.dart';
 import 'configs/themes/theme.dart';
 import 'shared/controllers/global_controller.dart';
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
+          translations: ProfileTranslate(),
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
@@ -66,7 +68,7 @@ class MyApp extends StatelessWidget {
           ],
           title: 'Venturo Core',
           debugShowCheckedModeBanner: false,
-          locale: const Locale('id'),
+          locale: Locale('id'),
           fallbackLocale: const Locale('id'),
           supportedLocales: const [
             Locale('en', 'US'),

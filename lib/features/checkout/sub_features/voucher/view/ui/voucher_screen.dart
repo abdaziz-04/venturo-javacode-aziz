@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:venturo_core/configs/routes/route.dart';
@@ -21,13 +20,6 @@ class VoucherScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final items = controller.voucher;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print('voucher = ${CheckoutController.to.voucherPrice}');
-        },
-        child: Icon(Icons.bug_report_outlined),
-        backgroundColor: Color(0xFFE5E5E5),
-      ),
       appBar: CustomAppBar(title: 'Pilih Voucher', showActions: false),
       body: ListView.builder(
           itemCount: controller.voucher.length,

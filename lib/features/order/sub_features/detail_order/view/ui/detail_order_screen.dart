@@ -29,19 +29,15 @@ class DetailOrderScreen extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Detail Order',
-        showActions: true,
-        icon: Icons.cancel_outlined,
-        onPress: () {
-          Get.back();
-        },
+        showActions: false,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Get.defaultDialog(
-            title: 'Batalkan Pesanan',
-            middleText: 'Apakah anda yakin ingin membatalkan pesanan?',
-            textConfirm: 'Ya',
-            textCancel: 'Tidak',
+            title: 'cancel order'.tr,
+            middleText: 'are you sure'.tr,
+            textConfirm: 'yes'.tr,
+            textCancel: 'no'.tr,
             buttonColor: ColorStyle.primary,
             confirmTextColor: ColorStyle.white,
             cancelTextColor: ColorStyle.primary,
@@ -63,7 +59,7 @@ class DetailOrderScreen extends StatelessWidget {
           children: [
             if (makanan.isNotEmpty) ...[
               TitleSection(
-                title: 'Makanan',
+                title: 'food'.tr,
                 image: ImageConstants.iconFood,
               ),
               ListView.builder(
@@ -80,7 +76,7 @@ class DetailOrderScreen extends StatelessWidget {
             ],
             if (minuman.isNotEmpty) ...[
               TitleSection(
-                title: 'Minuman',
+                title: 'drink'.tr,
                 image: ImageConstants.iconDrinks,
               ),
               ListView.builder(
@@ -110,7 +106,9 @@ class DetailOrderScreen extends StatelessWidget {
           children: [
             SizedBox(height: 15.h),
             InfoRow(
-              info: 'Total Pesanan (${data['menu'].length} Menu):',
+              // info: 'Total Pesanan (${data['menu'].length} Menu):',
+              info: 'total order'
+                  .trParams({'count': data['menu'].length.toString()}),
               value: 'Rp ${orderController.totalHarga}',
               isBold: true,
               valueColor: ColorStyle.primary,
@@ -118,14 +116,14 @@ class DetailOrderScreen extends StatelessWidget {
             ),
             const Divider(),
             InfoRow(
-                info: 'Pembayaran',
-                value: 'Transfer Bank',
+                info: 'payment'.tr,
+                value: 'payment method'.tr,
                 containImage: true,
                 containButton: false,
                 image: ImageConstants.icPayment),
             const Divider(),
             InfoRow(
-                info: 'Potongan Harga',
+                info: 'discount'.tr,
                 value: 'Rp ${orderController.totalHarga - data['total_bayar']}',
                 containImage: true,
                 containButton: false,
@@ -133,7 +131,7 @@ class DetailOrderScreen extends StatelessWidget {
                 image: ImageConstants.icDiscount),
             const Divider(),
             InfoRow(
-              info: 'Total Pembayaran',
+              info: 'total payment'.tr,
               value: data['total_bayar'].toString(),
               containButton: false,
               valueColor: ColorStyle.primary,

@@ -34,18 +34,18 @@ class CBottomAppBar extends StatelessWidget {
             unselectedItemColor: ColorStyle.unselect,
             currentIndex: controller.tabIndex.value,
             onTap: controller.changeTabIndex,
-            items: const <BottomNavigationBarItem>[
+            items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label: 'Beranda',
+                label: 'home'.tr,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.food_bank),
-                label: 'Pesanan',
+                label: 'order'.tr,
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),
-                label: 'Profil',
+                label: 'profile'.tr,
               ),
             ],
           ),

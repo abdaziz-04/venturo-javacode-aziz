@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:venturo_core/features/profile/controllers/profile_controller.dart';
 
 import '../constants/order_api_constant.dart';
 
@@ -20,6 +21,7 @@ class OrderRepository {
 
   Future<List<Map<String, dynamic>>> fetchOrders() async {
     final token = await _getToken();
+    final id = ProfileController.to.loginData[0]['id_user'];
     var headers = {
       'token': token,
       'Cookie': 'PHPSESSID=09362c16d891770e7f6303ab2e777dce'
@@ -28,7 +30,7 @@ class OrderRepository {
     var dio = Dio();
 
     final response = await dio.request(
-      'https://trainee.landa.id/javacode/order/user/70',
+      'https://trainee.landa.id/javacode/order/user/$id',
       options: Options(
         method: 'GET',
         headers: headers,

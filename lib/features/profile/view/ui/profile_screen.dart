@@ -31,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: CustomAppBar(
-          title: 'Profil',
+          title: 'title'.tr,
           showActions: false,
         ),
         body: Obx(() {
@@ -93,7 +93,7 @@ class ProfileScreen extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            'Edit Profile',
+                            'edit image'.tr,
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
@@ -109,7 +109,7 @@ class ProfileScreen extends StatelessWidget {
                             width: 20,
                           ),
                           SizedBox(width: 8),
-                          Text('Verifikasi KTP mu Sekarang',
+                          Text('id verification'.tr,
                               style: TextStyle(color: ColorStyle.primary)),
                         ],
                       ),
@@ -137,7 +137,7 @@ class ProfileScreen extends StatelessWidget {
                         children: [
                           SizedBox(height: 16),
                           InfoRow(
-                            info: 'Nama',
+                            info: 'name'.tr,
                             value: ProfileController.to.nama.value.isNotEmpty
                                 ? ProfileController.to.nama.value
                                 : loginData[0]['nama'] ?? '',
@@ -149,7 +149,7 @@ class ProfileScreen extends StatelessWidget {
                                           .viewInsets
                                           .bottom),
                                   child: TextBottomSheet(
-                                    title: 'Nama',
+                                    title: 'name'.tr,
                                     controller:
                                         ProfileController.to.nameController,
                                     onTap: ProfileController.to.changeName,
@@ -165,21 +165,21 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           const Divider(),
                           InfoRow(
-                            info: 'Tanggal Lahir',
+                            info: 'born'.tr,
                             value: ProfileController.to.selectedDate.value !=
                                     null
                                 ? '${ProfileController.to.selectedDate.value!.day}/${ProfileController.to.selectedDate.value!.month}/${ProfileController.to.selectedDate.value!.year}'
-                                : 'Belum diisi',
+                                : 'not yet filled'.tr,
                             onPress: () {
                               ProfileController.to.selectDate(context);
                             },
                           ),
                           const Divider(),
                           InfoRow(
-                            info: 'No Telepon',
+                            info: 'phone'.tr,
                             value: ProfileController.to.phone.isNotEmpty
                                 ? ProfileController.to.phone.value
-                                : 'Belum diisi',
+                                : 'not yet filled'.tr,
                             onPress: () {
                               Get.bottomSheet(
                                 Padding(
@@ -201,7 +201,7 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           const Divider(),
                           InfoRow(
-                            info: 'Email',
+                            info: 'email'.tr,
                             value: ProfileController.to.email.isNotEmpty
                                 ? ProfileController.to.email.value
                                 : loginData[0]['email'],
@@ -213,7 +213,7 @@ class ProfileScreen extends StatelessWidget {
                                           .viewInsets
                                           .bottom),
                                   child: TextBottomSheet(
-                                      title: 'Alamat Email',
+                                      title: 'email'.tr,
                                       controller:
                                           ProfileController.to.emailController,
                                       onTap: ProfileController.to.changeEmail,
@@ -226,7 +226,7 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           const Divider(),
                           InfoRow(
-                            info: 'Ubah Pin',
+                            info: 'pin'.tr,
                             value: '***********',
                             onPress: () {
                               Get.bottomSheet(
@@ -236,7 +236,7 @@ class ProfileScreen extends StatelessWidget {
                                           .viewInsets
                                           .bottom),
                                   child: TextBottomSheet(
-                                      title: 'Pin',
+                                      title: 'pin'.tr,
                                       isPassword: true,
                                       controller:
                                           ProfileController.to.pinController,
@@ -249,23 +249,31 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           const Divider(),
                           InfoRow(
-                            info: 'Ganti Bahasa',
-                            value: 'Indonesia',
+                            info: 'change language'.tr,
+                            value: ProfileController.to.lang == 'id'
+                                ? 'Bahasa Indonesia'
+                                : 'English',
                             onPress: () {
                               Get.bottomSheet(
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      bottom: MediaQuery.of(context)
-                                          .viewInsets
-                                          .bottom),
-                                  child: ChangeLangBottomSheet(
-                                    title: 'Ganti Bahasa',
-                                    controller:
-                                        ProfileController.to.emailController,
-                                    onTapInd: ProfileController.to.changeEmail,
-                                    onTapEng: ProfileController.to.changeEmail,
-                                  ),
-                                ),
+                                Obx(() => Padding(
+                                      padding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context)
+                                              .viewInsets
+                                              .bottom),
+                                      child: ChangeLangBottomSheet(
+                                        selectedLang:
+                                            ProfileController.to.lang.value,
+                                        title: 'change language'.tr,
+                                        controller: ProfileController
+                                            .to.emailController,
+                                        onTap: (lang) {
+                                          ProfileController.to.changeLang(lang);
+                                          print(lang == 'id'
+                                              ? 'Bahasa Indonesia'
+                                              : 'Bahasa Inggris');
+                                        },
+                                      ),
+                                    )),
                                 isScrollControlled: true,
                               );
                             },
@@ -292,7 +300,7 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             SizedBox(width: 8),
                             Text(
-                              'Penilaian',
+                              'rating'.tr,
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             Spacer(),
@@ -311,7 +319,7 @@ class ProfileScreen extends StatelessWidget {
                                     print('Beri Penilaian');
                                   },
                                   child: Text(
-                                    'Nilai Sekarang',
+                                    'rate now'.tr,
                                     style: TextStyle(color: Colors.white),
                                   )),
                             ),
@@ -324,7 +332,7 @@ class ProfileScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 10),
                       child: Text(
-                        'Info Lainnya',
+                        'more info'.tr,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
@@ -344,12 +352,12 @@ class ProfileScreen extends StatelessWidget {
                           child: Obx(() => Column(
                                 children: [
                                   ProfileInfoRow(
-                                      info: 'Device Info',
+                                      info: 'device info'.tr,
                                       value: ProfileController
                                           .to.productName.value),
                                   const Divider(),
                                   ProfileInfoRow(
-                                      info: 'Android Level',
+                                      info: 'android level'.tr,
                                       value:
                                           ProfileController.to.apiLevel.value),
                                 ],
@@ -370,7 +378,7 @@ class ProfileScreen extends StatelessWidget {
                             ProfileController.to.logout();
                           },
                           child: Text(
-                            'Logout',
+                            'logout'.tr,
                             style: TextStyle(color: Colors.white),
                           )),
                     ),

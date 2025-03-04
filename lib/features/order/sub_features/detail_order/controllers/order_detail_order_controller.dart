@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import 'package:venturo_core/configs/routes/route.dart';
 import 'package:venturo_core/shared/styles/color_style.dart';
 
 class OrderDetailOrderController extends GetxController {

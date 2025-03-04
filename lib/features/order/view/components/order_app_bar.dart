@@ -27,7 +27,7 @@ class OrderAppBar extends StatelessWidget implements PreferredSizeWidget {
                       OrderController.to.selectedTabIndex.value = 0;
                     },
                     child: Text(
-                      'Sedang berjalan',
+                      'ongoing'.tr,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: OrderController.to.selectedTabIndex.value == 0
@@ -46,7 +46,7 @@ class OrderAppBar extends StatelessWidget implements PreferredSizeWidget {
                       OrderController.to.selectedTabIndex.value = 1;
                     },
                     child: Text(
-                      'Riwayat',
+                      'history'.tr,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: OrderController.to.selectedTabIndex.value == 1

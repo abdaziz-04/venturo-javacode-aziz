@@ -47,7 +47,7 @@ class SigIScreen extends StatelessWidget {
               ),
               SizedBox(height: 90.h),
               Text(
-                'Masuk untuk melanjutkan!',
+                'login to continue'.tr,
                 style: GoogleTextStyle.fw600.copyWith(
                   fontSize: 22.sp,
                   color: Colors.black,
@@ -63,8 +63,8 @@ class SigIScreen extends StatelessWidget {
                     onPressed: () {
                       Get.toNamed(Routes.forgotPasswordRoute);
                     },
-                    child: const Text(
-                      'Lupa Password?',
+                    child: Text(
+                      'forgot password'.tr,
                       style: TextStyle(color: ColorStyle.primary),
                     ),
                   ),
@@ -74,7 +74,7 @@ class SigIScreen extends StatelessWidget {
                 style: EvelatedButtonStyle.mainRounded,
                 onPressed: () => SigInController.to.loginApi(context),
                 child: Text(
-                  "Masuk",
+                  "login".tr,
                   style: GoogleTextStyle.fw800.copyWith(
                     fontSize: 14.sp,
                     color: Colors.white,
@@ -84,7 +84,7 @@ class SigIScreen extends StatelessWidget {
               ),
               SizedBox(height: 30.h),
               Text(
-                'Atau',
+                'or'.tr,
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 20.h),
@@ -95,7 +95,7 @@ class SigIScreen extends StatelessWidget {
                   borderRadius: 100,
                   iconSize: 24,
                 ),
-                text: 'Masuk dengan Google',
+                text: 'login with google'.tr,
                 onPressed: () async {
                   SigInController.to.signInWithGoogle(context);
                 },

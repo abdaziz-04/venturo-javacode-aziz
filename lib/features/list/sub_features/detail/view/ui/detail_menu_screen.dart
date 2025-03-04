@@ -180,7 +180,7 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                           ),
                           SizedBox(width: 10.w),
                           Text(
-                            'Harga',
+                            'price'.tr,
                             style: TextStyle(
                               fontSize: 18.w,
                               fontWeight: FontWeight.bold,
@@ -200,16 +200,16 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                       const Divider(),
                       InfoRow(
                         icon: Icons.star,
-                        label: 'Level',
+                        label: 'level'.tr,
                         value: ListDetailController
                                 .to.selectedLevel.value['keterangan'] ??
-                            'Pilih Level',
+                            'select level'.tr,
                         onPressed: () {
                           showModalBottomSheet<void>(
                             context: context,
                             builder: (BuildContext context) {
                               return LevelModalBottomSheet(
-                                title: 'Pilih Level',
+                                title: 'select level'.tr,
                                 items: level,
                               );
                             },
@@ -219,19 +219,19 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                       const Divider(),
                       InfoRow(
                         icon: Icons.fastfood,
-                        label: 'Toping',
+                        label: 'topping'.tr,
                         value:
                             ListDetailController.to.selectedToppings.isNotEmpty
                                 ? ListDetailController.to.selectedToppings
                                         .first['keterangan'] ??
-                                    'Pilih Toping'
-                                : 'Pilih Toping',
+                                    'select topping'.tr
+                                : 'select topping'.tr,
                         onPressed: () {
                           showModalBottomSheet<void>(
                             context: context,
                             builder: (BuildContext context) {
                               return ToppingModalBottomSheet(
-                                title: 'Pilih Toping',
+                                title: 'select topping'.tr,
                                 items: topping,
                               );
                             },
@@ -241,10 +241,10 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                       const Divider(),
                       InfoRow(
                         icon: Icons.notes,
-                        label: 'Catatan',
+                        label: 'note'.tr,
                         value: ListDetailController.to.notes.value.isNotEmpty
                             ? ListDetailController.to.notes.value
-                            : 'Tambahkan Catatan',
+                            : 'add note'.tr,
                         onPressed: () {
                           showModalBottomSheet<void>(
                             context: context,
@@ -256,7 +256,7 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                                         .viewInsets
                                         .bottom),
                                 child: NotesModalBottomSheet(
-                                  title: 'Catatan',
+                                  title: 'note'.tr,
                                 ),
                               );
                             },
@@ -278,14 +278,14 @@ class DetailMenuScreen extends GetView<ListDetailController> {
                         onPressed: () {
                           controller.addToCart(menu?['id_menu']);
                           Get.snackbar(
-                            "Berhasil",
-                            "Menu berhasil ditambahkan ke pesanan",
+                            "success".tr,
+                            "add to cart success".tr,
                             snackPosition: SnackPosition.BOTTOM,
                             backgroundColor: ColorStyle.primary,
                             colorText: Colors.white,
                           );
                         },
-                        child: Text('Tambahkan Ke Pesanan'),
+                        child: Text('add to cart'.tr),
                       ),
                     ],
                   );

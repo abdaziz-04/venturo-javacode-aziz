@@ -60,7 +60,7 @@ class PromoCard extends StatelessWidget {
                 softWrap: true,
                 textAlign: TextAlign.center,
                 TextSpan(
-                  text: 'Diskon',
+                  text: 'discounts'.tr,
                   style: Get.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w800,
                     color: Colors.white,

@@ -35,6 +35,8 @@ class ProfileController extends GetxController {
 
   File? get imageFile => _imageFile.value;
 
+  RxString lang = 'id'.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -44,6 +46,11 @@ class ProfileController extends GetxController {
     phoneController = TextEditingController();
     pinController = TextEditingController();
     getUser();
+  }
+
+  void changeLang(String value) {
+    lang.value = value;
+    Get.updateLocale(Locale(value));
   }
 
   Future<void> selectDate(BuildContext context) async {

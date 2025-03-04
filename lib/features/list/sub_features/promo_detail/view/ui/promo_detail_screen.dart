@@ -72,7 +72,7 @@ class PromoDetailScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Nama Promo',
+                      'promo name'.tr,
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 16.sp),
                     ),
@@ -93,7 +93,7 @@ class PromoDetailScreen extends StatelessWidget {
                         ),
                         SizedBox(width: 10.w),
                         Text(
-                          'Syarat dan Ketentuan',
+                          'sku'.tr,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16.sp),
                         ),

@@ -21,7 +21,7 @@ class FingerprintDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Verifikasi Pesanan'.tr,
+              'verify order'.tr,
               style: Get.textTheme.headline6?.copyWith(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
@@ -49,7 +49,7 @@ class FingerprintDialog extends StatelessWidget {
             ),
             SizedBox(height: 10.h),
             Text(
-              'atau'.tr,
+              'or'.tr,
               style: TextStyle(
                 color: ColorStyle.grey,
                 fontSize: 14.sp,
@@ -66,7 +66,7 @@ class FingerprintDialog extends StatelessWidget {
                 );
               },
               child: Text(
-                'Verifikasi Menggunakan PIN'.tr,
+                'verify with pin'.tr,
                 style: TextStyle(
                   color: ColorStyle.primary,
                   fontSize: 14.sp,

@@ -43,7 +43,7 @@ class ListScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 10.h),
                 child: TitleSection(
-                  title: 'Promo yang tersedia',
+                  title: 'available promo'.tr,
                   image: ImageConstants.promo,
                 ),
               ),
@@ -62,7 +62,7 @@ class ListScreen extends StatelessWidget {
                               Get.toNamed(Routes.promoDetailRoute,
                                   arguments: promo['id_promo']);
                             },
-                            promoName: promo['nama'] ?? 'Promo yang tersedia',
+                            promoName: promo['nama'] ?? 'available promo'.tr,
                             discountNominal: promo['diskon']?.toString() ?? '0',
                             thumbnailUrl: promo['foto'],
                           ),
@@ -108,10 +108,10 @@ class ListScreen extends StatelessWidget {
                   margin: EdgeInsets.only(bottom: 10.h),
                   child: SectionHeader(
                     title: currentCategory == 'all'
-                        ? 'Semua Menu'
+                        ? 'all menu'.tr
                         : currentCategory == 'makanan'
-                            ? 'Makanan'
-                            : 'Minuman',
+                            ? 'food'.tr
+                            : 'drink'.tr,
                     icon: currentCategory == 'all'
                         ? Icons.restaurant_menu
                         : currentCategory == 'makanan'

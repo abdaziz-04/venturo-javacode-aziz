@@ -26,15 +26,15 @@ class CheckoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Pesanan',
+        title: 'order'.tr,
         showActions: true,
         icon: Icons.delete,
         onPress: () {
           Get.defaultDialog(
-            title: 'Hapus Semua Pesanan',
-            middleText: 'Apakah anda yakin ingin menghapus semua pesanan?',
-            textConfirm: 'Ya',
-            textCancel: 'Tidak',
+            title: 'delete all order'.tr,
+            middleText: 'delete all order desc'.tr,
+            textConfirm: 'yes'.tr,
+            textCancel: 'no'.tr,
             buttonColor: ColorStyle.primary,
             confirmTextColor: ColorStyle.white,
             cancelTextColor: ColorStyle.primary,
@@ -68,7 +68,7 @@ class CheckoutScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TitleSection(
-                        title: 'Makanan',
+                        title: 'food'.tr,
                         image: ImageConstants.iconFood,
                       ),
                       ListView.builder(
@@ -104,7 +104,7 @@ class CheckoutScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TitleSection(
-                        title: 'Minuman',
+                        title: 'drink'.tr,
                         image: ImageConstants.iconDrinks,
                       ),
                       ListView.builder(
@@ -139,7 +139,7 @@ class CheckoutScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TitleSection(
-                        title: 'Snack',
+                        title: 'snack'.tr,
                         image: ImageConstants.iconFood,
                       ),
                       ListView.builder(
@@ -172,7 +172,7 @@ class CheckoutScreen extends StatelessWidget {
           children: [
             SizedBox(height: 15.h),
             Obx(() => InfoRow(
-                  info: 'Total Pesanan :',
+                  info: 'total order'.tr,
                   value: 'Rp ${CheckoutController.to.totalPrice}',
                   isBold: true,
                   valueColor: ColorStyle.primary,
@@ -181,7 +181,7 @@ class CheckoutScreen extends StatelessWidget {
                 )),
             const Divider(),
             Obx(() => InfoRow(
-                  info: 'Diskon 20%',
+                  info: 'Diskon 20%'.tr,
                   value: '- Rp ${CheckoutController.to.discount}',
                   containImage: true,
                   valueColor: ColorStyle.danger,
@@ -194,7 +194,7 @@ class CheckoutScreen extends StatelessWidget {
             Obx(() => InfoRow(
                 info: 'Voucher',
                 value: CheckoutController.to.voucherPrice == 0
-                    ? 'Pilih Voucher'
+                    ? 'select voucher'.tr
                     : '- Rp ${CheckoutController.to.voucherPrice}',
                 containImage: true,
                 image: ImageConstants.icVoucher,
@@ -206,8 +206,8 @@ class CheckoutScreen extends StatelessWidget {
                 })),
             const Divider(),
             InfoRow(
-                info: 'Pembayaran',
-                value: 'Tunai',
+                info: 'payment'.tr,
+                value: 'payment method'.tr,
                 containButton: false,
                 containImage: true,
                 image: ImageConstants.icPayment),
@@ -242,7 +242,7 @@ class CheckoutScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Total Pembayaran',
+                          'total payment'.tr,
                           style: TextStyle(
                             fontSize: 15.sp,
                           ),
@@ -264,7 +264,7 @@ class CheckoutScreen extends StatelessWidget {
                           print('🛒 Pesan Sekarang');
                           CheckoutController.to.showFingerprintDialog();
                         },
-                        child: Text('Pesan Sekarang'))
+                        child: Text('order'.tr)),
                   ],
                 ),
               ),
