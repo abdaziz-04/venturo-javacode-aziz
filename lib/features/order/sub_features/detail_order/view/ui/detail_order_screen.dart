@@ -29,7 +29,33 @@ class DetailOrderScreen extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Detail Order',
-        showActions: false,
+        showActions: true,
+        icon: Icons.cancel_outlined,
+        onPress: () {
+          Get.back();
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.defaultDialog(
+            title: 'Batalkan Pesanan',
+            middleText: 'Apakah anda yakin ingin membatalkan pesanan?',
+            textConfirm: 'Ya',
+            textCancel: 'Tidak',
+            buttonColor: ColorStyle.primary,
+            confirmTextColor: ColorStyle.white,
+            cancelTextColor: ColorStyle.primary,
+            onConfirm: () {
+              orderController.cancelOrder(data['id_order']);
+              Get.back();
+            },
+          );
+        },
+        child: Icon(
+          Icons.cancel_outlined,
+          color: ColorStyle.white,
+        ),
+        backgroundColor: ColorStyle.danger,
       ),
       body: SingleChildScrollView(
         child: Column(
