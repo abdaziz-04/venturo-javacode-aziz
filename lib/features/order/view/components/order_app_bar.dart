@@ -20,7 +20,7 @@ class OrderAppBar extends StatelessWidget implements PreferredSizeWidget {
         padding: EdgeInsets.symmetric(horizontal: 25.h),
         child: Center(
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Obx(() => TextButton(
                     onPressed: () {
@@ -60,7 +60,6 @@ class OrderAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ),
                     ),
                   )),
-              SizedBox(width: 20.w),
             ],
           ),
         ),
