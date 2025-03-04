@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:venturo_core/configs/routes/route.dart';
+import 'package:venturo_core/features/profile/view/components/change_lang_bottom_sheet.dart';
 
 import 'package:venturo_core/shared/styles/color_style.dart';
 import 'package:venturo_core/shared/widgets/custom_app_bar.dart';
 import 'package:venturo_core/shared/widgets/info_row.dart';
-import 'package:venturo_core/shared/widgets/text_bottom_sheet.dart';
+import 'package:venturo_core/features/profile/view/components/text_bottom_sheet.dart';
 
 import '../../../../constants/cores/assets/image_constants.dart';
 
@@ -141,27 +142,24 @@ class ProfileScreen extends StatelessWidget {
                                 ? ProfileController.to.nama.value
                                 : loginData[0]['nama'] ?? '',
                             onPress: () {
-                              showModalBottomSheet<void>(
-                                context: context,
+                              Get.bottomSheet(
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context)
+                                          .viewInsets
+                                          .bottom),
+                                  child: TextBottomSheet(
+                                    title: 'Nama',
+                                    controller:
+                                        ProfileController.to.nameController,
+                                    onTap: ProfileController.to.changeName,
+                                    hintText: ProfileController
+                                            .to.nama.value.isNotEmpty
+                                        ? ProfileController.to.nama.value
+                                        : loginData[0]['nama'] ?? '',
+                                  ),
+                                ),
                                 isScrollControlled: true,
-                                builder: (BuildContext context) {
-                                  return Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom: MediaQuery.of(context)
-                                            .viewInsets
-                                            .bottom),
-                                    child: TextModalBottomSheet(
-                                      title: 'Nama',
-                                      controller:
-                                          ProfileController.to.nameController,
-                                      onTap: ProfileController.to.changeName,
-                                      hintText: ProfileController
-                                              .to.nama.value.isNotEmpty
-                                          ? ProfileController.to.nama.value
-                                          : loginData[0]['nama'] ?? '',
-                                    ),
-                                  );
-                                },
                               );
                             },
                           ),
@@ -183,24 +181,21 @@ class ProfileScreen extends StatelessWidget {
                                 ? ProfileController.to.phone.value
                                 : 'Belum diisi',
                             onPress: () {
-                              showModalBottomSheet<void>(
-                                context: context,
+                              Get.bottomSheet(
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context)
+                                          .viewInsets
+                                          .bottom),
+                                  child: TextBottomSheet(
+                                      title: 'No telepon',
+                                      controller:
+                                          ProfileController.to.phoneController,
+                                      onTap: ProfileController.to.changePhone,
+                                      hintText:
+                                          ProfileController.to.phone.value),
+                                ),
                                 isScrollControlled: true,
-                                builder: (BuildContext context) {
-                                  return Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom: MediaQuery.of(context)
-                                            .viewInsets
-                                            .bottom),
-                                    child: TextModalBottomSheet(
-                                        title: 'No telepon',
-                                        controller: ProfileController
-                                            .to.phoneController,
-                                        onTap: ProfileController.to.changePhone,
-                                        hintText:
-                                            ProfileController.to.phone.value),
-                                  );
-                                },
                               );
                             },
                           ),
@@ -211,24 +206,21 @@ class ProfileScreen extends StatelessWidget {
                                 ? ProfileController.to.email.value
                                 : loginData[0]['email'],
                             onPress: () {
-                              showModalBottomSheet<void>(
-                                context: context,
+                              Get.bottomSheet(
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context)
+                                          .viewInsets
+                                          .bottom),
+                                  child: TextBottomSheet(
+                                      title: 'Alamat Email',
+                                      controller:
+                                          ProfileController.to.emailController,
+                                      onTap: ProfileController.to.changeEmail,
+                                      hintText:
+                                          ProfileController.to.email.value),
+                                ),
                                 isScrollControlled: true,
-                                builder: (BuildContext context) {
-                                  return Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom: MediaQuery.of(context)
-                                            .viewInsets
-                                            .bottom),
-                                    child: TextModalBottomSheet(
-                                        title: 'Alamat Email',
-                                        controller: ProfileController
-                                            .to.emailController,
-                                        onTap: ProfileController.to.changeEmail,
-                                        hintText:
-                                            ProfileController.to.email.value),
-                                  );
-                                },
                               );
                             },
                           ),
@@ -237,29 +229,47 @@ class ProfileScreen extends StatelessWidget {
                             info: 'Ubah Pin',
                             value: '***********',
                             onPress: () {
-                              showModalBottomSheet<void>(
-                                context: context,
+                              Get.bottomSheet(
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context)
+                                          .viewInsets
+                                          .bottom),
+                                  child: TextBottomSheet(
+                                      title: 'Pin',
+                                      isPassword: true,
+                                      controller:
+                                          ProfileController.to.pinController,
+                                      onTap: ProfileController.to.changePin,
+                                      hintText: 'Masukkan pin baru'),
+                                ),
                                 isScrollControlled: true,
-                                builder: (BuildContext context) {
-                                  return Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom: MediaQuery.of(context)
-                                            .viewInsets
-                                            .bottom),
-                                    child: TextModalBottomSheet(
-                                        title: 'Pin',
-                                        isPassword: true,
-                                        controller:
-                                            ProfileController.to.pinController,
-                                        onTap: ProfileController.to.changePin,
-                                        hintText: 'Masukkan pin baru'),
-                                  );
-                                },
                               );
                             },
                           ),
                           const Divider(),
-                          InfoRow(info: 'Ganti Bahasa', value: 'Indonesia'),
+                          InfoRow(
+                            info: 'Ganti Bahasa',
+                            value: 'Indonesia',
+                            onPress: () {
+                              Get.bottomSheet(
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context)
+                                          .viewInsets
+                                          .bottom),
+                                  child: ChangeLangBottomSheet(
+                                    title: 'Ganti Bahasa',
+                                    controller:
+                                        ProfileController.to.emailController,
+                                    onTapInd: ProfileController.to.changeEmail,
+                                    onTapEng: ProfileController.to.changeEmail,
+                                  ),
+                                ),
+                                isScrollControlled: true,
+                              );
+                            },
+                          ),
                           SizedBox(height: 16),
                         ],
                       ),

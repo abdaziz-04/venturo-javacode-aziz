@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:venturo_core/shared/styles/color_style.dart';
 
-class TextModalBottomSheet extends StatelessWidget {
+class TextBottomSheet extends StatelessWidget {
   final String title;
   final String hintText;
   final TextEditingController controller;
   final Function()? onTap;
   final bool isPassword;
 
-  const TextModalBottomSheet({
+  const TextBottomSheet({
     Key? key,
     required this.controller,
     required this.title,
@@ -23,7 +22,14 @@ class TextModalBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      decoration: BoxDecoration(
+        color: ColorStyle.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
       height: 180,
       width: double.infinity,
       child: Padding(

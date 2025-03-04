@@ -25,11 +25,6 @@ class CheckoutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        print('Pin: ${CheckoutController.to.pin}');
-        CheckoutController.to.getPin();
-        print('Pin update: ${CheckoutController.to.pin}');
-      }),
       appBar: CustomAppBar(
         title: 'Pesanan',
         showActions: true,
